@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Website Builder - Live Preview</title>
+    <title>Hotel Website Builder - Editor with Live Preview</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,139 +15,117 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .preview-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        /* Header */
-        .demo-header {
+        /* Main Container */
+        .builder-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        /* Left Editor Panel */
+        .editor-panel {
+            width: 400px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .editor-header {
+            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 60px 40px;
-            text-align: center;
         }
 
-        .demo-header h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: 700;
+        .editor-header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
         }
 
-        .demo-header p {
-            font-size: 1.2rem;
+        .editor-header p {
+            margin: 5px 0 0;
             opacity: 0.9;
-            max-width: 800px;
-            margin: 0 auto;
+            font-size: 0.9rem;
         }
 
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 60px 40px;
-            background: #f8f9fa;
+        .editor-tabs {
+            display: flex;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 10px;
         }
 
-        .feature-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
+        .editor-tab {
+            padding: 15px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            gap: 8px;
         }
 
-        .feature-icon i {
-            font-size: 30px;
-            color: white;
+        .editor-tab i {
+            font-size: 1.2rem;
         }
 
-        .feature-card h3 {
-            margin-bottom: 15px;
-            color: #333;
+        .editor-tab:hover {
+            color: #667eea;
         }
 
-        .feature-card p {
-            color: #666;
-            line-height: 1.6;
+        .editor-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
         }
 
-        /* Builder Interface */
-        .builder-interface {
-            padding: 40px;
-            background: white;
+        .editor-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #ffffff;
         }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .section-title p {
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        /* Template Grid */
-        .templates-grid {
+        /* Template Selection */
+        .template-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .template-card {
-            background: white;
-            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
             transition: all 0.3s;
-            border: 2px solid transparent;
+            background: white;
         }
 
         .template-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .template-card.premium {
-            border-color: #ffd700;
+        .template-card.selected {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
         }
 
         .template-preview {
-            height: 200px;
+            height: 100px;
             background-size: cover;
             background-position: center;
             position: relative;
@@ -154,185 +133,43 @@
 
         .template-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 8px;
+            right: 8px;
             background: #ffd700;
             color: #333;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
             font-weight: 600;
         }
 
         .template-info {
-            padding: 20px;
+            padding: 10px;
         }
 
         .template-info h4 {
-            margin-bottom: 10px;
-            color: #333;
+            font-size: 0.95rem;
+            margin: 0 0 3px;
         }
 
         .template-info p {
+            font-size: 0.8rem;
             color: #666;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
+            margin: 0;
         }
 
-        .btn-use {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: opacity 0.3s;
-        }
-
-        .btn-use:hover {
-            opacity: 0.9;
-        }
-
-        /* Dashboard */
-        .dashboard {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 15px;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Form Sections */
+        .form-section {
             margin-bottom: 30px;
         }
 
-        .btn-create {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
+        .section-title {
+            font-size: 1.1rem;
             font-weight: 600;
-            cursor: pointer;
-        }
-
-        .websites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .website-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .website-preview {
-            height: 150px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-        }
-
-        .status-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #28a745;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        .website-details {
-            padding: 20px;
-        }
-
-        .website-details h4 {
-            margin-bottom: 5px;
-        }
-
-        .website-details p {
-            color: #666;
-            font-size: 0.9rem;
+            color: #333;
             margin-bottom: 15px;
-        }
-
-        .website-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-edit, .btn-preview {
-            flex: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .btn-edit {
-            background: #007bff;
-            color: white;
-        }
-
-        .btn-preview {
-            background: #6c757d;
-            color: white;
-        }
-
-        /* Editor Interface */
-        .editor-interface {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            min-height: 600px;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #dee2e6;
-        }
-
-        .editor-sidebar {
-            background: #2c3e50;
-            color: white;
-            padding: 20px 0;
-        }
-
-        .editor-menu-item {
-            padding: 15px 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .editor-menu-item:hover,
-        .editor-menu-item.active {
-            background: #34495e;
-        }
-
-        .editor-menu-item i {
-            font-size: 1.2rem;
-            width: 24px;
-        }
-
-        .editor-content {
-            padding: 30px;
-            background: #f8f9fa;
-        }
-
-        .editor-panel {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .form-group {
@@ -343,123 +180,327 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: #333;
+            color: #4a5568;
+            font-size: 0.9rem;
         }
 
         .form-control {
             width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
+            padding: 10px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Color Picker Group */
+        .color-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .color-item {
+            flex: 1;
+        }
+
+        .color-item label {
+            font-size: 0.85rem;
+            margin-bottom: 5px;
         }
 
         .color-input {
-            width: 60px;
+            width: 100%;
             height: 40px;
-            padding: 0;
-            border: 1px solid #ddd;
+            padding: 2px;
+            border: 2px solid #e2e8f0;
             border-radius: 6px;
+            cursor: pointer;
         }
 
-        /* Room Card */
-        .room-card {
-            background: white;
-            border: 1px solid #dee2e6;
+        /* Font Selector */
+        .font-selector {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
             border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 15px;
+            font-size: 0.95rem;
         }
 
-        .room-image {
-            height: 150px;
-            background: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #adb5bd;
+        /* Image Upload */
+        .image-upload {
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .room-info {
+        .image-upload:hover {
+            border-color: #667eea;
+            background: #f8fafc;
+        }
+
+        .image-upload i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        /* Room Item */
+        .room-item {
+            background: #f8fafc;
+            border-radius: 8px;
             padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
         }
 
-        .room-price {
-            font-size: 1.25rem;
-            color: #28a745;
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .room-header h5 {
+            margin: 0;
             font-weight: 600;
         }
 
-        /* Booking Modal */
-        .booking-modal {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 500px;
-            margin: 20px auto;
+        .room-actions button {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 5px;
         }
 
-        /* Live Preview */
-        .live-preview {
-            background: white;
-            border-radius: 10px;
+        .room-actions button:hover {
+            color: #dc3545;
+        }
+
+        .add-room-btn {
+            width: 100%;
+            padding: 12px;
+            background: #f8fafc;
+            border: 2px dashed #667eea;
+            color: #667eea;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-room-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Right Preview Panel */
+        .preview-panel {
+            flex: 1;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
-        .preview-header {
-            background: #f8f9fa;
+        .preview-toolbar {
             padding: 15px 20px;
-            border-bottom: 1px solid #dee2e6;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .preview-device {
+        .preview-devices {
             display: flex;
             gap: 10px;
         }
 
         .device-btn {
-            padding: 5px 15px;
-            border: 1px solid #dee2e6;
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
             background: white;
-            border-radius: 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
         }
 
         .device-btn.active {
-            background: #007bff;
+            background: #667eea;
+            border-color: #667eea;
             color: white;
-            border-color: #007bff;
+        }
+
+        .device-btn:hover {
+            border-color: #667eea;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .save-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .publish-btn {
+            background: #48bb78;
+            color: white;
+        }
+
+        .publish-btn:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .preview-container {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+            background: #f1f5f9;
         }
 
         .preview-frame {
-            width: 100%;
-            height: 500px;
-            border: none;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+            margin: 0 auto;
         }
 
-        /* Hotel Website Preview */
+        .preview-frame.desktop {
+            max-width: 100%;
+        }
+
+        .preview-frame.tablet {
+            max-width: 768px;
+        }
+
+        .preview-frame.mobile {
+            max-width: 375px;
+        }
+
+        /* Hotel Preview Styles */
         .hotel-preview {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .hotel-nav {
             background: white;
             padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .hotel-logo {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-links {
@@ -470,20 +511,25 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #666;
+            color: #4a5568;
             font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
         }
 
         .book-btn {
-            background: #007bff;
+            background: var(--primary-color, #667eea);
             color: white !important;
             padding: 8px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
         }
 
         .hotel-hero {
             height: 400px;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--hero-image, url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'));
             background-size: cover;
             background-position: center;
             display: flex;
@@ -494,974 +540,740 @@
         }
 
         .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-
-        .rooms-section {
-            padding: 60px 30px;
-            background: #f8f9fa;
-        }
-
-        .rooms-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .demo-header h1 {
-                font-size: 2rem;
-            }
-            
-            .editor-interface {
-                grid-template-columns: 1fr;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animations */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-in {
-            animation: slideIn 0.5s ease forwards;
-        }
-    </style>
-</head>
-<body>
-    <div class="preview-container">
-        <!-- Header -->
-        <div class="demo-header">
-            <h1>🏨 Hotel Website Builder</h1>
-            <p>Create stunning hotel websites with our drag-and-drop builder. Choose from professional templates, customize colors, manage rooms, and start accepting bookings in minutes!</p>
-        </div>
-
-        <!-- Features Grid -->
-        <div class="features-grid">
-            <div class="feature-card animate-in" style="animation-delay: 0.1s">
-                <div class="feature-icon">
-                    <i class="bi bi-palette"></i>
-                </div>
-                <h3>Customizable Templates</h3>
-                <p>Choose from 50+ professionally designed templates and customize every aspect to match your brand identity.</p>
-            </div>
-            <div class="feature-card animate-in" style="animation-delay: 0.2s">
-                <div class="feature-icon">
-                    <i class="bi bi-calendar-check"></i>
-                </div>
-                <h3>Smart Booking System</h3>
-                <p>Real-time availability checking, automated booking confirmations, and easy reservation management.</p>
-            </div>
-            <div class="feature-card animate-in" style="animation-delay: 0.3s">
-                <div class="feature-icon">
-                    <i class="bi bi-images"></i>
-                </div>
-                <h3>Room & Gallery Management</h3>
-                <p>Easily add and manage rooms, upload photos, and create stunning galleries to showcase your property.</p>
-            </div>
-            <div class="feature-card animate-in" style="animation-delay: 0.4s">
-                <div class="feature-icon">
-                    <i class="bi bi-magic"></i>
-                </div>
-                <h3>Live Preview</h3>
-                <p>See changes in real-time as you build your website. Preview on desktop, tablet, and mobile devices.</p>
-            </div>
-            <div class="feature-card animate-in" style="animation-delay: 0.5s">
-                <div class="feature-icon">
-                    <i class="bi bi-currency-dollar"></i>
-                </div>
-                <h3>Payment Integration</h3>
-                <p>Accept secure online payments with Stripe, PayPal, and multiple payment gateways.</p>
-            </div>
-            <div class="feature-card animate-in" style="animation-delay: 0.6s">
-                <div class="feature-icon">
-                    <i class="bi bi-graph-up"></i>
-                </div>
-                <h3>Analytics Dashboard</h3>
-                <p>Track bookings, revenue, and website performance with detailed analytics and reports.</p>
-            </div>
-        </div>
-
-        <!-- Templates Section -->
-        <div class="builder-interface">
-            <div class="section-title">
-                <h2>Professional Templates</h2>
-                <p>Choose from our collection of beautifully designed templates</p>
-            </div>
-
-            <div class="templates-grid">
-                <!-- Template 1 -->
-                <div class="template-card">
-                    <div class="template-preview" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                        <div style="color: white; padding: 20px; text-align: center; margin-top: 50px;">
-                            <i class="bi bi-building" style="font-size: 3rem;"></i>
-                            <h4 style="margin-top: 15px;">Modern Luxury</h4>
-                        </div>
-                    </div>
-                    <div class="template-info">
-                        <h4>Modern Luxury</h4>
-                        <p>Elegant design perfect for luxury hotels and resorts</p>
-                        <button class="btn-use">Use Template</button>
-                    </div>
-                </div>
-
-                <!-- Template 2 -->
-                <div class="template-card">
-                    <div class="template-preview" style="background-image: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
-                        <div style="color: white; padding: 20px; text-align: center; margin-top: 50px;">
-                            <i class="bi bi-umbrella" style="font-size: 3rem;"></i>
-                            <h4 style="margin-top: 15px;">Beach Resort</h4>
-                        </div>
-                    </div>
-                    <div class="template-info">
-                        <h4>Beach Resort</h4>
-                        <p>Tropical design for beachfront properties</p>
-                        <button class="btn-use">Use Template</button>
-                    </div>
-                </div>
-
-                <!-- Template 3 -->
-                <div class="template-card premium">
-                    <div class="template-preview" style="background-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
-                        <span class="template-badge">PREMIUM</span>
-                        <div style="color: white; padding: 20px; text-align: center; margin-top: 50px;">
-                            <i class="bi bi-briefcase" style="font-size: 3rem;"></i>
-                            <h4 style="margin-top: 15px;">Business Hotel</h4>
-                        </div>
-                    </div>
-                    <div class="template-info">
-                        <h4>Business Hotel</h4>
-                        <p>Professional design for business hotels with conference facilities</p>
-                        <button class="btn-use">Use Template</button>
-                    </div>
-                </div>
-
-                <!-- Template 4 -->
-                <div class="template-card">
-                    <div class="template-preview" style="background-image: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
-                        <div style="color: white; padding: 20px; text-align: center; margin-top: 50px;">
-                            <i class="bi bi-tree" style="font-size: 3rem;"></i>
-                            <h4 style="margin-top: 15px;">Boutique Hotel</h4>
-                        </div>
-                    </div>
-                    <div class="template-info">
-                        <h4>Boutique Hotel</h4>
-                        <p>Charming design for boutique and heritage hotels</p>
-                        <button class="btn-use">Use Template</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dashboard Preview -->
-        <div class="builder-interface" style="background: #f8f9fa">
-            <div class="section-title">
-                <h2>Your Websites</h2>
-                <p>Manage all your hotel websites from one dashboard</p>
-            </div>
-
-            <div class="dashboard">
-                <div class="dashboard-header">
-                    <h3>My Websites (3)</h3>
-                    <button class="btn-create">
-                        <i class="bi bi-plus-circle"></i> Create New Website
-                    </button>
-                </div>
-
-                <div class="websites-grid">
-                    <!-- Website 1 -->
-                    <div class="website-card">
-                        <div class="website-preview">
-                            <span class="status-badge">Published</span>
-                        </div>
-                        <div class="website-details">
-                            <h4>Grand Hotel</h4>
-                            <p>Template: Modern Luxury</p>
-                            <p>Last updated: 2 hours ago</p>
-                            <div class="website-actions">
-                                <button class="btn-edit">Edit</button>
-                                <button class="btn-preview">Preview</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Website 2 -->
-                    <div class="website-card">
-                        <div class="website-preview">
-                            <span class="status-badge" style="background: #ffc107">Draft</span>
-                        </div>
-                        <div class="website-details">
-                            <h4>Beach Paradise Resort</h4>
-                            <p>Template: Beach Resort</p>
-                            <p>Last updated: 1 day ago</p>
-                            <div class="website-actions">
-                                <button class="btn-edit">Edit</button>
-                                <button class="btn-preview">Preview</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Website 3 -->
-                    <div class="website-card">
-                        <div class="website-preview">
-                            <span class="status-badge">Published</span>
-                        </div>
-                        <div class="website-details">
-                            <h4>Business Inn & Suites</h4>
-                            <p>Template: Business Hotel</p>
-                            <p>Last updated: 3 days ago</p>
-                            <div class="website-actions">
-                                <button class="btn-edit">Edit</button>
-                                <button class="btn-preview">Preview</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Website Builder Interface -->
-        <div class="builder-interface">
-            <div class="section-title">
-                <h2>Website Builder</h2>
-                <p>Customize every aspect of your hotel website</p>
-            </div>
-
-            <div class="editor-interface">
-                <!-- Sidebar Menu -->
-                <div class="editor-sidebar">
-                    <div class="editor-menu-item active">
-                        <i class="bi bi-info-circle"></i>
-                        Basic Info
-                    </div>
-                    <div class="editor-menu-item">
-                        <i class="bi bi-palette"></i>
-                        Design
-                    </div>
-                    <div class="editor-menu-item">
-                        <i class="bi bi-door-open"></i>
-                        Rooms
-                    </div>
-                    <div class="editor-menu-item">
-                        <i class="bi bi-images"></i>
-                        Gallery
-                    </div>
-                    <div class="editor-menu-item">
-                        <i class="bi bi-code-slash"></i>
-                        Custom CSS
-                    </div>
-                    <div class="editor-menu-item">
-                        <i class="bi bi-eye"></i>
-                        Preview
-                    </div>
-                </div>
-
-                <!-- Editor Content -->
-                <div class="editor-content">
-                    <!-- Basic Info Panel -->
-                    <div class="editor-panel">
-                        <h4 style="margin-bottom: 25px;">Basic Information</h4>
-                        
-                        <div class="form-group">
-                            <label>Website Name</label>
-                            <input type="text" class="form-control" value="Grand Hotel & Spa">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Hotel Name</label>
-                            <input type="text" class="form-control" value="Grand Hotel & Spa">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Hotel Description</label>
-                            <textarea class="form-control" rows="3">Experience luxury and comfort in the heart of the city. Our hotel offers world-class amenities and exceptional service.</textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control">123 Luxury Avenue, New York, NY 10001</textarea>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" value="+1 (212) 555-0123">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" value="info@grandhotel.com">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Logo</label>
-                                    <input type="file" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Hero Image</label>
-                                    <input type="file" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Design Panel (Hidden by default, shown on click) -->
-                    <div class="editor-panel" style="display: none;">
-                        <h4 style="margin-bottom: 25px;">Design Settings</h4>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Primary Color</label>
-                                    <input type="color" class="form-control color-input" value="#007bff">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Secondary Color</label>
-                                    <input type="color" class="form-control color-input" value="#6c757d">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Font Family</label>
-                            <select class="form-control">
-                                <option>Arial</option>
-                                <option>Helvetica</option>
-                                <option>Times New Roman</option>
-                                <option>Georgia</option>
-                                <option>Verdana</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Layout Style</label>
-                            <select class="form-control">
-                                <option>Wide</option>
-                                <option>Boxed</option>
-                                <option>Full Width</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Room Management -->
-        <div class="builder-interface" style="background: #f8f9fa">
-            <div class="section-title">
-                <h2>Room Management</h2>
-                <p>Add and manage your hotel rooms</p>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="room-card">
-                        <div class="room-image">
-                            <i class="bi bi-image" style="font-size: 3rem;"></i>
-                        </div>
-                        <div class="room-info">
-                            <h5>Deluxe King Suite</h5>
-                            <p class="room-price">$299/night</p>
-                            <p>Max Guests: 2 | Size: 450 sq ft</p>
-                            <p>Bed: King | Amenities: WiFi, TV, Mini-bar</p>
-                            <button class="btn-use" style="width: auto;">Edit Room</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="room-card">
-                        <div class="room-image">
-                            <i class="bi bi-image" style="font-size: 3rem;"></i>
-                        </div>
-                        <div class="room-info">
-                            <h5>Executive Double</h5>
-                            <p class="room-price">$199/night</p>
-                            <p>Max Guests: 3 | Size: 350 sq ft</p>
-                            <p>Bed: Queen | Amenities: WiFi, TV, Work desk</p>
-                            <button class="btn-use" style="width: auto;">Edit Room</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="room-card">
-                        <div class="room-image">
-                            <i class="bi bi-image" style="font-size: 3rem;"></i>
-                        </div>
-                        <div class="room-info">
-                            <h5>Presidential Suite</h5>
-                            <p class="room-price">$599/night</p>
-                            <p>Max Guests: 4 | Size: 800 sq ft</p>
-                            <p>Bed: King | Amenities: All luxury amenities</p>
-                            <button class="btn-use" style="width: auto;">Edit Room</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Live Preview -->
-        <div class="builder-interface">
-            <div class="section-title">
-                <h2>Live Preview</h2>
-                <p>See your website in real-time</p>
-            </div>
-
-            <div class="live-preview">
-                <div class="preview-header">
-                    <div class="preview-device">
-                        <button class="device-btn active">Desktop</button>
-                        <button class="device-btn">Tablet</button>
-                        <button class="device-btn">Mobile</button>
-                    </div>
-                    <span>https://grand-hotel.builder.com</span>
-                </div>
-                
-                <!-- Hotel Website Preview -->
-                <div class="hotel-preview">
-                    <nav class="hotel-nav">
-                        <div class="hotel-logo">Grand Hotel & Spa</div>
-                        <div class="nav-links">
-                            <a href="#">Home</a>
-                            <a href="#">Rooms</a>
-                            <a href="#">Gallery</a>
-                            <a href="#">Contact</a>
-                            <a href="#" class="book-btn">Book Now</a>
-                        </div>
-                    </nav>
-
-                    <div class="hotel-hero">
-                        <div class="hero-content">
-                            <h1>Welcome to Grand Hotel & Spa</h1>
-                            <p>Experience luxury and comfort in the heart of the city</p>
-                            <button class="btn-use" style="width: auto; padding: 12px 40px;">Check Availability</button>
-                        </div>
-                    </div>
-
-                    <div class="rooms-section">
-                        <h3 style="text-align: center; margin-bottom: 30px;">Our Rooms</h3>
-                        <div class="rooms-grid">
-                            <div class="room-card">
-                                <div class="room-image">
-                                    <i class="bi bi-image" style="font-size: 3rem;"></i>
-                                </div>
-                                <div class="room-info">
-                                    <h5>Deluxe King Suite</h5>
-                                    <p class="room-price">$299/night</p>
-                                    <button class="btn-use" style="width: auto;">Book Now</button>
-                                </div>
-                            </div>
-                            <div class="room-card">
-                                <div class="room-image">
-                                    <i class="bi bi-image" style="font-size: 3rem;"></i>
-                                </div>
-                                <div class="room-info">
-                                    <h5>Executive Double</h5>
-                                    <p class="room-price">$199/night</p>
-                                    <button class="btn-use" style="width: auto;">Book Now</button>
-                                </div>
-                            </div>
-                            <div class="room-card">
-                                <div class="room-image">
-                                    <i class="bi bi-image" style="font-size: 3rem;"></i>
-                                </div>
-                                <div class="room-info">
-                                    <h5>Presidential Suite</h5>
-                                    <p class="room-price">$599/night</p>
-                                    <button class="btn-use" style="width: auto;">Book Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Booking Modal Preview -->
-        <div class="builder-interface" style="background: #f8f9fa">
-            <div class="section-title">
-                <h2>Booking System</h2>
-                <p>Integrated booking with real-time availability</p>
-            </div>
-
-            <div class="booking-modal">
-                <h4 style="margin-bottom: 25px;">Book Your Stay</h4>
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Check-in</label>
-                            <input type="date" class="form-control" value="2024-01-15">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Check-out</label>
-                            <input type="date" class="form-control" value="2024-01-20">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Adults</label>
-                            <select class="form-control">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Children</label>
-                            <select class="form-control">
-                                <option>0</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Select Room</label>
-                    <select class="form-control">
-                        <option>Deluxe King Suite - $299/night</option>
-                        <option>Executive Double - $199/night</option>
-                        <option>Presidential Suite - $599/night</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" class="form-control" placeholder="John Doe">
-                </div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" placeholder="john@example.com">
-                </div>
-
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="tel" class="form-control" placeholder="+1 234 567 890">
-                </div>
-
-                <div style="border-top: 1px solid #dee2e6; padding-top: 20px; margin-top: 20px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <span>Total (5 nights):</span>
-                        <span style="font-size: 1.5rem; font-weight: 600; color: #28a745;">$1,495</span>
-                    </div>
-                    <button class="btn-use" style="width: 100%; padding: 15px;">Confirm Booking</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer Stats -->
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; text-align: center;">
-            <div class="row">
-                <div class="col-md-3">
-                    <h3 style="font-size: 2.5rem;">10,000+</h3>
-                    <p>Hotels Created</p>
-                </div>
-                <div class="col-md-3">
-                    <h3 style="font-size: 2.5rem;">50+</h3>
-                    <p>Professional Templates</p>
-                </div>
-                <div class="col-md-3">
-                    <h3 style="font-size: 2.5rem;">100K+</h3>
-                    <p>Bookings Processed</p>
-                </div>
-                <div class="col-md-3">
-                    <h3 style="font-size: 2.5rem;">24/7</h3>
-                    <p>Customer Support</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Interactive JavaScript -->
-    <script>
-        // Simulate menu switching in builder
-        document.querySelectorAll('.editor-menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                // Remove active class from all menu items
-                document.querySelectorAll('.editor-menu-item').forEach(i => {
-                    i.classList.remove('active');
-                });
-                
-                // Add active class to clicked item
-                this.classList.add('active');
-                
-                // Show corresponding panel (simplified for demo)
-                alert(`Switched to ${this.textContent.trim()} panel`);
-            });
-        });
-
-        // Device preview switching
-        document.querySelectorAll('.device-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.device-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Simulate device preview change
-                const previewFrame = document.querySelector('.hotel-preview');
-                if (this.textContent === 'Mobile') {
-                    previewFrame.style.maxWidth = '375px';
-                    previewFrame.style.margin = '0 auto';
-                } else if (this.textContent === 'Tablet') {
-                    previewFrame.style.maxWidth = '768px';
-                    previewFrame.style.margin = '0 auto';
-                } else {
-                    previewFrame.style.maxWidth = '100%';
-                    previewFrame.style.margin = '0';
-                }
-            });
-        });
-
-        // Template use buttons
-        document.querySelectorAll('.btn-use').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if (this.closest('.template-card')) {
-                    const templateName = this.closest('.template-info').querySelector('h4').textContent;
-                    alert(`Template "${templateName}" selected! Redirecting to website builder...`);
-                } else if (this.textContent === 'Book Now' || this.textContent === 'Confirm Booking') {
-                    alert('Booking confirmed! Check your email for confirmation.');
-                }
-            });
-        });
-
-        // Create new website button
-        document.querySelector('.btn-create').addEventListener('click', function() {
-            alert('Opening website builder to create a new hotel website...');
-        });
-
-        // Edit and preview buttons
-        document.querySelectorAll('.btn-edit').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('Opening website editor...');
-            });
-        });
-
-        document.querySelectorAll('.btn-preview').forEach(btn => {
-            btn.addEventListener('click', function() {
-                alert('Opening live preview in new tab...');
-            });
-        });
-
-        // Color picker preview
-        const colorInputs = document.querySelectorAll('input[type="color"]');
-        colorInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                document.documentElement.style.setProperty('--primary-color', this.value);
-            });
-        });
-
-        // Form field changes
-        document.querySelectorAll('.form-control').forEach(field => {
-            field.addEventListener('change', function() {
-                console.log('Field updated:', this.value);
-            });
-        });
-
-        // Animate elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'slideIn 0.5s ease forwards';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.feature-card, .template-card, .website-card, .room-card').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Simulate real-time updates
-        let updateCount = 0;
-        setInterval(() => {
-            updateCount++;
-            if (updateCount % 5 === 0) { // Every 5th update
-                const stats = document.querySelectorAll('.col-md-3 h3');
-                if (stats.length) {
-                    // Simulate increasing stats
-                    stats[0].textContent = (10000 + Math.floor(Math.random() * 100)) + '+';
-                }
-            }
-        }, 3000);
-
-        // Booking form calculation demo
-        const checkIn = document.querySelector('input[type="date"]');
-        const checkOut = document.querySelectorAll('input[type="date"]')[1];
-        
-        if (checkIn && checkOut) {
-            const calculateNights = () => {
-                const start = new Date(checkIn.value);
-                const end = new Date(checkOut.value);
-                const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-                if (nights > 0) {
-                    const totalSpan = document.querySelector('.booking-modal span:last-child');
-                    if (totalSpan) {
-                        totalSpan.textContent = '$' + (299 * nights).toLocaleString();
-                    }
-                }
-            };
-
-            checkIn.addEventListener('change', calculateNights);
-            checkOut.addEventListener('change', calculateNights);
-        }
-
-        // Interactive demo message
-        console.log('Hotel Website Builder Demo Loaded!');
-        console.log('This is a fully interactive preview of the hotel website builder.');
-    </script>
-
-    <!-- Additional styles for interactive elements -->
-    <style>
-        :root {
-            --primary-color: #007bff;
-        }
-
-        .btn-use, .btn-create, .book-btn {
-            background: var(--primary-color);
-            border: none;
-        }
-
-        .btn-use:hover, .btn-create:hover, .book-btn:hover {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
             opacity: 0.9;
-            transform: translateY(-2px);
-            transition: all 0.3s;
         }
 
-        .hotel-preview {
-            transition: max-width 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-
-        /* Loading animation for cards */
-        @keyframes pulse {
-            0% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .template-card.loading {
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        /* Success message animation */
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .success-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #28a745;
+        .hero-btn {
+            background: var(--primary-color, #667eea);
             color: white;
-            padding: 15px 30px;
+            border: none;
+            padding: 12px 40px;
             border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            animation: slideDown 0.3s ease;
-            z-index: 1000;
-        }
-
-        /* Tooltip styles */
-        [data-tooltip] {
-            position: relative;
-            cursor: help;
-        }
-
-        [data-tooltip]:before {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        [data-tooltip]:hover:before {
-            opacity: 1;
-            visibility: visible;
-            bottom: 120%;
-        }
-
-        /* Interactive demo badge */
-        .demo-badge {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 14px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 1000;
+            font-weight: 600;
             cursor: pointer;
             transition: transform 0.3s;
         }
 
-        .demo-badge:hover {
-            transform: scale(1.05);
+        .hero-btn:hover {
+            transform: translateY(-2px);
         }
 
-        /* Progress indicator */
-        .progress-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transform-origin: 0 50%;
-            animation: progress 2s ease-in-out infinite;
-            z-index: 1001;
+        .rooms-section {
+            padding: 50px 30px;
         }
 
-        @keyframes progress {
-            0% {
-                transform: scaleX(0);
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .preview-room-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .preview-room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .preview-room-image {
+            height: 180px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+        }
+
+        .preview-room-info {
+            padding: 20px;
+        }
+
+        .preview-room-price {
+            font-size: 1.2rem;
+            color: var(--primary-color, #667eea);
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .footer-section {
+            background: #2d3748;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .builder-container {
+                flex-direction: column;
             }
-            50% {
-                transform: scaleX(1);
-            }
-            100% {
-                transform: scaleX(0);
-                transform-origin: 100% 0;
+            
+            .editor-panel {
+                width: 100%;
+                height: 50vh;
             }
         }
     </style>
+</head>
+<body>
+    <div class="builder-container">
+        <!-- Left Editor Panel -->
+        <div class="editor-panel">
+            <div class="editor-header">
+                <h2><i class="bi bi-magic"></i> Hotel Website Builder</h2>
+                <p>Customize your hotel website in real-time</p>
+            </div>
 
-    <!-- Interactive demo elements -->
-    <div class="demo-badge" onclick="showDemoHelp()">
-        <i class="bi bi-question-circle"></i> Interactive Demo - Click for Help
+            <div class="editor-tabs">
+                <div class="editor-tab active" onclick="switchTab('templates')">
+                    <i class="bi bi-grid"></i> Templates
+                </div>
+                <div class="editor-tab" onclick="switchTab('content')">
+                    <i class="bi bi-info-circle"></i> Content
+                </div>
+                <div class="editor-tab" onclick="switchTab('design')">
+                    <i class="bi bi-palette"></i> Design
+                </div>
+                <div class="editor-tab" onclick="switchTab('rooms')">
+                    <i class="bi bi-door-open"></i> Rooms
+                </div>
+            </div>
+
+            <div class="editor-content" id="editorContent">
+                <!-- Templates Tab Content -->
+                <div id="templates-tab" class="tab-content">
+                    <div class="form-section">
+                        <h3 class="section-title">Choose Template</h3>
+                        <div class="template-grid">
+                            <!-- Template 1 -->
+                            <div class="template-card selected" onclick="selectTemplate('modern')">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                                    <div style="color: white; padding: 15px; text-align: center;">
+                                        <i class="bi bi-building" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                                <div class="template-info">
+                                    <h4>Modern Luxury</h4>
+                                    <p>Elegant & Contemporary</p>
+                                </div>
+                            </div>
+
+                            <!-- Template 2 -->
+                            <div class="template-card" onclick="selectTemplate('beach')">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+                                    <div style="color: white; padding: 15px; text-align: center;">
+                                        <i class="bi bi-umbrella" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                                <div class="template-info">
+                                    <h4>Beach Resort</h4>
+                                    <p>Tropical & Relaxing</p>
+                                </div>
+                            </div>
+
+                            <!-- Template 3 -->
+                            <div class="template-card" onclick="selectTemplate('business')">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+                                    <span class="template-badge">PREMIUM</span>
+                                    <div style="color: white; padding: 15px; text-align: center;">
+                                        <i class="bi bi-briefcase" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                                <div class="template-info">
+                                    <h4>Business Hotel</h4>
+                                    <p>Professional & Modern</p>
+                                </div>
+                            </div>
+
+                            <!-- Template 4 -->
+                            <div class="template-card" onclick="selectTemplate('boutique')">
+                                <div class="template-preview" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
+                                    <div style="color: white; padding: 15px; text-align: center;">
+                                        <i class="bi bi-tree" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                                <div class="template-info">
+                                    <h4>Boutique Hotel</h4>
+                                    <p>Charming & Unique</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Quick Setup</h3>
+                        <div class="form-group">
+                            <label>Website Name</label>
+                            <input type="text" class="form-control" id="websiteName" value="Grand Hotel & Spa" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Hotel Name</label>
+                            <input type="text" class="form-control" id="hotelName" value="Grand Hotel & Spa" oninput="updatePreview()">
+                        </div>
+                        <button class="add-room-btn" onclick="switchTab('content')">
+                            <i class="bi bi-arrow-right"></i> Continue Customization
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content Tab Content -->
+                <div id="content-tab" class="tab-content" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">Basic Information</h3>
+                        <div class="form-group">
+                            <label>Hotel Name</label>
+                            <input type="text" class="form-control" id="hotelNameContent" value="Grand Hotel & Spa" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Tagline</label>
+                            <input type="text" class="form-control" id="hotelTagline" value="Experience Luxury & Comfort" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-control" id="hotelDescription" oninput="updatePreview()">Experience luxury and comfort in the heart of the city. Our hotel offers world-class amenities and exceptional service for an unforgettable stay.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea class="form-control" id="hotelAddress" oninput="updatePreview()">123 Luxury Avenue, New York, NY 10001</textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="text" class="form-control" id="hotelPhone" value="+1 (212) 555-0123" oninput="updatePreview()">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" id="hotelEmail" value="info@grandhotel.com" oninput="updatePreview()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Images</h3>
+                        <div class="form-group">
+                            <label>Logo</label>
+                            <div class="image-upload" onclick="document.getElementById('logoUpload').click()">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Click to upload logo</p>
+                                <input type="file" id="logoUpload" style="display: none;" accept="image/*" onchange="handleImageUpload(this, 'logo')">
+                            </div>
+                            <img id="logoPreview" class="image-preview" style="display: none;">
+                        </div>
+                        <div class="form-group">
+                            <label>Hero Image</label>
+                            <div class="image-upload" onclick="document.getElementById('heroUpload').click()">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Click to upload hero image</p>
+                                <input type="file" id="heroUpload" style="display: none;" accept="image/*" onchange="handleImageUpload(this, 'hero')">
+                            </div>
+                            <img id="heroPreview" class="image-preview" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design Tab Content -->
+                <div id="design-tab" class="tab-content" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">Colors</h3>
+                        <div class="color-group">
+                            <div class="color-item">
+                                <label>Primary Color</label>
+                                <input type="color" class="color-input" id="primaryColor" value="#667eea" onchange="updatePreview()">
+                            </div>
+                            <div class="color-item">
+                                <label>Secondary Color</label>
+                                <input type="color" class="color-input" id="secondaryColor" value="#764ba2" onchange="updatePreview()">
+                            </div>
+                        </div>
+                        <div class="color-group">
+                            <div class="color-item">
+                                <label>Text Color</label>
+                                <input type="color" class="color-input" id="textColor" value="#333333" onchange="updatePreview()">
+                            </div>
+                            <div class="color-item">
+                                <label>Background Color</label>
+                                <input type="color" class="color-input" id="bgColor" value="#ffffff" onchange="updatePreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Typography</h3>
+                        <div class="form-group">
+                            <label>Font Family</label>
+                            <select class="font-selector" id="fontFamily" onchange="updatePreview()">
+                                <option value="Inter">Inter</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Verdana">Verdana</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Heading Font Size</label>
+                            <input type="range" class="form-control" id="headingSize" min="16" max="48" value="32" oninput="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Body Font Size</label>
+                            <input type="range" class="form-control" id="bodySize" min="12" max="24" value="16" oninput="updatePreview()">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Layout</h3>
+                        <div class="toggle-switch">
+                            <span>Sticky Navigation</span>
+                            <label class="switch">
+                                <input type="checkbox" id="stickyNav" onchange="updatePreview()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-switch">
+                            <span>Show Room Prices</span>
+                            <label class="switch">
+                                <input type="checkbox" id="showPrices" checked onchange="updatePreview()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Layout Style</label>
+                            <select class="font-selector" id="layoutStyle" onchange="updatePreview()">
+                                <option value="wide">Wide</option>
+                                <option value="boxed">Boxed</option>
+                                <option value="full">Full Width</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Animations</h3>
+                        <div class="form-group">
+                            <label>Hover Effects</label>
+                            <select class="font-selector" id="hoverEffect" onchange="updatePreview()">
+                                <option value="none">None</option>
+                                <option value="scale">Scale</option>
+                                <option value="shadow">Shadow</option>
+                                <option value="both">Scale + Shadow</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rooms Tab Content -->
+                <div id="rooms-tab" class="tab-content" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">Manage Rooms</h3>
+                        
+                        <!-- Room List -->
+                        <div id="roomsList">
+                            <!-- Room items will be dynamically added here -->
+                        </div>
+
+                        <button class="add-room-btn" onclick="addNewRoom()">
+                            <i class="bi bi-plus-circle"></i> Add New Room
+                        </button>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Room Settings</h3>
+                        <div class="form-group">
+                            <label>Default Check-in Time</label>
+                            <input type="time" class="form-control" id="checkInTime" value="14:00" onchange="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Default Check-out Time</label>
+                            <input type="time" class="form-control" id="checkOutTime" value="11:00" onchange="updatePreview()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Preview Panel -->
+        <div class="preview-panel">
+            <div class="preview-toolbar">
+                <div class="preview-devices">
+                    <button class="device-btn active" onclick="changeDevice('desktop')">
+                        <i class="bi bi-pc-display"></i> Desktop
+                    </button>
+                    <button class="device-btn" onclick="changeDevice('tablet')">
+                        <i class="bi bi-tablet"></i> Tablet
+                    </button>
+                    <button class="device-btn" onclick="changeDevice('mobile')">
+                        <i class="bi bi-phone"></i> Mobile
+                    </button>
+                </div>
+                <div class="preview-actions">
+                    <button class="preview-btn save-btn" onclick="saveWebsite()">
+                        <i class="bi bi-save"></i> Save
+                    </button>
+                    <button class="preview-btn publish-btn" onclick="publishWebsite()">
+                        <i class="bi bi-globe"></i> Publish
+                    </button>
+                </div>
+            </div>
+
+            <div class="preview-container">
+                <div class="preview-frame desktop" id="previewFrame">
+                    <!-- Live Preview Content -->
+                    <div class="hotel-preview" id="hotelPreview">
+                        <nav class="hotel-nav" id="hotelNav">
+                            <div class="hotel-logo" id="previewLogo">Grand Hotel & Spa</div>
+                            <div class="nav-links">
+                                <a href="#">Home</a>
+                                <a href="#">Rooms</a>
+                                <a href="#">Gallery</a>
+                                <a href="#">Contact</a>
+                                <a href="#" class="book-btn" id="previewBookBtn">Book Now</a>
+                            </div>
+                        </nav>
+
+                        <div class="hotel-hero" id="heroSection">
+                            <div class="hero-content">
+                                <h1 id="previewTitle">Welcome to Grand Hotel & Spa</h1>
+                                <p id="previewTagline">Experience Luxury & Comfort</p>
+                                <button class="hero-btn" id="previewHeroBtn">Check Availability</button>
+                            </div>
+                        </div>
+
+                        <div class="rooms-section">
+                            <h2 style="text-align: center; margin-bottom: 20px;">Our Rooms</h2>
+                            <div class="rooms-grid" id="roomsGrid">
+                                <!-- Rooms will be dynamically added here -->
+                            </div>
+                        </div>
+
+                        <div class="footer-section">
+                            <p id="previewCopyright">&copy; 2024 Grand Hotel & Spa. All rights reserved.</p>
+                            <p id="previewAddress">123 Luxury Avenue, New York, NY 10001</p>
+                            <p id="previewContact">+1 (212) 555-0123 | info@grandhotel.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function showDemoHelp() {
-            alert('🎯 Interactive Demo Guide\n\n' +
-                  'Click on any button to see functionality:\n' +
-                  '• "Use Template" - Select a template\n' +
-                  '• "Create New Website" - Start building\n' +
-                  '• "Edit/Preview" buttons - Manage websites\n' +
-                  '• "Book Now" - Test booking system\n' +
-                  '• Device buttons - Switch preview modes\n\n' +
-                  'This is a fully functional prototype showing all features of the Hotel Website Builder!');
+        // Sample rooms data
+        let rooms = [
+            {
+                id: 1,
+                name: 'Deluxe King Suite',
+                price: 299,
+                description: 'Spacious suite with king-size bed',
+                maxGuests: 2,
+                image: null,
+                amenities: ['WiFi', 'TV', 'Mini-bar']
+            },
+            {
+                id: 2,
+                name: 'Executive Double',
+                price: 199,
+                description: 'Comfortable room with queen bed',
+                maxGuests: 3,
+                image: null,
+                amenities: ['WiFi', 'TV', 'Work desk']
+            },
+            {
+                id: 3,
+                name: 'Presidential Suite',
+                price: 599,
+                description: 'Luxury suite with panoramic views',
+                maxGuests: 4,
+                image: null,
+                amenities: ['WiFi', 'TV', 'Jacuzzi', 'Butler service']
+            }
+        ];
+
+        let currentTemplate = 'modern';
+        let currentDevice = 'desktop';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderRoomsList();
+            renderRoomsGrid();
+            updatePreview();
+        });
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.editor-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').style.display = 'block';
         }
 
-        // Show welcome message
-        setTimeout(() => {
-            const message = document.createElement('div');
-            message.className = 'success-message';
-            message.innerHTML = '<i class="bi bi-check-circle"></i> Welcome to the Hotel Website Builder Demo!';
-            document.body.appendChild(message);
-            
-            setTimeout(() => {
-                message.remove();
-            }, 3000);
-        }, 1000);
-
-        // Add progress indicator
-        const progress = document.createElement('div');
-        progress.className = 'progress-indicator';
-        document.body.appendChild(progress);
-
-        // Simulate autosave
-        let autosaveTimer;
-        document.querySelectorAll('.form-control').forEach(field => {
-            field.addEventListener('input', function() {
-                clearTimeout(autosaveTimer);
-                autosaveTimer = setTimeout(() => {
-                    const saveMsg = document.createElement('div');
-                    saveMsg.className = 'success-message';
-                    saveMsg.style.background = '#17a2b8';
-                    saveMsg.innerHTML = '<i class="bi bi-cloud-check"></i> Changes auto-saved';
-                    document.body.appendChild(saveMsg);
-                    
-                    setTimeout(() => {
-                        saveMsg.remove();
-                    }, 2000);
-                }, 1000);
+        // Template selection
+        function selectTemplate(template) {
+            currentTemplate = template;
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.remove('selected');
             });
-        });
+            event.currentTarget.classList.add('selected');
+            updatePreview();
+        }
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                alert('Website saved successfully!');
+        // Device change
+        function changeDevice(device) {
+            currentDevice = device;
+            document.querySelectorAll('.device-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            const previewFrame = document.getElementById('previewFrame');
+            previewFrame.className = 'preview-frame ' + device;
+        }
+
+        // Update preview based on form inputs
+        function updatePreview() {
+            // Get all form values
+            const hotelName = document.getElementById('hotelName')?.value || document.getElementById('hotelNameContent')?.value || 'Grand Hotel & Spa';
+            const tagline = document.getElementById('hotelTagline')?.value || 'Experience Luxury & Comfort';
+            const description = document.getElementById('hotelDescription')?.value || '';
+            const address = document.getElementById('hotelAddress')?.value || '';
+            const phone = document.getElementById('hotelPhone')?.value || '';
+            const email = document.getElementById('hotelEmail')?.value || '';
+            const primaryColor = document.getElementById('primaryColor')?.value || '#667eea';
+            const secondaryColor = document.getElementById('secondaryColor')?.value || '#764ba2';
+            const textColor = document.getElementById('textColor')?.value || '#333333';
+            const bgColor = document.getElementById('bgColor')?.value || '#ffffff';
+            const fontFamily = document.getElementById('fontFamily')?.value || 'Inter';
+            const headingSize = document.getElementById('headingSize')?.value || '32';
+            const bodySize = document.getElementById('bodySize')?.value || '16';
+            const stickyNav = document.getElementById('stickyNav')?.checked || false;
+            const showPrices = document.getElementById('showPrices')?.checked !== false;
+
+            // Update preview elements
+            document.getElementById('previewLogo').textContent = hotelName;
+            document.getElementById('previewTitle').textContent = `Welcome to ${hotelName}`;
+            document.getElementById('previewTagline').textContent = tagline;
+            document.getElementById('previewAddress').textContent = address;
+            document.getElementById('previewContact').textContent = `${phone} | ${email}`;
+            document.getElementById('previewCopyright').innerHTML = `&copy; ${new Date().getFullYear()} ${hotelName}. All rights reserved.`;
+
+            // Update styles
+            const preview = document.getElementById('hotelPreview');
+            preview.style.fontFamily = fontFamily;
+            preview.style.color = textColor;
+            preview.style.backgroundColor = bgColor;
+
+            // Update CSS variables
+            preview.style.setProperty('--primary-color', primaryColor);
+            
+            // Update navigation style
+            const nav = document.getElementById('hotelNav');
+            if (stickyNav) {
+                nav.style.position = 'sticky';
+                nav.style.top = '0';
+                nav.style.zIndex = '1000';
+            } else {
+                nav.style.position = 'relative';
             }
+
+            // Update book button color
+            document.getElementById('previewBookBtn').style.backgroundColor = primaryColor;
+            document.getElementById('previewHeroBtn').style.backgroundColor = primaryColor;
+
+            // Update heading sizes
+            document.querySelectorAll('h1, h2, h3').forEach(el => {
+                if (el.id !== 'previewTitle') {
+                    el.style.fontSize = headingSize + 'px';
+                }
+            });
+            document.getElementById('previewTitle').style.fontSize = (parseInt(headingSize) * 1.5) + 'px';
+            
+            document.querySelectorAll('p, .nav-links a').forEach(el => {
+                el.style.fontSize = bodySize + 'px';
+            });
+
+            // Update rooms grid with price visibility
+            renderRoomsGrid(showPrices);
+        }
+
+        // Render rooms list in editor
+        function renderRoomsList() {
+            const roomsList = document.getElementById('roomsList');
+            roomsList.innerHTML = '';
+
+            rooms.forEach((room, index) => {
+                const roomEl = document.createElement('div');
+                roomEl.className = 'room-item';
+                roomEl.innerHTML = `
+                    <div class="room-header">
+                        <h5>${room.name}</h5>
+                        <div class="room-actions">
+                            <button onclick="editRoom(${index})"><i class="bi bi-pencil"></i></button>
+                            <button onclick="deleteRoom(${index})"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                    <p><strong>Price:</strong> $${room.price}/night</p>
+                    <p><strong>Max Guests:</strong> ${room.maxGuests}</p>
+                    <p><strong>Amenities:</strong> ${room.amenities.join(', ')}</p>
+                `;
+                roomsList.appendChild(roomEl);
+            });
+        }
+
+        // Render rooms in preview
+        function renderRoomsGrid(showPrices = true) {
+            const roomsGrid = document.getElementById('roomsGrid');
+            roomsGrid.innerHTML = '';
+
+            rooms.forEach(room => {
+                const roomCard = document.createElement('div');
+                roomCard.className = 'preview-room-card';
+                roomCard.innerHTML = `
+                    <div class="preview-room-image">
+                        <i class="bi bi-image" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="preview-room-info">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">${room.name}</h3>
+                        <p style="color: #666;">${room.description}</p>
+                        <p><i class="bi bi-people"></i> Max ${room.maxGuests} guests</p>
+                        ${showPrices ? `<p class="preview-room-price">$${room.price}/night</p>` : ''}
+                        <button class="hero-btn" style="margin-top: 15px; width: 100%;" onclick="bookRoom(${room.id})">Book Now</button>
+                    </div>
+                `;
+                roomsGrid.appendChild(roomCard);
+            });
+        }
+
+        // Add new room
+        function addNewRoom() {
+            const newRoom = {
+                id: rooms.length + 1,
+                name: 'New Room',
+                price: 150,
+                description: 'Description here',
+                maxGuests: 2,
+                image: null,
+                amenities: ['WiFi', 'TV']
+            };
+            rooms.push(newRoom);
+            renderRoomsList();
+            renderRoomsGrid();
+            updatePreview();
+        }
+
+        // Edit room
+        function editRoom(index) {
+            const room = rooms[index];
+            const newName = prompt('Enter room name:', room.name);
+            if (newName) {
+                const newPrice = prompt('Enter price per night:', room.price);
+                if (newPrice) {
+                    room.name = newName;
+                    room.price = parseFloat(newPrice);
+                    renderRoomsList();
+                    renderRoomsGrid();
+                    updatePreview();
+                }
+            }
+        }
+
+        // Delete room
+        function deleteRoom(index) {
+            if (confirm('Are you sure you want to delete this room?')) {
+                rooms.splice(index, 1);
+                renderRoomsList();
+                renderRoomsGrid();
+                updatePreview();
+            }
+        }
+
+        // Book room
+        function bookRoom(roomId) {
+            const room = rooms.find(r => r.id === roomId);
+            if (room) {
+                alert(`Booking confirmed for ${room.name}!\nCheck your email for details.`);
+            }
+        }
+
+        // Image upload handling
+        function handleImageUpload(input, type) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (type === 'logo') {
+                        document.getElementById('logoPreview').src = e.target.result;
+                        document.getElementById('logoPreview').style.display = 'block';
+                        document.getElementById('previewLogo').innerHTML = `<img src="${e.target.result}" style="height: 40px;">`;
+                    } else if (type === 'hero') {
+                        document.getElementById('heroPreview').src = e.target.result;
+                        document.getElementById('heroPreview').style.display = 'block';
+                        document.getElementById('heroSection').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${e.target.result}')`;
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Save website
+        function saveWebsite() {
+            alert('Website saved successfully!');
+        }
+
+        // Publish website
+        function publishWebsite() {
+            alert('Website published! Your site is now live at: https://your-hotel.builder.com');
+        }
+
+        // Real-time updates for all inputs
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('input', updatePreview);
+            element.addEventListener('change', updatePreview);
         });
     </script>
+
+    <!-- Add Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
 </body>
 </html>
