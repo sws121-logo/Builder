@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Hotel Website Builder - Click to Edit</title>
+    <title>Hotel Website Builder - 15 Dynamic Templates with Click-to-Edit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&family=Montserrat:wght@400;600;700&family=Lato:wght@300;400;700&family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&family=Oswald:wght@400;600&family=Raleway:wght@400;600&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -122,7 +122,72 @@
             background: #ffffff;
         }
 
-        /* Form Styles */
+        /* Templates Grid */
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .template-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .template-card.selected {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .template-preview {
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .template-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ffd700;
+            color: #333;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .template-info {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .template-info h4 {
+            font-size: 1rem;
+            margin: 0 0 3px;
+        }
+
+        .template-info p {
+            font-size: 0.8rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Form Sections */
         .form-section {
             margin-bottom: 25px;
             border: 1px solid #e2e8f0;
@@ -136,7 +201,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            cursor: move;
         }
 
         .section-header h3 {
@@ -460,7 +524,6 @@
         /* Hero Section */
         .hero-section {
             height: 500px;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -603,7 +666,7 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
@@ -626,22 +689,6 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: #64748b;
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         /* Toast Notifications */
@@ -693,8 +740,8 @@
         <!-- Left Editor Panel -->
         <div class="editor-panel">
             <div class="editor-header">
-                <h2><i class="bi bi-magic"></i> Dynamic Hotel Builder</h2>
-                <p>Click any element in preview to edit</p>
+                <h2><i class="bi bi-magic"></i> Hotel Website Builder</h2>
+                <p>15 Templates • Click any element to edit</p>
             </div>
 
             <!-- Selected Element Info -->
@@ -714,8 +761,11 @@
                 <div class="editor-tab" data-tab="header">
                     <i class="bi bi-layout-header"></i> Header
                 </div>
-                <div class="editor-tab" data-tab="sections">
-                    <i class="bi bi-layout-three-columns"></i> Sections
+                <div class="editor-tab" data-tab="hero">
+                    <i class="bi bi-image"></i> Hero
+                </div>
+                <div class="editor-tab" data-tab="rooms">
+                    <i class="bi bi-door-open"></i> Rooms
                 </div>
                 <div class="editor-tab" data-tab="footer">
                     <i class="bi bi-layout-footer"></i> Footer
@@ -730,41 +780,8 @@
                 <!-- Templates Tab -->
                 <div class="tab-pane active" id="templates-tab">
                     <div class="form-section">
-                        <h3>Choose Template</h3>
-                        <div class="template-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
-                            <div class="template-card" data-template="modern" onclick="selectTemplate('modern')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white;">
-                                    <i class="bi bi-building" style="font-size: 2rem;"></i>
-                                </div>
-                                <div style="padding: 10px; text-align: center;">
-                                    <strong>Modern Luxury</strong>
-                                </div>
-                            </div>
-                            <div class="template-card" data-template="beach" onclick="selectTemplate('beach')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div style="height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white;">
-                                    <i class="bi bi-umbrella" style="font-size: 2rem;"></i>
-                                </div>
-                                <div style="padding: 10px; text-align: center;">
-                                    <strong>Beach Resort</strong>
-                                </div>
-                            </div>
-                            <div class="template-card" data-template="business" onclick="selectTemplate('business')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div style="height: 100px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white;">
-                                    <i class="bi bi-briefcase" style="font-size: 2rem;"></i>
-                                </div>
-                                <div style="padding: 10px; text-align: center;">
-                                    <strong>Business Hotel</strong>
-                                </div>
-                            </div>
-                            <div class="template-card" data-template="boutique" onclick="selectTemplate('boutique')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div style="height: 100px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; color: white;">
-                                    <i class="bi bi-tree" style="font-size: 2rem;"></i>
-                                </div>
-                                <div style="padding: 10px; text-align: center;">
-                                    <strong>Boutique Hotel</strong>
-                                </div>
-                            </div>
-                        </div>
+                        <h3>Choose Template (15 Designs)</h3>
+                        <div class="templates-grid" id="templatesGrid"></div>
                     </div>
                 </div>
 
@@ -801,57 +818,54 @@
                         </div>
                         <div class="image-upload-area" onclick="document.getElementById('logoUpload').click()">
                             <i class="bi bi-cloud-upload"></i>
-                            <p>Click to upload logo image</p>
+                            <p>Click to upload logo</p>
                             <input type="file" id="logoUpload" style="display: none;" accept="image/*" onchange="uploadLogo(this)">
-                        </div>
-                        <img id="logoPreview" class="image-preview" style="display: none;">
-                    </div>
-
-                    <div class="form-section">
-                        <h3>Header Settings</h3>
-                        <div class="form-group">
-                            <label>Sticky Header</label>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="stickyHeader" onchange="toggleStickyHeader()">
-                                <label class="form-check-label">Make header sticky</label>
-                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sections Tab -->
-                <div class="tab-pane" id="sections-tab" style="display: none;">
+                <!-- Hero Tab -->
+                <div class="tab-pane" id="hero-tab" style="display: none;">
                     <div class="form-section">
-                        <div class="section-header">
-                            <h3>Page Sections</h3>
-                            <div class="section-actions">
-                                <button onclick="showAddSectionModal()"><i class="bi bi-plus-circle"></i> Add</button>
-                            </div>
+                        <h3>Hero Content</h3>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" id="heroTitleInput" value="Welcome to Grand Hotel" onchange="updateHeroContent()">
                         </div>
-                        <div class="elements-list" id="sectionsList"></div>
+                        <div class="form-group">
+                            <label>Subtitle</label>
+                            <input type="text" class="form-control" id="heroSubtitleInput" value="Experience Luxury & Comfort" onchange="updateHeroContent()">
+                        </div>
+                        <div class="form-group">
+                            <label>Button Text</label>
+                            <input type="text" class="form-control" id="heroButtonInput" value="Explore Rooms" onchange="updateHeroContent()">
+                        </div>
                     </div>
 
                     <div class="form-section">
+                        <h3>Hero Image</h3>
+                        <div class="image-upload-area" onclick="document.getElementById('heroImageUpload').click()">
+                            <i class="bi bi-cloud-upload"></i>
+                            <p>Click to upload hero image</p>
+                            <input type="file" id="heroImageUpload" style="display: none;" accept="image/*" onchange="updateHeroImage(this)">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Overlay Opacity</label>
+                            <input type="range" class="form-control" id="heroOverlay" min="0" max="1" step="0.1" value="0.5" onchange="updateHeroOverlay(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rooms Tab -->
+                <div class="tab-pane" id="rooms-tab" style="display: none;">
+                    <div class="form-section">
                         <div class="section-header">
-                            <h3>Rooms</h3>
+                            <h3>Room Cards</h3>
                             <div class="section-actions">
-                                <button onclick="addRoom()"><i class="bi bi-plus-circle"></i> Add</button>
+                                <button onclick="addRoom()"><i class="bi bi-plus-circle"></i> Add Room</button>
                             </div>
                         </div>
                         <div class="elements-list" id="roomsList"></div>
-                    </div>
-
-                    <div class="form-section">
-                        <div class="section-header">
-                            <h3>Contact Form</h3>
-                        </div>
-                        <div class="form-group">
-                            <label>Show Contact Form</label>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="showContactForm" checked onchange="toggleContactForm()">
-                                <label class="form-check-label">Display contact form</label>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -911,10 +925,15 @@
                             <label>Font Family</label>
                             <select class="form-control" id="fontFamily" onchange="updateDesign()">
                                 <option value="Inter">Inter</option>
-                                <option value="Arial">Arial</option>
-                                <option value="Helvetica">Helvetica</option>
-                                <option value="Georgia">Georgia</option>
-                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Playfair Display">Playfair Display</option>
+                                <option value="Poppins">Poppins</option>
+                                <option value="Montserrat">Montserrat</option>
+                                <option value="Lato">Lato</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Open Sans">Open Sans</option>
+                                <option value="Oswald">Oswald</option>
+                                <option value="Raleway">Raleway</option>
+                                <option value="Merriweather">Merriweather</option>
                             </select>
                         </div>
                     </div>
@@ -962,7 +981,7 @@
                         </header>
 
                         <!-- Hero Section -->
-                        <section class="hero-section editable-element" id="hero-section" data-element-type="hero">
+                        <section class="hero-section editable-element" id="hero-section" data-element-type="hero" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
                             <div class="hero-content">
                                 <h1 class="hero-title" id="hero-title" data-element-type="hero-title">Welcome to Grand Hotel</h1>
                                 <p class="hero-subtitle" id="hero-subtitle" data-element-type="hero-subtitle">Experience Luxury & Comfort</p>
@@ -1028,31 +1047,6 @@
         </div>
     </div>
 
-    <!-- Add Section Modal -->
-    <div class="modal" id="addSectionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Add New Section</h3>
-                <button class="close-btn" onclick="closeModal('addSectionModal')">&times;</button>
-            </div>
-            <div class="form-group">
-                <label>Section Type</label>
-                <select class="form-control" id="newSectionType">
-                    <option value="rooms">Rooms Gallery</option>
-                    <option value="halls">Event Halls</option>
-                    <option value="amenities">Amenities</option>
-                    <option value="testimonials">Testimonials</option>
-                    <option value="gallery">Photo Gallery</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Section Title</label>
-                <input type="text" class="form-control" id="newSectionTitle" placeholder="Our Rooms">
-            </div>
-            <button class="btn btn-primary" onclick="addNewSection()">Add Section</button>
-        </div>
-    </div>
-
     <!-- Edit Element Modal -->
     <div class="modal" id="editElementModal">
         <div class="modal-content">
@@ -1068,6 +1062,160 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
+        // 15 Templates Data
+        const templates = [
+            { 
+                id: 1, 
+                name: 'Modern Luxury', 
+                category: 'Luxury', 
+                primary: '#667eea', 
+                secondary: '#764ba2', 
+                font: 'Inter',
+                image: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                icon: 'bi-building'
+            },
+            { 
+                id: 2, 
+                name: 'Beach Resort', 
+                category: 'Resort', 
+                primary: '#f093fb', 
+                secondary: '#f5576c', 
+                font: 'Playfair Display',
+                image: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                icon: 'bi-umbrella'
+            },
+            { 
+                id: 3, 
+                name: 'Business Hotel', 
+                category: 'Business', 
+                primary: '#4facfe', 
+                secondary: '#00f2fe', 
+                font: 'Poppins',
+                image: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                icon: 'bi-briefcase'
+            },
+            { 
+                id: 4, 
+                name: 'Boutique Hotel', 
+                category: 'Boutique', 
+                primary: '#fa709a', 
+                secondary: '#fee140', 
+                font: 'Montserrat',
+                image: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                icon: 'bi-tree'
+            },
+            { 
+                id: 5, 
+                name: 'Spa & Wellness', 
+                category: 'Wellness', 
+                primary: '#84fab0', 
+                secondary: '#8fd3f4', 
+                font: 'Lato',
+                image: 'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
+                icon: 'bi-flower1'
+            },
+            { 
+                id: 6, 
+                name: 'Mountain Lodge', 
+                category: 'Lodge', 
+                primary: '#f6d365', 
+                secondary: '#fda085', 
+                font: 'Roboto',
+                image: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
+                icon: 'bi-tree-fill'
+            },
+            { 
+                id: 7, 
+                name: 'City Center', 
+                category: 'Urban', 
+                primary: '#30cfd0', 
+                secondary: '#330867', 
+                font: 'Open Sans',
+                image: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+                icon: 'bi-building'
+            },
+            { 
+                id: 8, 
+                name: 'Luxury Resort', 
+                category: 'Luxury', 
+                primary: '#ff9a9e', 
+                secondary: '#fecfef', 
+                font: 'Oswald',
+                image: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+                icon: 'bi-stars'
+            },
+            { 
+                id: 9, 
+                name: 'Eco Hotel', 
+                category: 'Eco', 
+                primary: '#a8e063', 
+                secondary: '#56ab2f', 
+                font: 'Raleway',
+                image: 'linear-gradient(135deg, #a8e063 0%, #56ab2f 100%)',
+                icon: 'bi-flower2'
+            },
+            { 
+                id: 10, 
+                name: 'Heritage Hotel', 
+                category: 'Heritage', 
+                primary: '#eb5757', 
+                secondary: '#000000', 
+                font: 'Merriweather',
+                image: 'linear-gradient(135deg, #eb5757 0%, #000000 100%)',
+                icon: 'bi-clock-history'
+            },
+            { 
+                id: 11, 
+                name: 'Airport Hotel', 
+                category: 'Transit', 
+                primary: '#3a1c71', 
+                secondary: '#d76d77', 
+                font: 'Inter',
+                image: 'linear-gradient(135deg, #3a1c71 0%, #d76d77 100%)',
+                icon: 'bi-airplane'
+            },
+            { 
+                id: 12, 
+                name: 'Family Resort', 
+                category: 'Family', 
+                primary: '#fccb90', 
+                secondary: '#ff9a9e', 
+                font: 'Poppins',
+                image: 'linear-gradient(135deg, #fccb90 0%, #ff9a9e 100%)',
+                icon: 'bi-people'
+            },
+            { 
+                id: 13, 
+                name: 'Romantic Getaway', 
+                category: 'Romantic', 
+                primary: '#ff758c', 
+                secondary: '#ff7eb3', 
+                font: 'Playfair Display',
+                image: 'linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%)',
+                icon: 'bi-heart'
+            },
+            { 
+                id: 14, 
+                name: 'Conference Center', 
+                category: 'Conference', 
+                primary: '#2c3e50', 
+                secondary: '#3498db', 
+                font: 'Montserrat',
+                image: 'linear-gradient(135deg, #2c3e50 0%, #3498db 100%)',
+                icon: 'bi-mic'
+            },
+            { 
+                id: 15, 
+                name: 'All Suite Hotel', 
+                category: 'Suites', 
+                primary: '#8e2de2', 
+                secondary: '#4a00e0', 
+                font: 'Lato',
+                image: 'linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)',
+                icon: 'bi-star'
+            }
+        ];
+
         // State Management
         let websiteData = {
             pages: [
@@ -1082,9 +1230,38 @@
                 { id: 4, text: 'Book Now', url: '#book', active: true, isButton: true }
             ],
             rooms: [
-                { id: 1, name: 'Deluxe King Suite', price: 299, description: 'Spacious suite with king bed', image: null, amenities: ['WiFi', 'TV', 'Mini-bar'] },
-                { id: 2, name: 'Executive Double', price: 199, description: 'Comfortable room with queen bed', image: null, amenities: ['WiFi', 'TV', 'Work desk'] },
-                { id: 3, name: 'Presidential Suite', price: 599, description: 'Luxury suite with panoramic views', image: null, amenities: ['WiFi', 'TV', 'Jacuzzi'] }
+                { 
+                    id: 1, 
+                    name: 'Deluxe King Suite', 
+                    price: 299, 
+                    description: 'Spacious suite with king bed and city view', 
+                    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                    amenities: ['WiFi', 'TV', 'Mini-bar']
+                },
+                { 
+                    id: 2, 
+                    name: 'Executive Double', 
+                    price: 199, 
+                    description: 'Comfortable room with queen bed', 
+                    image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                    amenities: ['WiFi', 'TV', 'Work desk']
+                },
+                { 
+                    id: 3, 
+                    name: 'Presidential Suite', 
+                    price: 599, 
+                    description: 'Luxury suite with panoramic views', 
+                    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                    amenities: ['WiFi', 'TV', 'Jacuzzi']
+                },
+                { 
+                    id: 4, 
+                    name: 'Family Room', 
+                    price: 349, 
+                    description: 'Spacious room for family with extra beds', 
+                    image: 'https://images.unsplash.com/photo-1568495248636-6432b97bd949?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                    amenities: ['WiFi', 'TV', 'Kids corner']
+                }
             ],
             footerColumns: [
                 { id: 1, title: 'About Us', links: ['Our Story', 'Careers', 'Blog'] },
@@ -1094,7 +1271,8 @@
             socialLinks: [
                 { platform: 'facebook', url: '#' },
                 { platform: 'twitter', url: '#' },
-                { platform: 'instagram', url: '#' }
+                { platform: 'instagram', url: '#' },
+                { platform: 'youtube', url: '#' }
             ],
             design: {
                 primaryColor: '#667eea',
@@ -1106,23 +1284,66 @@
         };
 
         let selectedElement = null;
-        let currentTemplate = 'modern';
+        let currentTemplate = 1;
         let currentDevice = 'desktop';
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            renderTemplates();
             makeElementsEditable();
             renderNavLinks();
             renderPages();
             renderRooms();
             renderFooter();
-            renderSectionsList();
             updateDesign();
-            setupDragAndDrop();
-            showToast('Welcome to Hotel Website Builder! Click any element to start editing.', 'info');
+            showToast('Welcome! Click any element in the preview to edit it.', 'info');
         });
 
-        // Make all elements clickable
+        // Render 15 Templates
+        function renderTemplates() {
+            const templatesGrid = document.getElementById('templatesGrid');
+            templatesGrid.innerHTML = '';
+            
+            templates.forEach(template => {
+                const card = document.createElement('div');
+                card.className = `template-card ${template.id === currentTemplate ? 'selected' : ''}`;
+                card.setAttribute('data-template-id', template.id);
+                card.onclick = () => selectTemplate(template.id);
+                
+                card.innerHTML = `
+                    <div class="template-preview" style="background: ${template.image}">
+                        <span class="template-badge">${template.category}</span>
+                        <i class="bi ${template.icon}" style="font-size: 2rem;"></i>
+                    </div>
+                    <div class="template-info">
+                        <h4>${template.name}</h4>
+                        <p>${template.category}</p>
+                    </div>
+                `;
+                
+                templatesGrid.appendChild(card);
+            });
+        }
+
+        // Select Template
+        function selectTemplate(templateId) {
+            currentTemplate = templateId;
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-template-id="${templateId}"]`).classList.add('selected');
+            
+            const template = templates.find(t => t.id === templateId);
+            if (template) {
+                document.getElementById('primaryColor').value = template.primary;
+                document.getElementById('secondaryColor').value = template.secondary;
+                document.getElementById('fontFamily').value = template.font;
+                updateDesign();
+                showToast(`${template.name} template applied!`, 'success');
+            }
+        }
+
+        // Make all elements editable and clickable
         function makeElementsEditable() {
             const editableElements = document.querySelectorAll('[data-element-type]');
             editableElements.forEach(element => {
@@ -1132,8 +1353,6 @@
                     const elementId = this.id;
                     selectElement(elementId, elementType);
                 });
-
-                // Add visual indicator
                 element.classList.add('editable-element');
             });
         }
@@ -1183,7 +1402,7 @@
             
             switch(elementType) {
                 case 'logo':
-                    const currentLogo = document.getElementById('logoText').textContent;
+                    const currentLogo = document.getElementById('logoText')?.textContent || 'Grand Hotel';
                     editForm = `
                         <div class="form-group">
                             <label>Logo Text</label>
@@ -1193,55 +1412,70 @@
                             <label>Logo Image</label>
                             <div class="image-upload-area" onclick="document.getElementById('editLogoUpload').click()">
                                 <i class="bi bi-cloud-upload"></i>
-                                <p>Click to upload</p>
+                                <p>Click to upload logo image</p>
                                 <input type="file" id="editLogoUpload" style="display: none;" accept="image/*" onchange="updateLogoImage(this)">
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="saveLogoChanges()">Save Changes</button>
+                        <div class="form-group">
+                            <label>Logo Size</label>
+                            <input type="range" class="form-control" id="logoSize" min="20" max="60" value="32" onchange="updateLogoSize(this.value)">
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="saveLogoChanges()">Save Changes</button>
                     `;
                     break;
                     
                 case 'hero-title':
-                    const currentTitle = document.getElementById('hero-title').textContent;
+                case 'hero-subtitle':
+                case 'hero-button':
+                    const element = document.getElementById(elementId);
+                    const currentText = element.textContent;
+                    const isTitle = elementType === 'hero-title';
+                    const isSubtitle = elementType === 'hero-subtitle';
+                    
                     editForm = `
                         <div class="form-group">
-                            <label>Hero Title</label>
-                            <input type="text" class="form-control" id="editHeroTitle" value="${currentTitle}">
+                            <label>Text</label>
+                            <input type="text" class="form-control" id="editText" value="${currentText}">
                         </div>
+                        ${isTitle ? `
                         <div class="form-group">
                             <label>Font Size</label>
-                            <input type="range" class="form-control" id="editHeroTitleSize" min="24" max="72" value="48">
+                            <input type="range" class="form-control" id="editFontSize" min="24" max="72" value="48">
                         </div>
-                        <button class="btn btn-primary" onclick="saveHeroTitleChanges()">Save Changes</button>
-                    `;
-                    break;
-                    
-                case 'hero-subtitle':
-                    const currentSubtitle = document.getElementById('hero-subtitle').textContent;
-                    editForm = `
+                        ` : ''}
+                        ${isSubtitle ? `
                         <div class="form-group">
-                            <label>Hero Subtitle</label>
-                            <input type="text" class="form-control" id="editHeroSubtitle" value="${currentSubtitle}">
+                            <label>Font Size</label>
+                            <input type="range" class="form-control" id="editFontSize" min="14" max="32" value="18">
                         </div>
-                        <button class="btn btn-primary" onclick="saveHeroSubtitleChanges()">Save Changes</button>
+                        ` : ''}
+                        <div class="form-group">
+                            <label>Color</label>
+                            <input type="color" class="color-input" id="editColor" value="#ffffff">
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="saveTextChanges('${elementId}')">Save Changes</button>
                     `;
                     break;
                     
                 case 'hero':
                     editForm = `
                         <div class="form-group">
-                            <label>Hero Background</label>
-                            <div class="image-upload-area" onclick="document.getElementById('heroImageUpload').click()">
+                            <label>Hero Background Image</label>
+                            <div class="image-upload-area" onclick="document.getElementById('heroImageUploadEdit').click()">
                                 <i class="bi bi-cloud-upload"></i>
                                 <p>Click to upload background image</p>
-                                <input type="file" id="heroImageUpload" style="display: none;" accept="image/*" onchange="updateHeroImage(this)">
+                                <input type="file" id="heroImageUploadEdit" style="display: none;" accept="image/*" onchange="updateHeroImageEdit(this)">
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Overlay Opacity</label>
-                            <input type="range" class="form-control" id="heroOverlay" min="0" max="1" step="0.1" value="0.5" onchange="updateHeroOverlay(this.value)">
+                            <input type="range" class="form-control" id="heroOverlayEdit" min="0" max="1" step="0.1" value="0.5" onchange="updateHeroOverlayEdit(this.value)">
                         </div>
-                        <button class="btn btn-primary" onclick="closeModal('editElementModal')">Done</button>
+                        <div class="form-group">
+                            <label>Height</label>
+                            <input type="range" class="form-control" id="heroHeight" min="300" max="800" step="10" value="500" onchange="updateHeroHeight(this.value)">
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="closeModal('editElementModal')">Done</button>
                     `;
                     break;
                     
@@ -1259,16 +1493,81 @@
                             <label>Link Color</label>
                             <input type="color" class="color-input" id="navLinkColor" value="#4a5568" onchange="updateNavColors()">
                         </div>
+                        <div class="form-group">
+                            <label>Hover Color</label>
+                            <input type="color" class="color-input" id="navHoverColor" value="#667eea" onchange="updateNavColors()">
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="closeModal('editElementModal')">Apply Changes</button>
                     `;
+                    break;
+                    
+                case 'room-card':
+                    const roomId = elementId.split('-')[1];
+                    const room = websiteData.rooms.find(r => r.id == roomId);
+                    if (room) {
+                        editForm = `
+                            <div class="form-group">
+                                <label>Room Name</label>
+                                <input type="text" class="form-control" id="editRoomName" value="${room.name}">
+                            </div>
+                            <div class="form-group">
+                                <label>Price per Night ($)</label>
+                                <input type="number" class="form-control" id="editRoomPrice" value="${room.price}">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" id="editRoomDescription" rows="3">${room.description}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Room Image</label>
+                                <div class="image-upload-area" onclick="document.getElementById('roomImageUpload').click()">
+                                    <i class="bi bi-cloud-upload"></i>
+                                    <p>Click to upload room image</p>
+                                    <input type="file" id="roomImageUpload" style="display: none;" accept="image/*" onchange="updateRoomImage(this, ${room.id})">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Amenities (comma separated)</label>
+                                <input type="text" class="form-control" id="editRoomAmenities" value="${room.amenities.join(', ')}">
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="saveRoomChanges(${room.id})">Save Changes</button>
+                        `;
+                    }
+                    break;
+                    
+                case 'footer-column':
+                    const colIndex = elementId.split('-')[2];
+                    const column = websiteData.footerColumns[colIndex];
+                    if (column) {
+                        editForm = `
+                            <div class="form-group">
+                                <label>Column Title</label>
+                                <input type="text" class="form-control" id="editColTitle" value="${column.title}">
+                            </div>
+                            <div class="form-group">
+                                <label>Links (one per line)</label>
+                                <textarea class="form-control" id="editColLinks" rows="4">${column.links.join('\n')}</textarea>
+                            </div>
+                            <button class="btn btn-primary mt-3" onclick="saveFooterColumnChanges(${colIndex})">Save Changes</button>
+                        `;
+                    }
                     break;
                     
                 default:
                     editForm = `
                         <div class="form-group">
                             <label>Content</label>
-                            <input type="text" class="form-control" placeholder="Enter new content">
+                            <input type="text" class="form-control" id="genericContent" placeholder="Enter new content">
                         </div>
-                        <button class="btn btn-primary" onclick="closeModal('editElementModal')">Save Changes</button>
+                        <div class="form-group">
+                            <label>Style</label>
+                            <select class="form-control" id="genericStyle">
+                                <option value="normal">Normal</option>
+                                <option value="bold">Bold</option>
+                                <option value="italic">Italic</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary mt-3" onclick="saveGenericChanges('${elementId}')">Save Changes</button>
                     `;
             }
             
@@ -1289,7 +1588,7 @@
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('logo-element').innerHTML = `<img src="${e.target.result}" style="height: 40px;">`;
+                    document.getElementById('logo-element').innerHTML = `<img src="${e.target.result}" style="height: 40px;" id="logoText">`;
                     closeModal('editElementModal');
                     showToast('Logo image uploaded!', 'success');
                 }
@@ -1297,40 +1596,119 @@
             }
         }
 
-        // Save hero title changes
-        function saveHeroTitleChanges() {
-            const newTitle = document.getElementById('editHeroTitle').value;
-            const newSize = document.getElementById('editHeroTitleSize').value;
-            document.getElementById('hero-title').textContent = newTitle;
-            document.getElementById('hero-title').style.fontSize = newSize + 'px';
-            closeModal('editElementModal');
-            showToast('Hero title updated!', 'success');
+        // Update logo size
+        function updateLogoSize(size) {
+            const logo = document.getElementById('logo-element').querySelector('img');
+            if (logo) {
+                logo.style.height = size + 'px';
+            }
         }
 
-        // Save hero subtitle changes
-        function saveHeroSubtitleChanges() {
-            const newSubtitle = document.getElementById('editHeroSubtitle').value;
-            document.getElementById('hero-subtitle').textContent = newSubtitle;
+        // Save text changes
+        function saveTextChanges(elementId) {
+            const newText = document.getElementById('editText').value;
+            const newColor = document.getElementById('editColor').value;
+            const newSize = document.getElementById('editFontSize')?.value;
+            
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = newText;
+                element.style.color = newColor;
+                if (newSize) {
+                    element.style.fontSize = newSize + 'px';
+                }
+            }
+            
             closeModal('editElementModal');
-            showToast('Hero subtitle updated!', 'success');
+            showToast('Changes saved!', 'success');
         }
 
-        // Update hero image
-        function updateHeroImage(input) {
+        // Update hero image in edit modal
+        function updateHeroImageEdit(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('hero-section').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${e.target.result}')`;
+                    showToast('Hero image updated!', 'success');
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // Update hero overlay
-        function updateHeroOverlay(value) {
+        // Update hero overlay in edit modal
+        function updateHeroOverlayEdit(value) {
             const heroSection = document.getElementById('hero-section');
             const currentBg = heroSection.style.backgroundImage;
-            heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,${value}), rgba(0,0,0,${value})), url('${currentBg.split('url(')[1].split(')')[0]}')`;
+            const urlMatch = currentBg.match(/url\(['"]?(.*?)['"]?\)/);
+            if (urlMatch && urlMatch[1]) {
+                heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,${value}), rgba(0,0,0,${value})), url('${urlMatch[1]}')`;
+            }
+        }
+
+        // Update hero height
+        function updateHeroHeight(value) {
+            document.getElementById('hero-section').style.height = value + 'px';
+        }
+
+        // Save room changes
+        function saveRoomChanges(roomId) {
+            const room = websiteData.rooms.find(r => r.id == roomId);
+            if (room) {
+                room.name = document.getElementById('editRoomName').value;
+                room.price = parseFloat(document.getElementById('editRoomPrice').value);
+                room.description = document.getElementById('editRoomDescription').value;
+                room.amenities = document.getElementById('editRoomAmenities').value.split(',').map(a => a.trim());
+                
+                renderRooms();
+                closeModal('editElementModal');
+                showToast('Room updated successfully!', 'success');
+            }
+        }
+
+        // Update room image
+        function updateRoomImage(input, roomId) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const room = websiteData.rooms.find(r => r.id == roomId);
+                    if (room) {
+                        room.image = e.target.result;
+                        renderRooms();
+                        showToast('Room image updated!', 'success');
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Save footer column changes
+        function saveFooterColumnChanges(index) {
+            const title = document.getElementById('editColTitle').value;
+            const linksText = document.getElementById('editColLinks').value;
+            const links = linksText.split('\n').filter(l => l.trim());
+            
+            websiteData.footerColumns[index].title = title;
+            websiteData.footerColumns[index].links = links;
+            
+            renderFooter();
+            closeModal('editElementModal');
+            showToast('Footer column updated!', 'success');
+        }
+
+        // Save generic changes
+        function saveGenericChanges(elementId) {
+            const content = document.getElementById('genericContent').value;
+            const style = document.getElementById('genericStyle').value;
+            
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = content;
+                element.style.fontWeight = style === 'bold' ? 'bold' : 'normal';
+                element.style.fontStyle = style === 'italic' ? 'italic' : 'normal';
+            }
+            
+            closeModal('editElementModal');
+            showToast('Changes saved!', 'success');
         }
 
         // Tab switching
@@ -1344,31 +1722,6 @@
                 document.getElementById(tabName + '-tab').style.display = 'block';
             });
         });
-
-        // Template selection
-        function selectTemplate(template) {
-            currentTemplate = template;
-            document.querySelectorAll('.template-card').forEach(card => {
-                card.style.borderColor = '#e2e8f0';
-            });
-            event.currentTarget.style.borderColor = '#667eea';
-            
-            // Apply template colors
-            const templates = {
-                modern: { primary: '#667eea', secondary: '#764ba2', font: 'Inter' },
-                beach: { primary: '#f093fb', secondary: '#f5576c', font: 'Georgia' },
-                business: { primary: '#4facfe', secondary: '#00f2fe', font: 'Arial' },
-                boutique: { primary: '#fa709a', secondary: '#fee140', font: 'Helvetica' }
-            };
-            
-            const tmpl = templates[template];
-            document.getElementById('primaryColor').value = tmpl.primary;
-            document.getElementById('secondaryColor').value = tmpl.secondary;
-            document.getElementById('fontFamily').value = tmpl.font;
-            
-            updateDesign();
-            showToast(`Template "${template}" applied!`, 'success');
-        }
 
         // Device change
         function changeDevice(device) {
@@ -1406,7 +1759,7 @@
                     const item = document.createElement('div');
                     item.className = 'element-item';
                     item.innerHTML = `
-                        <span>${link.text}</span>
+                        <span>${link.text} ${link.isButton ? '(Button)' : ''}</span>
                         <div class="element-actions">
                             <button onclick="editNavLink(${index})"><i class="bi bi-pencil"></i></button>
                             <button onclick="deleteNavLink(${index})"><i class="bi bi-trash"></i></button>
@@ -1427,7 +1780,7 @@
                 const newLink = {
                     id: websiteData.navLinks.length + 1,
                     text: text,
-                    url: '#' + text.toLowerCase(),
+                    url: '#' + text.toLowerCase().replace(/\s+/g, '-'),
                     active: true,
                     isButton: isButton
                 };
@@ -1439,9 +1792,11 @@
 
         // Edit navigation link
         function editNavLink(index) {
-            const newText = prompt('Edit link text:', websiteData.navLinks[index].text);
+            const link = websiteData.navLinks[index];
+            const newText = prompt('Edit link text:', link.text);
             if (newText) {
-                websiteData.navLinks[index].text = newText;
+                link.text = newText;
+                link.url = '#' + newText.toLowerCase().replace(/\s+/g, '-');
                 renderNavLinks();
                 showToast('Link updated!', 'success');
             }
@@ -1523,7 +1878,7 @@
                     
                     card.innerHTML = `
                         <div class="card-image">
-                            ${room.image ? `<img src="${room.image}" style="width: 100%; height: 100%; object-fit: cover;">` : '<i class="bi bi-image" style="font-size: 3rem;"></i>'}
+                            <img src="${room.image}" style="width: 100%; height: 100%; object-fit: cover;" alt="${room.name}">
                         </div>
                         <div class="card-content">
                             <h3>${room.name}</h3>
@@ -1563,14 +1918,15 @@
             const price = prompt('Enter price per night:');
             
             if (name && price) {
-                websiteData.rooms.push({
+                const newRoom = {
                     id: websiteData.rooms.length + 1,
                     name: name,
                     price: parseFloat(price),
                     description: 'New room added',
-                    image: null,
+                    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
                     amenities: ['WiFi', 'TV']
-                });
+                };
+                websiteData.rooms.push(newRoom);
                 renderRooms();
                 showToast('Room added!', 'success');
             }
@@ -1579,16 +1935,7 @@
         // Edit room
         function editRoom(index) {
             const room = websiteData.rooms[index];
-            const newName = prompt('Edit room name:', room.name);
-            if (newName) {
-                const newPrice = prompt('Edit price:', room.price);
-                if (newPrice) {
-                    room.name = newName;
-                    room.price = parseFloat(newPrice);
-                    renderRooms();
-                    showToast('Room updated!', 'success');
-                }
-            }
+            selectElement(`room-${room.id}`, 'room-card');
         }
 
         // Delete room
@@ -1656,6 +2003,10 @@
                     a.innerHTML = `<i class="bi bi-${link.platform}"></i>`;
                     a.setAttribute('data-element-type', 'social-link');
                     a.id = `social-${index}`;
+                    a.onclick = (e) => {
+                        e.preventDefault();
+                        selectElement(`social-${index}`, 'social-link');
+                    };
                     socialContainer.appendChild(a);
                 });
             }
@@ -1693,9 +2044,23 @@
             }
         }
 
+        // Edit footer column
+        function editFooterColumn(index) {
+            selectElement(`footer-col-${index}`, 'footer-column');
+        }
+
+        // Delete footer column
+        function deleteFooterColumn(index) {
+            if (confirm('Delete this footer column?')) {
+                websiteData.footerColumns.splice(index, 1);
+                renderFooter();
+                showToast('Footer column deleted!', 'success');
+            }
+        }
+
         // Add social link
         function addSocialLink() {
-            const platform = prompt('Enter social platform (facebook/twitter/instagram):');
+            const platform = prompt('Enter social platform (facebook/twitter/instagram/youtube):');
             if (platform) {
                 websiteData.socialLinks.push({
                     platform: platform,
@@ -1725,87 +2090,37 @@
             }
         }
 
-        // Render sections list
-        function renderSectionsList() {
-            const sectionsList = document.getElementById('sectionsList');
-            if (sectionsList) {
-                const sections = [
-                    { name: 'Hero Section', visible: true },
-                    { name: 'Rooms Section', visible: true },
-                    { name: 'Contact Section', visible: true }
-                ];
-                
-                sectionsList.innerHTML = '';
-                sections.forEach((section, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'element-item';
-                    item.innerHTML = `
-                        <span>${section.name}</span>
-                        <div class="element-actions">
-                            <button onclick="toggleSectionVisibility(${index})"><i class="bi bi-eye${section.visible ? '' : '-slash'}"></i></button>
-                            <button onclick="moveSection(${index}, 'up')"><i class="bi bi-arrow-up"></i></button>
-                            <button onclick="moveSection(${index}, 'down')"><i class="bi bi-arrow-down"></i></button>
-                        </div>
-                    `;
-                    sectionsList.appendChild(item);
-                });
-            }
-        }
-
-        // Toggle section visibility
-        function toggleSectionVisibility(index) {
-            const sections = ['hero-section', 'rooms-section', 'contact-section'];
-            const section = document.getElementById(sections[index]);
-            if (section) {
-                section.style.display = section.style.display === 'none' ? 'block' : 'none';
-                showToast('Section visibility toggled!', 'info');
-            }
-        }
-
-        // Move section
-        function moveSection(index, direction) {
-            showToast('Section moved!', 'success');
-        }
-
-        // Add new section
-        function addNewSection() {
-            const type = document.getElementById('newSectionType').value;
-            const title = document.getElementById('newSectionTitle').value;
+        // Update hero content from inputs
+        function updateHeroContent() {
+            const title = document.getElementById('heroTitleInput').value;
+            const subtitle = document.getElementById('heroSubtitleInput').value;
+            const buttonText = document.getElementById('heroButtonInput').value;
             
-            if (type && title) {
-                // Create new section
-                const newSection = document.createElement('section');
-                newSection.className = 'editable-element';
-                newSection.id = type + '-section';
-                newSection.setAttribute('data-element-type', type + '-section');
-                
-                newSection.innerHTML = `
-                    <h2 style="text-align: center; padding: 40px 20px 20px;">${title}</h2>
-                    <div class="cards-grid" id="${type}-grid"></div>
-                `;
-                
-                // Insert before footer
-                const footer = document.getElementById('footer-section');
-                document.getElementById('hotelPreview').insertBefore(newSection, footer);
-                
-                closeModal('addSectionModal');
-                makeElementsEditable();
-                renderSectionsList();
-                showToast('New section added!', 'success');
+            document.getElementById('hero-title').textContent = title;
+            document.getElementById('hero-subtitle').textContent = subtitle;
+            document.getElementById('hero-button').textContent = buttonText;
+        }
+
+        // Update hero image
+        function updateHeroImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('hero-section').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${e.target.result}')`;
+                    showToast('Hero image updated!', 'success');
+                }
+                reader.readAsDataURL(input.files[0]);
             }
         }
 
-        // Toggle contact form
-        function toggleContactForm() {
-            const contactForm = document.getElementById('contact-section');
-            const showContact = document.getElementById('showContactForm').checked;
-            contactForm.style.display = showContact ? 'block' : 'none';
-        }
-
-        // Update copyright
-        function updateCopyright() {
-            const text = document.getElementById('copyrightText').value;
-            document.getElementById('footer-copyright').textContent = text;
+        // Update hero overlay
+        function updateHeroOverlay(value) {
+            const heroSection = document.getElementById('hero-section');
+            const currentBg = heroSection.style.backgroundImage;
+            const urlMatch = currentBg.match(/url\(['"]?(.*?)['"]?\)/);
+            if (urlMatch && urlMatch[1]) {
+                heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,${value}), rgba(0,0,0,${value})), url('${urlMatch[1]}')`;
+            }
         }
 
         // Update logo
@@ -1826,18 +2141,10 @@
             }
         }
 
-        // Toggle sticky header
-        function toggleStickyHeader() {
-            const header = document.getElementById('header-section');
-            const isSticky = document.getElementById('stickyHeader').checked;
-            
-            if (isSticky) {
-                header.style.position = 'sticky';
-                header.style.top = '0';
-                header.style.zIndex = '1000';
-            } else {
-                header.style.position = 'relative';
-            }
+        // Update copyright
+        function updateCopyright() {
+            const text = document.getElementById('copyrightText').value;
+            document.getElementById('footer-copyright').textContent = text;
         }
 
         // Update design
@@ -1853,8 +2160,6 @@
             const preview = document.getElementById('hotelPreview');
             preview.style.fontFamily = fontFamily;
             preview.style.backgroundColor = bgColor;
-            
-            // Update text color
             preview.style.color = textColor;
             
             // Update buttons
@@ -1869,14 +2174,37 @@
             });
         }
 
+        // Update nav style
+        function updateNavStyle(style) {
+            const header = document.getElementById('header-section');
+            if (style === 'dark') {
+                header.style.background = '#2d3748';
+                header.style.color = 'white';
+            } else if (style === 'light') {
+                header.style.background = 'white';
+                header.style.color = '#333';
+            } else if (style === 'transparent') {
+                header.style.background = 'transparent';
+                header.style.color = 'white';
+                header.style.boxShadow = 'none';
+            }
+        }
+
+        // Update nav colors
+        function updateNavColors() {
+            const linkColor = document.getElementById('navLinkColor').value;
+            const hoverColor = document.getElementById('navHoverColor').value;
+            
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.style.color = linkColor;
+                el.addEventListener('mouseenter', () => el.style.color = hoverColor);
+                el.addEventListener('mouseleave', () => el.style.color = linkColor);
+            });
+        }
+
         // Show add page modal
         function showAddPageModal() {
             document.getElementById('addPageModal').classList.add('active');
-        }
-
-        // Show add section modal
-        function showAddSectionModal() {
-            document.getElementById('addSectionModal').classList.add('active');
         }
 
         // Close modal
@@ -1909,82 +2237,6 @@
         function publishWebsite() {
             showToast('Website published! Your site is live!', 'success');
         }
-
-        // Setup drag and drop
-        function setupDragAndDrop() {
-            const draggables = document.querySelectorAll('.element-item');
-            const containers = document.querySelectorAll('.elements-list');
-            
-            draggables.forEach(draggable => {
-                draggable.addEventListener('dragstart', () => {
-                    draggable.classList.add('dragging');
-                });
-                
-                draggable.addEventListener('dragend', () => {
-                    draggable.classList.remove('dragging');
-                });
-            });
-            
-            containers.forEach(container => {
-                container.addEventListener('dragover', e => {
-                    e.preventDefault();
-                    const afterElement = getDragAfterElement(container, e.clientY);
-                    const draggable = document.querySelector('.dragging');
-                    if (afterElement == null) {
-                        container.appendChild(draggable);
-                    } else {
-                        container.insertBefore(draggable, afterElement);
-                    }
-                });
-            });
-        }
-
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll('.element-item:not(.dragging)')];
-            
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        }
-
-        // Update nav style
-        function updateNavStyle(style) {
-            const header = document.getElementById('header-section');
-            if (style === 'dark') {
-                header.style.background = '#2d3748';
-                header.style.color = 'white';
-            } else if (style === 'light') {
-                header.style.background = 'white';
-                header.style.color = '#333';
-            } else if (style === 'transparent') {
-                header.style.background = 'transparent';
-                header.style.color = 'white';
-                header.style.boxShadow = 'none';
-            }
-        }
-
-        // Update nav colors
-        function updateNavColors() {
-            const color = document.getElementById('navLinkColor').value;
-            document.querySelectorAll('.nav-item').forEach(el => {
-                el.style.color = color;
-            });
-        }
-
-        // Initialize everything
-        makeElementsEditable();
-        renderNavLinks();
-        renderPages();
-        renderRooms();
-        renderFooter();
-        renderSectionsList();
-        setupDragAndDrop();
     </script>
 </body>
 </html>
