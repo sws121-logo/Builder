@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Website Builder - Editor with Live Preview</title>
+    <title>Interactive Hotel Website Builder - Click to Edit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -62,11 +62,12 @@
             background: #f8fafc;
             border-bottom: 1px solid #e2e8f0;
             padding: 0 10px;
+            overflow-x: auto;
         }
 
         .editor-tab {
-            padding: 15px 20px;
-            font-size: 0.95rem;
+            padding: 15px 15px;
+            font-size: 0.9rem;
             font-weight: 500;
             color: #64748b;
             cursor: pointer;
@@ -74,11 +75,12 @@
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
+            white-space: nowrap;
         }
 
         .editor-tab i {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .editor-tab:hover {
@@ -97,70 +99,33 @@
             background: #ffffff;
         }
 
-        /* Template Selection */
-        .template-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        /* Selected Element Info */
+        .selected-element-info {
+            background: #f0f9ff;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .template-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        .template-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .template-card.selected {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-        }
-
-        .template-preview {
-            height: 100px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .template-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #ffd700;
-            color: #333;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .template-info {
-            padding: 10px;
-        }
-
-        .template-info h4 {
-            font-size: 0.95rem;
-            margin: 0 0 3px;
-        }
-
-        .template-info p {
+        .element-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
             font-size: 0.8rem;
-            color: #666;
-            margin: 0;
+            font-weight: 600;
         }
 
         /* Form Sections */
         .form-section {
             margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
         }
 
         .section-title {
@@ -170,6 +135,14 @@
             margin-bottom: 15px;
             padding-bottom: 8px;
             border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title i {
+            color: #667eea;
+            cursor: pointer;
         }
 
         .form-group {
@@ -200,24 +173,11 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
-        }
-
         /* Color Picker Group */
         .color-group {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-        }
-
-        .color-item {
-            flex: 1;
-        }
-
-        .color-item label {
-            font-size: 0.85rem;
-            margin-bottom: 5px;
         }
 
         .color-input {
@@ -227,15 +187,6 @@
             border: 2px solid #e2e8f0;
             border-radius: 6px;
             cursor: pointer;
-        }
-
-        /* Font Selector */
-        .font-selector {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 0.95rem;
         }
 
         /* Image Upload */
@@ -253,42 +204,37 @@
             background: #f8fafc;
         }
 
-        .image-upload i {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
         .image-preview {
             width: 100%;
-            height: 80px;
+            height: 100px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-top: 10px;
         }
 
-        /* Room Item */
-        .room-item {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 2px solid #e2e8f0;
+        /* Page Elements Management */
+        .elements-list {
+            max-height: 300px;
+            overflow-y: auto;
         }
 
-        .room-header {
+        .element-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            cursor: move;
         }
 
-        .room-header h5 {
-            margin: 0;
-            font-weight: 600;
+        .element-item.dragging {
+            opacity: 0.5;
         }
 
-        .room-actions button {
+        .element-item .element-actions button {
             background: none;
             border: none;
             color: #64748b;
@@ -296,11 +242,11 @@
             padding: 5px;
         }
 
-        .room-actions button:hover {
+        .element-item .element-actions button:hover {
             color: #dc3545;
         }
 
-        .add-room-btn {
+        .add-element-btn {
             width: 100%;
             padding: 12px;
             background: #f8fafc;
@@ -310,64 +256,12 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin-top: 10px;
         }
 
-        .add-room-btn:hover {
+        .add-element-btn:hover {
             background: #667eea;
             color: white;
-        }
-
-        /* Toggle Switch */
-        .toggle-switch {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 20px;
-            width: 20px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #667eea;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
         }
 
         /* Right Preview Panel */
@@ -412,10 +306,6 @@
             color: white;
         }
 
-        .device-btn:hover {
-            border-color: #667eea;
-        }
-
         .preview-actions {
             display: flex;
             gap: 10px;
@@ -438,19 +328,9 @@
             color: white;
         }
 
-        .save-btn:hover {
-            background: #5a67d8;
-            transform: translateY(-2px);
-        }
-
         .publish-btn {
             background: #48bb78;
             color: white;
-        }
-
-        .publish-btn:hover {
-            background: #38a169;
-            transform: translateY(-2px);
         }
 
         .preview-container {
@@ -484,8 +364,43 @@
         /* Hotel Preview Styles */
         .hotel-preview {
             font-family: 'Inter', sans-serif;
+            min-height: 100%;
+            position: relative;
         }
 
+        /* Click to edit indicator */
+        .editable-element {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .editable-element:hover {
+            outline: 2px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        .editable-element.selected {
+            outline: 3px solid #667eea;
+            outline-offset: 3px;
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .editable-element.selected::after {
+            content: '✎ Click to edit';
+            position: absolute;
+            top: -25px;
+            left: 0;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        /* Navigation */
         .hotel-nav {
             background: white;
             padding: 15px 30px;
@@ -495,41 +410,32 @@
             align-items: center;
         }
 
-        .hotel-logo {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
-        .nav-links a {
+        .nav-link-item {
             text-decoration: none;
             color: #4a5568;
             font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
 
         .book-btn {
-            background: var(--primary-color, #667eea);
+            background: #667eea;
             color: white !important;
             padding: 8px 20px;
             border-radius: 8px;
         }
 
+        /* Hero Section */
         .hotel-hero {
             height: 400px;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--hero-image, url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'));
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -539,111 +445,106 @@
             text-align: center;
         }
 
-        .hero-content h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .hero-content p {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            opacity: 0.9;
-        }
-
-        .hero-btn {
-            background: var(--primary-color, #667eea);
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .hero-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .rooms-section {
-            padding: 50px 30px;
-        }
-
-        .rooms-grid {
+        /* Cards Grid */
+        .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .preview-room-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        .preview-room-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .preview-room-image {
-            height: 180px;
-            background: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #94a3b8;
-        }
-
-        .preview-room-info {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             padding: 20px;
         }
 
-        .preview-room-price {
-            font-size: 1.2rem;
-            color: var(--primary-color, #667eea);
-            font-weight: 700;
-            margin-top: 10px;
+        .card-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .footer-section {
+        .card-image {
+            height: 150px;
+            background: #e2e8f0;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .form-row {
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        .hotel-footer {
             background: #2d3748;
             color: white;
+            padding: 40px 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 8px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        /* Add Page Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
             padding: 30px;
-            text-align: center;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
         }
 
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e0;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a0aec0;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .builder-container {
-                flex-direction: column;
-            }
-            
-            .editor-panel {
-                width: 100%;
-                height: 50vh;
-            }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -653,182 +554,222 @@
         <div class="editor-panel">
             <div class="editor-header">
                 <h2><i class="bi bi-magic"></i> Hotel Website Builder</h2>
-                <p>Customize your hotel website in real-time</p>
+                <p>Click any element in preview to edit</p>
+            </div>
+
+            <!-- Selected Element Info -->
+            <div class="selected-element-info" id="selectedElementInfo">
+                <span><i class="bi bi-mouse"></i> Click on preview to edit</span>
+                <span class="element-badge" id="selectedElementType">None</span>
             </div>
 
             <div class="editor-tabs">
                 <div class="editor-tab active" onclick="switchTab('templates')">
                     <i class="bi bi-grid"></i> Templates
                 </div>
-                <div class="editor-tab" onclick="switchTab('content')">
-                    <i class="bi bi-info-circle"></i> Content
+                <div class="editor-tab" onclick="switchTab('pages')">
+                    <i class="bi bi-file-text"></i> Pages
+                </div>
+                <div class="editor-tab" onclick="switchTab('header')">
+                    <i class="bi bi-layout-header"></i> Header
+                </div>
+                <div class="editor-tab" onclick="switchTab('body')">
+                    <i class="bi bi-grid-3x3-gap-fill"></i> Body
+                </div>
+                <div class="editor-tab" onclick="switchTab('footer')">
+                    <i class="bi bi-layout-footer"></i> Footer
                 </div>
                 <div class="editor-tab" onclick="switchTab('design')">
                     <i class="bi bi-palette"></i> Design
                 </div>
-                <div class="editor-tab" onclick="switchTab('rooms')">
-                    <i class="bi bi-door-open"></i> Rooms
-                </div>
             </div>
 
             <div class="editor-content" id="editorContent">
-                <!-- Templates Tab Content -->
+                <!-- Templates Tab -->
                 <div id="templates-tab" class="tab-content">
                     <div class="form-section">
                         <h3 class="section-title">Choose Template</h3>
-                        <div class="template-grid">
+                        <div class="template-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
                             <!-- Template 1 -->
-                            <div class="template-card selected" onclick="selectTemplate('modern')">
-                                <div class="template-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                            <div class="template-card selected" onclick="selectTemplate('modern')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
                                     <div style="color: white; padding: 15px; text-align: center;">
                                         <i class="bi bi-building" style="font-size: 2rem;"></i>
                                     </div>
                                 </div>
-                                <div class="template-info">
-                                    <h4>Modern Luxury</h4>
-                                    <p>Elegant & Contemporary</p>
+                                <div class="template-info" style="padding: 10px;">
+                                    <h4 style="margin: 0;">Modern Luxury</h4>
                                 </div>
                             </div>
-
                             <!-- Template 2 -->
-                            <div class="template-card" onclick="selectTemplate('beach')">
-                                <div class="template-preview" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+                            <div class="template-card" onclick="selectTemplate('beach')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
                                     <div style="color: white; padding: 15px; text-align: center;">
                                         <i class="bi bi-umbrella" style="font-size: 2rem;"></i>
                                     </div>
                                 </div>
-                                <div class="template-info">
-                                    <h4>Beach Resort</h4>
-                                    <p>Tropical & Relaxing</p>
+                                <div class="template-info" style="padding: 10px;">
+                                    <h4 style="margin: 0;">Beach Resort</h4>
                                 </div>
                             </div>
-
                             <!-- Template 3 -->
-                            <div class="template-card" onclick="selectTemplate('business')">
-                                <div class="template-preview" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
-                                    <span class="template-badge">PREMIUM</span>
+                            <div class="template-card" onclick="selectTemplate('business')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
                                     <div style="color: white; padding: 15px; text-align: center;">
                                         <i class="bi bi-briefcase" style="font-size: 2rem;"></i>
                                     </div>
                                 </div>
-                                <div class="template-info">
-                                    <h4>Business Hotel</h4>
-                                    <p>Professional & Modern</p>
+                                <div class="template-info" style="padding: 10px;">
+                                    <h4 style="margin: 0;">Business Hotel</h4>
                                 </div>
                             </div>
-
                             <!-- Template 4 -->
-                            <div class="template-card" onclick="selectTemplate('boutique')">
-                                <div class="template-preview" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
+                            <div class="template-card" onclick="selectTemplate('boutique')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
                                     <div style="color: white; padding: 15px; text-align: center;">
                                         <i class="bi bi-tree" style="font-size: 2rem;"></i>
                                     </div>
                                 </div>
-                                <div class="template-info">
-                                    <h4>Boutique Hotel</h4>
-                                    <p>Charming & Unique</p>
+                                <div class="template-info" style="padding: 10px;">
+                                    <h4 style="margin: 0;">Boutique Hotel</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Pages Tab -->
+                <div id="pages-tab" class="tab-content" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            Pages
+                            <i class="bi bi-plus-circle" onclick="showAddPageModal()"></i>
+                        </h3>
+                        <div class="elements-list" id="pagesList">
+                            <!-- Pages will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header Tab -->
+                <div id="header-tab" class="tab-content" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            Navigation Links
+                            <i class="bi bi-plus-circle" onclick="addNavLink()"></i>
+                        </h3>
+                        <div class="elements-list" id="navLinksList">
+                            <!-- Nav links will be dynamically added here -->
+                        </div>
+                    </div>
 
                     <div class="form-section">
-                        <h3 class="section-title">Quick Setup</h3>
+                        <h3 class="section-title">Logo Settings</h3>
                         <div class="form-group">
-                            <label>Website Name</label>
-                            <input type="text" class="form-control" id="websiteName" value="Grand Hotel & Spa" oninput="updatePreview()">
+                            <label>Logo Text</label>
+                            <input type="text" class="form-control" id="logoText" value="Grand Hotel" oninput="updateElement('logo')">
                         </div>
-                        <div class="form-group">
-                            <label>Hotel Name</label>
-                            <input type="text" class="form-control" id="hotelName" value="Grand Hotel & Spa" oninput="updatePreview()">
+                        <div class="image-upload" onclick="document.getElementById('logoUpload').click()">
+                            <i class="bi bi-cloud-upload"></i>
+                            <p>Upload Logo Image</p>
+                            <input type="file" id="logoUpload" style="display: none;" accept="image/*" onchange="uploadLogo(this)">
                         </div>
-                        <button class="add-room-btn" onclick="switchTab('content')">
-                            <i class="bi bi-arrow-right"></i> Continue Customization
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Search Bar</h3>
+                        <div class="toggle-switch" style="display: flex; align-items: center; gap: 10px;">
+                            <label class="switch">
+                                <input type="checkbox" id="showSearch" onchange="toggleSearch()">
+                                <span class="slider"></span>
+                            </label>
+                            <span>Show Search Bar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body Tab -->
+                <div id="body-tab" class="tab-content" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            Sections
+                            <i class="bi bi-plus-circle" onclick="showAddSectionModal()"></i>
+                        </h3>
+                        <div class="elements-list" id="sectionsList">
+                            <!-- Sections will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            Cards
+                            <i class="bi bi-plus-circle" onclick="addCard()"></i>
+                        </h3>
+                        <div class="elements-list" id="cardsList">
+                            <!-- Cards will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Contact Form</h3>
+                        <div class="toggle-switch" style="display: flex; align-items: center; gap: 10px;">
+                            <label class="switch">
+                                <input type="checkbox" id="showContactForm" onchange="toggleContactForm()">
+                                <span class="slider"></span>
+                            </label>
+                            <span>Show Contact Form</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Tab -->
+                <div id="footer-tab" class="tab-content" style="display: none;">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            Footer Columns
+                            <i class="bi bi-plus-circle" onclick="addFooterColumn()"></i>
+                        </h3>
+                        <div class="elements-list" id="footerColumnsList">
+                            <!-- Footer columns will be dynamically added here -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Copyright Text</label>
+                        <input type="text" class="form-control" id="copyrightText" value="© 2024 Grand Hotel. All rights reserved." oninput="updateCopyright()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Social Media Links</label>
+                        <div class="social-links" id="socialLinks">
+                            <!-- Social links will be dynamically added here -->
+                        </div>
+                        <button class="add-element-btn" onclick="addSocialLink()">
+                            <i class="bi bi-plus"></i> Add Social Link
                         </button>
                     </div>
                 </div>
 
-                <!-- Content Tab Content -->
-                <div id="content-tab" class="tab-content" style="display: none;">
-                    <div class="form-section">
-                        <h3 class="section-title">Basic Information</h3>
-                        <div class="form-group">
-                            <label>Hotel Name</label>
-                            <input type="text" class="form-control" id="hotelNameContent" value="Grand Hotel & Spa" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Tagline</label>
-                            <input type="text" class="form-control" id="hotelTagline" value="Experience Luxury & Comfort" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea class="form-control" id="hotelDescription" oninput="updatePreview()">Experience luxury and comfort in the heart of the city. Our hotel offers world-class amenities and exceptional service for an unforgettable stay.</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Address</label>
-                            <textarea class="form-control" id="hotelAddress" oninput="updatePreview()">123 Luxury Avenue, New York, NY 10001</textarea>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" class="form-control" id="hotelPhone" value="+1 (212) 555-0123" oninput="updatePreview()">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="email" class="form-control" id="hotelEmail" value="info@grandhotel.com" oninput="updatePreview()">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h3 class="section-title">Images</h3>
-                        <div class="form-group">
-                            <label>Logo</label>
-                            <div class="image-upload" onclick="document.getElementById('logoUpload').click()">
-                                <i class="bi bi-cloud-upload"></i>
-                                <p>Click to upload logo</p>
-                                <input type="file" id="logoUpload" style="display: none;" accept="image/*" onchange="handleImageUpload(this, 'logo')">
-                            </div>
-                            <img id="logoPreview" class="image-preview" style="display: none;">
-                        </div>
-                        <div class="form-group">
-                            <label>Hero Image</label>
-                            <div class="image-upload" onclick="document.getElementById('heroUpload').click()">
-                                <i class="bi bi-cloud-upload"></i>
-                                <p>Click to upload hero image</p>
-                                <input type="file" id="heroUpload" style="display: none;" accept="image/*" onchange="handleImageUpload(this, 'hero')">
-                            </div>
-                            <img id="heroPreview" class="image-preview" style="display: none;">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Design Tab Content -->
+                <!-- Design Tab -->
                 <div id="design-tab" class="tab-content" style="display: none;">
                     <div class="form-section">
                         <h3 class="section-title">Colors</h3>
                         <div class="color-group">
-                            <div class="color-item">
-                                <label>Primary Color</label>
-                                <input type="color" class="color-input" id="primaryColor" value="#667eea" onchange="updatePreview()">
+                            <div>
+                                <label>Primary</label>
+                                <input type="color" class="color-input" id="primaryColor" value="#667eea" onchange="updateDesign()">
                             </div>
-                            <div class="color-item">
-                                <label>Secondary Color</label>
-                                <input type="color" class="color-input" id="secondaryColor" value="#764ba2" onchange="updatePreview()">
+                            <div>
+                                <label>Secondary</label>
+                                <input type="color" class="color-input" id="secondaryColor" value="#764ba2" onchange="updateDesign()">
                             </div>
-                        </div>
-                        <div class="color-group">
-                            <div class="color-item">
-                                <label>Text Color</label>
-                                <input type="color" class="color-input" id="textColor" value="#333333" onchange="updatePreview()">
+                            <div>
+                                <label>Background</label>
+                                <input type="color" class="color-input" id="bgColor" value="#ffffff" onchange="updateDesign()">
                             </div>
-                            <div class="color-item">
-                                <label>Background Color</label>
-                                <input type="color" class="color-input" id="bgColor" value="#ffffff" onchange="updatePreview()">
+                            <div>
+                                <label>Text</label>
+                                <input type="color" class="color-input" id="textColor" value="#333333" onchange="updateDesign()">
                             </div>
                         </div>
                     </div>
@@ -837,89 +778,12 @@
                         <h3 class="section-title">Typography</h3>
                         <div class="form-group">
                             <label>Font Family</label>
-                            <select class="font-selector" id="fontFamily" onchange="updatePreview()">
+                            <select class="form-control" id="fontFamily" onchange="updateDesign()">
                                 <option value="Inter">Inter</option>
                                 <option value="Arial">Arial</option>
                                 <option value="Helvetica">Helvetica</option>
                                 <option value="Georgia">Georgia</option>
-                                <option value="Times New Roman">Times New Roman</option>
-                                <option value="Verdana">Verdana</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Heading Font Size</label>
-                            <input type="range" class="form-control" id="headingSize" min="16" max="48" value="32" oninput="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Body Font Size</label>
-                            <input type="range" class="form-control" id="bodySize" min="12" max="24" value="16" oninput="updatePreview()">
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h3 class="section-title">Layout</h3>
-                        <div class="toggle-switch">
-                            <span>Sticky Navigation</span>
-                            <label class="switch">
-                                <input type="checkbox" id="stickyNav" onchange="updatePreview()">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="toggle-switch">
-                            <span>Show Room Prices</span>
-                            <label class="switch">
-                                <input type="checkbox" id="showPrices" checked onchange="updatePreview()">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label>Layout Style</label>
-                            <select class="font-selector" id="layoutStyle" onchange="updatePreview()">
-                                <option value="wide">Wide</option>
-                                <option value="boxed">Boxed</option>
-                                <option value="full">Full Width</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h3 class="section-title">Animations</h3>
-                        <div class="form-group">
-                            <label>Hover Effects</label>
-                            <select class="font-selector" id="hoverEffect" onchange="updatePreview()">
-                                <option value="none">None</option>
-                                <option value="scale">Scale</option>
-                                <option value="shadow">Shadow</option>
-                                <option value="both">Scale + Shadow</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rooms Tab Content -->
-                <div id="rooms-tab" class="tab-content" style="display: none;">
-                    <div class="form-section">
-                        <h3 class="section-title">Manage Rooms</h3>
-                        
-                        <!-- Room List -->
-                        <div id="roomsList">
-                            <!-- Room items will be dynamically added here -->
-                        </div>
-
-                        <button class="add-room-btn" onclick="addNewRoom()">
-                            <i class="bi bi-plus-circle"></i> Add New Room
-                        </button>
-                    </div>
-
-                    <div class="form-section">
-                        <h3 class="section-title">Room Settings</h3>
-                        <div class="form-group">
-                            <label>Default Check-in Time</label>
-                            <input type="time" class="form-control" id="checkInTime" value="14:00" onchange="updatePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Default Check-out Time</label>
-                            <input type="time" class="form-control" id="checkOutTime" value="11:00" onchange="updatePreview()">
                         </div>
                     </div>
                 </div>
@@ -952,117 +816,327 @@
 
             <div class="preview-container">
                 <div class="preview-frame desktop" id="previewFrame">
-                    <!-- Live Preview Content -->
+                    <!-- Live Preview with Click-to-Edit -->
                     <div class="hotel-preview" id="hotelPreview">
-                        <nav class="hotel-nav" id="hotelNav">
-                            <div class="hotel-logo" id="previewLogo">Grand Hotel & Spa</div>
-                            <div class="nav-links">
-                                <a href="#">Home</a>
-                                <a href="#">Rooms</a>
-                                <a href="#">Gallery</a>
-                                <a href="#">Contact</a>
-                                <a href="#" class="book-btn" id="previewBookBtn">Book Now</a>
+                        <!-- Header -->
+                        <header class="hotel-nav editable-element" id="header-section" onclick="selectElement('header')">
+                            <div class="hotel-logo" id="previewLogo" onclick="event.stopPropagation(); selectElement('logo')">Grand Hotel</div>
+                            
+                            <!-- Navigation Links -->
+                            <div class="nav-links" id="navLinks">
+                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-home')">Home</a>
+                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-rooms')">Rooms</a>
+                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-halls')">Halls</a>
+                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-contact')">Contact</a>
+                                <a href="#" class="nav-link-item book-btn editable-element" onclick="event.stopPropagation(); selectElement('nav-book')">Book Now</a>
                             </div>
-                        </nav>
 
-                        <div class="hotel-hero" id="heroSection">
+                            <!-- Search Bar (Hidden by default) -->
+                            <div class="search-bar" id="searchBar" style="display: none;">
+                                <input type="text" class="search-input" placeholder="Search...">
+                                <button class="btn btn-primary"><i class="bi bi-search"></i></button>
+                            </div>
+                        </header>
+
+                        <!-- Hero Section -->
+                        <section class="hotel-hero editable-element" id="hero-section" onclick="selectElement('hero')">
                             <div class="hero-content">
-                                <h1 id="previewTitle">Welcome to Grand Hotel & Spa</h1>
-                                <p id="previewTagline">Experience Luxury & Comfort</p>
-                                <button class="hero-btn" id="previewHeroBtn">Check Availability</button>
+                                <h1 id="heroTitle" onclick="event.stopPropagation(); selectElement('hero-title')">Welcome to Grand Hotel</h1>
+                                <p id="heroSubtitle" onclick="event.stopPropagation(); selectElement('hero-subtitle')">Experience Luxury & Comfort</p>
+                                <button class="btn btn-primary btn-lg" onclick="event.stopPropagation(); selectElement('hero-button')">Explore Rooms</button>
                             </div>
-                        </div>
+                        </section>
 
-                        <div class="rooms-section">
-                            <h2 style="text-align: center; margin-bottom: 20px;">Our Rooms</h2>
-                            <div class="rooms-grid" id="roomsGrid">
+                        <!-- Rooms Section -->
+                        <section class="rooms-section editable-element" id="rooms-section" onclick="selectElement('rooms')">
+                            <h2 style="text-align: center; margin: 40px 0 20px;">Our Rooms</h2>
+                            <div class="cards-grid" id="roomsGrid">
                                 <!-- Rooms will be dynamically added here -->
                             </div>
-                        </div>
+                        </section>
 
-                        <div class="footer-section">
-                            <p id="previewCopyright">&copy; 2024 Grand Hotel & Spa. All rights reserved.</p>
-                            <p id="previewAddress">123 Luxury Avenue, New York, NY 10001</p>
-                            <p id="previewContact">+1 (212) 555-0123 | info@grandhotel.com</p>
-                        </div>
+                        <!-- Halls Section -->
+                        <section class="halls-section editable-element" id="halls-section" onclick="selectElement('halls')" style="display: none;">
+                            <h2 style="text-align: center; margin: 40px 0 20px;">Event Halls</h2>
+                            <div class="cards-grid" id="hallsGrid"></div>
+                        </section>
+
+                        <!-- Contact Form Section -->
+                        <section class="contact-section editable-element" id="contact-section" onclick="selectElement('contact')">
+                            <h2 style="text-align: center; margin: 40px 0 20px;">Contact Us</h2>
+                            <div class="contact-form" id="contactForm">
+                                <div class="form-row">
+                                    <input type="text" class="form-control" placeholder="Your Name">
+                                </div>
+                                <div class="form-row">
+                                    <input type="email" class="form-control" placeholder="Your Email">
+                                </div>
+                                <div class="form-row">
+                                    <textarea class="form-control" rows="4" placeholder="Your Message"></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <button class="btn btn-primary">Send Message</button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Footer -->
+                        <footer class="hotel-footer editable-element" id="footer-section" onclick="selectElement('footer')">
+                            <div class="footer-grid" id="footerGrid">
+                                <!-- Footer columns will be dynamically added here -->
+                            </div>
+                            <div class="footer-bottom" style="text-align: center; margin-top: 30px;">
+                                <p id="footerCopyright">© 2024 Grand Hotel. All rights reserved.</p>
+                            </div>
+                        </footer>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Add Page Modal -->
+    <div class="modal" id="addPageModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Page</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Page Name</label>
+                <input type="text" class="form-control" id="newPageName" placeholder="e.g., Gallery">
+            </div>
+            <div class="form-group">
+                <label>Page Slug</label>
+                <input type="text" class="form-control" id="newPageSlug" placeholder="gallery">
+            </div>
+            <button class="btn btn-primary" onclick="addNewPage()">Add Page</button>
+        </div>
+    </div>
+
+    <!-- Add Section Modal -->
+    <div class="modal" id="addSectionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Section</h3>
+                <button class="close-modal" onclick="closeSectionModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Section Type</label>
+                <select class="form-control" id="newSectionType">
+                    <option value="rooms">Rooms</option>
+                    <option value="halls">Halls</option>
+                    <option value="gallery">Gallery</option>
+                    <option value="testimonials">Testimonials</option>
+                    <option value="amenities">Amenities</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Section Title</label>
+                <input type="text" class="form-control" id="newSectionTitle" placeholder="Our Rooms">
+            </div>
+            <button class="btn btn-primary" onclick="addNewSection()">Add Section</button>
+        </div>
+    </div>
+
     <script>
-        // Sample rooms data
-        let rooms = [
-            {
-                id: 1,
-                name: 'Deluxe King Suite',
-                price: 299,
-                description: 'Spacious suite with king-size bed',
-                maxGuests: 2,
-                image: null,
-                amenities: ['WiFi', 'TV', 'Mini-bar']
-            },
-            {
-                id: 2,
-                name: 'Executive Double',
-                price: 199,
-                description: 'Comfortable room with queen bed',
-                maxGuests: 3,
-                image: null,
-                amenities: ['WiFi', 'TV', 'Work desk']
-            },
-            {
-                id: 3,
-                name: 'Presidential Suite',
-                price: 599,
-                description: 'Luxury suite with panoramic views',
-                maxGuests: 4,
-                image: null,
-                amenities: ['WiFi', 'TV', 'Jacuzzi', 'Butler service']
-            }
+        // State management
+        let selectedElement = null;
+        let pages = [
+            { name: 'Home', slug: 'home', active: true },
+            { name: 'Rooms', slug: 'rooms', active: true },
+            { name: 'Halls', slug: 'halls', active: true },
+            { name: 'Contact', slug: 'contact', active: true }
+        ];
+        
+        let navLinks = [
+            { text: 'Home', url: '#', active: true },
+            { text: 'Rooms', url: '#', active: true },
+            { text: 'Halls', url: '#', active: true },
+            { text: 'Contact', url: '#', active: true },
+            { text: 'Book Now', url: '#', active: true, isButton: true }
         ];
 
-        let currentTemplate = 'modern';
-        let currentDevice = 'desktop';
+        let rooms = [
+            { id: 1, name: 'Deluxe Room', price: 299, image: null, description: 'Luxurious room with city view' },
+            { id: 2, name: 'Executive Suite', price: 499, image: null, description: 'Spacious suite with living area' },
+            { id: 3, name: 'Presidential Suite', price: 999, image: null, description: 'Ultimate luxury experience' }
+        ];
+
+        let halls = [
+            { id: 1, name: 'Grand Ballroom', capacity: 500, price: 5000, description: 'Perfect for weddings' },
+            { id: 2, name: 'Conference Hall', capacity: 200, price: 2000, description: 'Ideal for meetings' }
+        ];
+
+        let footerColumns = [
+            { title: 'About Us', links: ['Our Story', 'Careers', 'Blog'] },
+            { title: 'Services', links: ['Rooms', 'Dining', 'Spa'] },
+            { title: 'Contact', links: ['Email', 'Phone', 'Address'] }
+        ];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            renderRoomsList();
-            renderRoomsGrid();
-            updatePreview();
+            renderNavLinks();
+            renderPages();
+            renderRooms();
+            renderHalls();
+            renderFooter();
+            renderSectionsList();
+            updateDesign();
+            makeElementsEditable();
         });
+
+        // Make all elements clickable for editing
+        function makeElementsEditable() {
+            const editableElements = document.querySelectorAll('.editable-element');
+            editableElements.forEach(element => {
+                element.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    selectElement(this.id);
+                });
+            });
+        }
+
+        // Select element for editing
+        function selectElement(elementId) {
+            // Remove previous selection
+            if (selectedElement) {
+                document.getElementById(selectedElement)?.classList.remove('selected');
+            }
+            
+            // Add selection to new element
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.classList.add('selected');
+                selectedElement = elementId;
+                
+                // Update selected element info
+                document.getElementById('selectedElementType').textContent = elementId;
+                
+                // Show appropriate editor based on element type
+                showEditorForElement(elementId);
+            }
+        }
+
+        // Show appropriate editor based on selected element
+        function showEditorForElement(elementId) {
+            if (elementId.includes('nav')) {
+                switchTab('header');
+            } else if (elementId.includes('hero')) {
+                showHeroEditor();
+            } else if (elementId.includes('room') || elementId.includes('rooms')) {
+                switchTab('body');
+                document.querySelector('[onclick="switchTab(\'body\')"]').click();
+            } else if (elementId.includes('footer')) {
+                switchTab('footer');
+            }
+        }
+
+        // Show hero editor
+        function showHeroEditor() {
+            const heroTitle = document.getElementById('heroTitle').textContent;
+            const heroSubtitle = document.getElementById('heroSubtitle').textContent;
+            
+            const editorContent = document.getElementById('editorContent');
+            editorContent.innerHTML = `
+                <div class="form-section">
+                    <h3 class="section-title">Edit Hero Section</h3>
+                    <div class="form-group">
+                        <label>Hero Title</label>
+                        <input type="text" class="form-control" id="editHeroTitle" value="${heroTitle}" onchange="updateHeroTitle(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Hero Subtitle</label>
+                        <input type="text" class="form-control" id="editHeroSubtitle" value="${heroSubtitle}" onchange="updateHeroSubtitle(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Hero Image</label>
+                        <div class="image-upload" onclick="document.getElementById('heroImageUpload').click()">
+                            <i class="bi bi-cloud-upload"></i>
+                            <p>Upload Hero Image</p>
+                            <input type="file" id="heroImageUpload" style="display: none;" accept="image/*" onchange="updateHeroImage(this)">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update hero title
+        function updateHeroTitle(value) {
+            document.getElementById('heroTitle').textContent = value;
+        }
+
+        // Update hero subtitle
+        function updateHeroSubtitle(value) {
+            document.getElementById('heroSubtitle').textContent = value;
+        }
+
+        // Update hero image
+        function updateHeroImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('hero-section').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${e.target.result}')`;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
         // Tab switching
         function switchTab(tabName) {
-            // Update tab buttons
             document.querySelectorAll('.editor-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.currentTarget.classList.add('active');
 
-            // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.style.display = 'none';
             });
 
-            // Show selected tab content
             document.getElementById(tabName + '-tab').style.display = 'block';
         }
 
         // Template selection
         function selectTemplate(template) {
-            currentTemplate = template;
             document.querySelectorAll('.template-card').forEach(card => {
                 card.classList.remove('selected');
+                card.style.borderColor = '#e2e8f0';
             });
+            event.currentTarget.style.borderColor = '#667eea';
             event.currentTarget.classList.add('selected');
-            updatePreview();
+            
+            // Apply template styles
+            applyTemplate(template);
+        }
+
+        // Apply template styles
+        function applyTemplate(template) {
+            const preview = document.getElementById('hotelPreview');
+            
+            switch(template) {
+                case 'modern':
+                    preview.style.fontFamily = 'Inter';
+                    document.getElementById('primaryColor').value = '#667eea';
+                    break;
+                case 'beach':
+                    preview.style.fontFamily = 'Georgia';
+                    document.getElementById('primaryColor').value = '#f093fb';
+                    break;
+                case 'business':
+                    preview.style.fontFamily = 'Arial';
+                    document.getElementById('primaryColor').value = '#4facfe';
+                    break;
+                case 'boutique':
+                    preview.style.fontFamily = 'Helvetica';
+                    document.getElementById('primaryColor').value = '#fa709a';
+                    break;
+            }
+            
+            updateDesign();
         }
 
         // Device change
         function changeDevice(device) {
-            currentDevice = device;
             document.querySelectorAll('.device-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -1072,187 +1146,373 @@
             previewFrame.className = 'preview-frame ' + device;
         }
 
-        // Update preview based on form inputs
-        function updatePreview() {
-            // Get all form values
-            const hotelName = document.getElementById('hotelName')?.value || document.getElementById('hotelNameContent')?.value || 'Grand Hotel & Spa';
-            const tagline = document.getElementById('hotelTagline')?.value || 'Experience Luxury & Comfort';
-            const description = document.getElementById('hotelDescription')?.value || '';
-            const address = document.getElementById('hotelAddress')?.value || '';
-            const phone = document.getElementById('hotelPhone')?.value || '';
-            const email = document.getElementById('hotelEmail')?.value || '';
-            const primaryColor = document.getElementById('primaryColor')?.value || '#667eea';
-            const secondaryColor = document.getElementById('secondaryColor')?.value || '#764ba2';
-            const textColor = document.getElementById('textColor')?.value || '#333333';
-            const bgColor = document.getElementById('bgColor')?.value || '#ffffff';
-            const fontFamily = document.getElementById('fontFamily')?.value || 'Inter';
-            const headingSize = document.getElementById('headingSize')?.value || '32';
-            const bodySize = document.getElementById('bodySize')?.value || '16';
-            const stickyNav = document.getElementById('stickyNav')?.checked || false;
-            const showPrices = document.getElementById('showPrices')?.checked !== false;
-
-            // Update preview elements
-            document.getElementById('previewLogo').textContent = hotelName;
-            document.getElementById('previewTitle').textContent = `Welcome to ${hotelName}`;
-            document.getElementById('previewTagline').textContent = tagline;
-            document.getElementById('previewAddress').textContent = address;
-            document.getElementById('previewContact').textContent = `${phone} | ${email}`;
-            document.getElementById('previewCopyright').innerHTML = `&copy; ${new Date().getFullYear()} ${hotelName}. All rights reserved.`;
-
-            // Update styles
-            const preview = document.getElementById('hotelPreview');
-            preview.style.fontFamily = fontFamily;
-            preview.style.color = textColor;
-            preview.style.backgroundColor = bgColor;
-
-            // Update CSS variables
-            preview.style.setProperty('--primary-color', primaryColor);
-            
-            // Update navigation style
-            const nav = document.getElementById('hotelNav');
-            if (stickyNav) {
-                nav.style.position = 'sticky';
-                nav.style.top = '0';
-                nav.style.zIndex = '1000';
-            } else {
-                nav.style.position = 'relative';
-            }
-
-            // Update book button color
-            document.getElementById('previewBookBtn').style.backgroundColor = primaryColor;
-            document.getElementById('previewHeroBtn').style.backgroundColor = primaryColor;
-
-            // Update heading sizes
-            document.querySelectorAll('h1, h2, h3').forEach(el => {
-                if (el.id !== 'previewTitle') {
-                    el.style.fontSize = headingSize + 'px';
-                }
-            });
-            document.getElementById('previewTitle').style.fontSize = (parseInt(headingSize) * 1.5) + 'px';
-            
-            document.querySelectorAll('p, .nav-links a').forEach(el => {
-                el.style.fontSize = bodySize + 'px';
-            });
-
-            // Update rooms grid with price visibility
-            renderRoomsGrid(showPrices);
-        }
-
-        // Render rooms list in editor
-        function renderRoomsList() {
-            const roomsList = document.getElementById('roomsList');
-            roomsList.innerHTML = '';
-
-            rooms.forEach((room, index) => {
-                const roomEl = document.createElement('div');
-                roomEl.className = 'room-item';
-                roomEl.innerHTML = `
-                    <div class="room-header">
-                        <h5>${room.name}</h5>
-                        <div class="room-actions">
-                            <button onclick="editRoom(${index})"><i class="bi bi-pencil"></i></button>
-                            <button onclick="deleteRoom(${index})"><i class="bi bi-trash"></i></button>
+        // Render navigation links
+        function renderNavLinks() {
+            const navLinksList = document.getElementById('navLinksList');
+            if (navLinksList) {
+                navLinksList.innerHTML = '';
+                navLinks.forEach((link, index) => {
+                    const linkEl = document.createElement('div');
+                    linkEl.className = 'element-item';
+                    linkEl.innerHTML = `
+                        <span>${link.text}</span>
+                        <div class="element-actions">
+                            <button onclick="editNavLink(${index})"><i class="bi bi-pencil"></i></button>
+                            <button onclick="deleteNavLink(${index})"><i class="bi bi-trash"></i></button>
                         </div>
-                    </div>
-                    <p><strong>Price:</strong> $${room.price}/night</p>
-                    <p><strong>Max Guests:</strong> ${room.maxGuests}</p>
-                    <p><strong>Amenities:</strong> ${room.amenities.join(', ')}</p>
-                `;
-                roomsList.appendChild(roomEl);
+                    `;
+                    navLinksList.appendChild(linkEl);
+                });
+            }
+        }
+
+        // Add navigation link
+        function addNavLink() {
+            const text = prompt('Enter link text:');
+            if (text) {
+                navLinks.push({ text: text, url: '#', active: true });
+                renderNavLinks();
+                updatePreviewNav();
+            }
+        }
+
+        // Edit navigation link
+        function editNavLink(index) {
+            const newText = prompt('Edit link text:', navLinks[index].text);
+            if (newText) {
+                navLinks[index].text = newText;
+                renderNavLinks();
+                updatePreviewNav();
+            }
+        }
+
+        // Delete navigation link
+        function deleteNavLink(index) {
+            if (confirm('Delete this link?')) {
+                navLinks.splice(index, 1);
+                renderNavLinks();
+                updatePreviewNav();
+            }
+        }
+
+        // Update preview navigation
+        function updatePreviewNav() {
+            const navLinksContainer = document.getElementById('navLinks');
+            navLinksContainer.innerHTML = '';
+            
+            navLinks.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.className = 'nav-link-item' + (link.isButton ? ' book-btn' : '');
+                a.textContent = link.text;
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    selectElement('nav-' + link.text.toLowerCase());
+                };
+                navLinksContainer.appendChild(a);
             });
         }
 
-        // Render rooms in preview
-        function renderRoomsGrid(showPrices = true) {
+        // Render pages
+        function renderPages() {
+            const pagesList = document.getElementById('pagesList');
+            if (pagesList) {
+                pagesList.innerHTML = '';
+                pages.forEach((page, index) => {
+                    const pageEl = document.createElement('div');
+                    pageEl.className = 'element-item';
+                    pageEl.innerHTML = `
+                        <span>${page.name}</span>
+                        <div class="element-actions">
+                            <button onclick="editPage(${index})"><i class="bi bi-pencil"></i></button>
+                            <button onclick="deletePage(${index})"><i class="bi bi-trash"></i></button>
+                        </div>
+                    `;
+                    pagesList.appendChild(pageEl);
+                });
+            }
+        }
+
+        // Show add page modal
+        function showAddPageModal() {
+            document.getElementById('addPageModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('addPageModal').classList.remove('active');
+        }
+
+        // Add new page
+        function addNewPage() {
+            const name = document.getElementById('newPageName').value;
+            const slug = document.getElementById('newPageSlug').value;
+            
+            if (name && slug) {
+                pages.push({ name: name, slug: slug, active: true });
+                renderPages();
+                closeModal();
+                
+                // Add to navigation
+                navLinks.push({ text: name, url: '#' + slug, active: true });
+                renderNavLinks();
+                updatePreviewNav();
+            }
+        }
+
+        // Render rooms
+        function renderRooms() {
             const roomsGrid = document.getElementById('roomsGrid');
             roomsGrid.innerHTML = '';
-
-            rooms.forEach(room => {
+            
+            rooms.forEach((room, index) => {
                 const roomCard = document.createElement('div');
-                roomCard.className = 'preview-room-card';
+                roomCard.className = 'card-item editable-element';
+                roomCard.id = `room-${room.id}`;
+                roomCard.onclick = (e) => {
+                    e.stopPropagation();
+                    selectElement(`room-${room.id}`);
+                };
+                
                 roomCard.innerHTML = `
-                    <div class="preview-room-image">
-                        <i class="bi bi-image" style="font-size: 3rem;"></i>
+                    <div class="card-image" id="room-image-${room.id}">
+                        ${room.image ? `<img src="${room.image}" style="width: 100%; height: 100%; object-fit: cover;">` : '<i class="bi bi-image" style="font-size: 3rem; display: flex; justify-content: center; align-items: center; height: 100%;"></i>'}
                     </div>
-                    <div class="preview-room-info">
-                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">${room.name}</h3>
-                        <p style="color: #666;">${room.description}</p>
-                        <p><i class="bi bi-people"></i> Max ${room.maxGuests} guests</p>
-                        ${showPrices ? `<p class="preview-room-price">$${room.price}/night</p>` : ''}
-                        <button class="hero-btn" style="margin-top: 15px; width: 100%;" onclick="bookRoom(${room.id})">Book Now</button>
+                    <div class="card-content">
+                        <h3 id="room-name-${room.id}">${room.name}</h3>
+                        <p id="room-desc-${room.id}">${room.description}</p>
+                        <p class="room-price" id="room-price-${room.id}">$${room.price}/night</p>
+                        <button class="btn btn-primary btn-sm">Book Now</button>
                     </div>
                 `;
+                
                 roomsGrid.appendChild(roomCard);
             });
         }
 
-        // Add new room
-        function addNewRoom() {
-            const newRoom = {
-                id: rooms.length + 1,
-                name: 'New Room',
-                price: 150,
-                description: 'Description here',
-                maxGuests: 2,
-                image: null,
-                amenities: ['WiFi', 'TV']
-            };
-            rooms.push(newRoom);
-            renderRoomsList();
-            renderRoomsGrid();
-            updatePreview();
+        // Render halls
+        function renderHalls() {
+            const hallsGrid = document.getElementById('hallsGrid');
+            hallsGrid.innerHTML = '';
+            
+            halls.forEach((hall, index) => {
+                const hallCard = document.createElement('div');
+                hallCard.className = 'card-item editable-element';
+                hallCard.id = `hall-${hall.id}`;
+                
+                hallCard.innerHTML = `
+                    <div class="card-content">
+                        <h3>${hall.name}</h3>
+                        <p>${hall.description}</p>
+                        <p>Capacity: ${hall.capacity} guests</p>
+                        <p>Price: $${hall.price}</p>
+                        <button class="btn btn-primary btn-sm">Inquire</button>
+                    </div>
+                `;
+                
+                hallsGrid.appendChild(hallCard);
+            });
         }
 
-        // Edit room
-        function editRoom(index) {
-            const room = rooms[index];
-            const newName = prompt('Enter room name:', room.name);
-            if (newName) {
-                const newPrice = prompt('Enter price per night:', room.price);
-                if (newPrice) {
-                    room.name = newName;
-                    room.price = parseFloat(newPrice);
-                    renderRoomsList();
-                    renderRoomsGrid();
-                    updatePreview();
+        // Add card
+        function addCard() {
+            const type = prompt('Enter card type (room/hall):', 'room');
+            if (type === 'room') {
+                const name = prompt('Enter room name:');
+                const price = prompt('Enter price:');
+                if (name && price) {
+                    const newRoom = {
+                        id: rooms.length + 1,
+                        name: name,
+                        price: parseFloat(price),
+                        description: 'New room added',
+                        image: null
+                    };
+                    rooms.push(newRoom);
+                    renderRooms();
+                }
+            } else if (type === 'hall') {
+                const name = prompt('Enter hall name:');
+                const capacity = prompt('Enter capacity:');
+                if (name && capacity) {
+                    const newHall = {
+                        id: halls.length + 1,
+                        name: name,
+                        capacity: parseInt(capacity),
+                        price: 1000,
+                        description: 'New hall added'
+                    };
+                    halls.push(newHall);
+                    renderHalls();
                 }
             }
         }
 
-        // Delete room
-        function deleteRoom(index) {
-            if (confirm('Are you sure you want to delete this room?')) {
-                rooms.splice(index, 1);
-                renderRoomsList();
-                renderRoomsGrid();
-                updatePreview();
+        // Toggle search bar
+        function toggleSearch() {
+            const searchBar = document.getElementById('searchBar');
+            const showSearch = document.getElementById('showSearch').checked;
+            searchBar.style.display = showSearch ? 'flex' : 'none';
+        }
+
+        // Toggle contact form
+        function toggleContactForm() {
+            const contactForm = document.getElementById('contactForm');
+            const showContact = document.getElementById('showContactForm').checked;
+            contactForm.style.display = showContact ? 'block' : 'none';
+        }
+
+        // Add footer column
+        function addFooterColumn() {
+            const title = prompt('Enter column title:');
+            if (title) {
+                footerColumns.push({ title: title, links: ['Link 1', 'Link 2'] });
+                renderFooter();
             }
         }
 
-        // Book room
-        function bookRoom(roomId) {
-            const room = rooms.find(r => r.id === roomId);
-            if (room) {
-                alert(`Booking confirmed for ${room.name}!\nCheck your email for details.`);
+        // Render footer
+        function renderFooter() {
+            const footerGrid = document.getElementById('footerGrid');
+            footerGrid.innerHTML = '';
+            
+            footerColumns.forEach((column, index) => {
+                const colDiv = document.createElement('div');
+                colDiv.className = 'footer-column editable-element';
+                colDiv.id = `footer-col-${index}`;
+                
+                let linksHtml = '';
+                column.links.forEach((link, linkIndex) => {
+                    linksHtml += `<p><a href="#" style="color: #ccc; text-decoration: none;">${link}</a></p>`;
+                });
+                
+                colDiv.innerHTML = `
+                    <h4>${column.title}</h4>
+                    ${linksHtml}
+                `;
+                
+                footerGrid.appendChild(colDiv);
+            });
+        }
+
+        // Add social link
+        function addSocialLink() {
+            const platform = prompt('Enter social platform (facebook/twitter/instagram):');
+            if (platform) {
+                const socialLinks = document.getElementById('socialLinks');
+                const linkEl = document.createElement('div');
+                linkEl.className = 'social-link-item';
+                linkEl.innerHTML = `
+                    <i class="bi bi-${platform}"></i>
+                    <input type="text" class="form-control" placeholder="URL" style="width: 200px;">
+                `;
+                socialLinks.appendChild(linkEl);
             }
         }
 
-        // Image upload handling
-        function handleImageUpload(input, type) {
+        // Update design
+        function updateDesign() {
+            const primaryColor = document.getElementById('primaryColor').value;
+            const secondaryColor = document.getElementById('secondaryColor').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const fontFamily = document.getElementById('fontFamily').value;
+            
+            const preview = document.getElementById('hotelPreview');
+            preview.style.fontFamily = fontFamily;
+            preview.style.color = textColor;
+            preview.style.backgroundColor = bgColor;
+            
+            // Update buttons and links
+            document.querySelectorAll('.btn-primary, .book-btn').forEach(el => {
+                el.style.backgroundColor = primaryColor;
+                el.style.borderColor = primaryColor;
+            });
+            
+            document.querySelectorAll('a').forEach(el => {
+                el.style.color = textColor;
+            });
+        }
+
+        // Update logo
+        function updateElement(type) {
+            if (type === 'logo') {
+                const logoText = document.getElementById('logoText').value;
+                document.getElementById('previewLogo').textContent = logoText;
+            }
+        }
+
+        // Upload logo
+        function uploadLogo(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    if (type === 'logo') {
-                        document.getElementById('logoPreview').src = e.target.result;
-                        document.getElementById('logoPreview').style.display = 'block';
-                        document.getElementById('previewLogo').innerHTML = `<img src="${e.target.result}" style="height: 40px;">`;
-                    } else if (type === 'hero') {
-                        document.getElementById('heroPreview').src = e.target.result;
-                        document.getElementById('heroPreview').style.display = 'block';
-                        document.getElementById('heroSection').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${e.target.result}')`;
-                    }
+                    document.getElementById('previewLogo').innerHTML = `<img src="${e.target.result}" style="height: 40px;">`;
                 }
                 reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Update copyright
+        function updateCopyright() {
+            const text = document.getElementById('copyrightText').value;
+            document.getElementById('footerCopyright').textContent = text;
+        }
+
+        // Render sections list
+        function renderSectionsList() {
+            const sectionsList = document.getElementById('sectionsList');
+            if (sectionsList) {
+                const sections = ['Hero', 'Rooms', 'Halls', 'Contact'];
+                sectionsList.innerHTML = '';
+                
+                sections.forEach((section, index) => {
+                    const sectionEl = document.createElement('div');
+                    sectionEl.className = 'element-item';
+                    sectionEl.innerHTML = `
+                        <span>${section} Section</span>
+                        <div class="element-actions">
+                            <button onclick="editSection('${section}')"><i class="bi bi-pencil"></i></button>
+                            <button onclick="toggleSection('${section}')"><i class="bi bi-eye"></i></button>
+                        </div>
+                    `;
+                    sectionsList.appendChild(sectionEl);
+                });
+            }
+        }
+
+        // Show add section modal
+        function showAddSectionModal() {
+            document.getElementById('addSectionModal').classList.add('active');
+        }
+
+        // Close section modal
+        function closeSectionModal() {
+            document.getElementById('addSectionModal').classList.remove('active');
+        }
+
+        // Add new section
+        function addNewSection() {
+            const type = document.getElementById('newSectionType').value;
+            const title = document.getElementById('newSectionTitle').value;
+            
+            if (type && title) {
+                // Create new section in preview
+                const newSection = document.createElement('section');
+                newSection.className = 'editable-element';
+                newSection.id = type + '-section';
+                newSection.innerHTML = `
+                    <h2 style="text-align: center; margin: 40px 0 20px;">${title}</h2>
+                    <div class="cards-grid" id="${type}-grid"></div>
+                `;
+                
+                document.getElementById('hotelPreview').insertBefore(
+                    newSection,
+                    document.getElementById('footer-section')
+                );
+                
+                closeSectionModal();
+                renderSectionsList();
             }
         }
 
@@ -1263,17 +1523,33 @@
 
         // Publish website
         function publishWebsite() {
-            alert('Website published! Your site is now live at: https://your-hotel.builder.com');
+            alert('Website published! Your site is live at: https://your-hotel.builder.com');
         }
 
-        // Real-time updates for all inputs
-        document.querySelectorAll('input, select, textarea').forEach(element => {
-            element.addEventListener('input', updatePreview);
-            element.addEventListener('change', updatePreview);
-        });
-    </script>
+        // Make all elements draggable for reordering
+        function makeDraggable() {
+            const elements = document.querySelectorAll('.element-item');
+            elements.forEach(el => {
+                el.draggable = true;
+                el.addEventListener('dragstart', handleDragStart);
+                el.addEventListener('dragover', handleDragOver);
+                el.addEventListener('drop', handleDrop);
+            });
+        }
 
-    <!-- Add Font Awesome for icons -->
-    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+        function handleDragStart(e) {
+            e.target.classList.add('dragging');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const dragging = document.querySelector('.dragging');
+            dragging.classList.remove('dragging');
+        }
+    </script>
 </body>
 </html>
