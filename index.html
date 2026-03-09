@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Hotel Website Builder - Click to Edit</title>
+    <title>Dynamic Hotel Website Builder - Click to Edit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -37,6 +37,7 @@
             flex-direction: column;
             overflow: hidden;
             box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            z-index: 10;
         }
 
         .editor-header {
@@ -57,16 +58,38 @@
             font-size: 0.9rem;
         }
 
+        /* Selected Element Info */
+        .selected-element-info {
+            background: #f0f9ff;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .element-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
         .editor-tabs {
             display: flex;
             background: #f8fafc;
             border-bottom: 1px solid #e2e8f0;
             padding: 0 10px;
             overflow-x: auto;
+            gap: 5px;
         }
 
         .editor-tab {
-            padding: 15px 15px;
+            padding: 12px 15px;
             font-size: 0.9rem;
             font-weight: 500;
             color: #64748b;
@@ -75,7 +98,7 @@
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             white-space: nowrap;
         }
 
@@ -99,59 +122,56 @@
             background: #ffffff;
         }
 
-        /* Selected Element Info */
-        .selected-element-info {
-            background: #f0f9ff;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .element-badge {
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* Form Sections */
+        /* Form Styles */
         .form-section {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border: 1px solid #e2e8f0;
             border-radius: 12px;
             padding: 20px;
+            background: white;
         }
 
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #f0f0f0;
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 15px;
+            cursor: move;
         }
 
-        .section-title i {
-            color: #667eea;
+        .section-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .section-actions button {
+            background: none;
+            border: none;
+            color: #64748b;
             cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .section-actions button:hover {
+            background: #f1f5f9;
+            color: #667eea;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 500;
             color: #4a5568;
             font-size: 0.9rem;
@@ -164,13 +184,72 @@
             border-radius: 8px;
             font-size: 0.95rem;
             transition: all 0.3s;
-            font-family: 'Inter', sans-serif;
         }
 
         .form-control:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Elements List */
+        .elements-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .element-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+
+        .element-item.dragging {
+            opacity: 0.5;
+            background: #e2e8f0;
+        }
+
+        .element-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .element-actions button {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .element-actions button:hover {
+            background: #e2e8f0;
+            color: #dc3545;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 12px;
+            background: #f8fafc;
+            border: 2px dashed #667eea;
+            color: #667eea;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .add-btn:hover {
+            background: #667eea;
+            color: white;
         }
 
         /* Color Picker Group */
@@ -190,7 +269,7 @@
         }
 
         /* Image Upload */
-        .image-upload {
+        .image-upload-area {
             border: 2px dashed #e2e8f0;
             border-radius: 8px;
             padding: 20px;
@@ -199,69 +278,17 @@
             transition: all 0.3s;
         }
 
-        .image-upload:hover {
+        .image-upload-area:hover {
             border-color: #667eea;
             background: #f8fafc;
         }
 
         .image-preview {
             width: 100%;
-            height: 100px;
+            max-height: 150px;
             object-fit: cover;
             border-radius: 8px;
             margin-top: 10px;
-        }
-
-        /* Page Elements Management */
-        .elements-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .element-item {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: move;
-        }
-
-        .element-item.dragging {
-            opacity: 0.5;
-        }
-
-        .element-item .element-actions button {
-            background: none;
-            border: none;
-            color: #64748b;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .element-item .element-actions button:hover {
-            color: #dc3545;
-        }
-
-        .add-element-btn {
-            width: 100%;
-            padding: 12px;
-            background: #f8fafc;
-            border: 2px dashed #667eea;
-            color: #667eea;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        .add-element-btn:hover {
-            background: #667eea;
-            color: white;
         }
 
         /* Right Preview Panel */
@@ -282,7 +309,7 @@
             align-items: center;
         }
 
-        .preview-devices {
+        .device-selector {
             display: flex;
             gap: 10px;
         }
@@ -293,7 +320,6 @@
             background: white;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -306,12 +332,7 @@
             color: white;
         }
 
-        .preview-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .preview-btn {
+        .action-btn {
             padding: 8px 20px;
             border: none;
             border-radius: 8px;
@@ -363,12 +384,12 @@
 
         /* Hotel Preview Styles */
         .hotel-preview {
-            font-family: 'Inter', sans-serif;
             min-height: 100%;
             position: relative;
+            transition: all 0.3s;
         }
 
-        /* Click to edit indicator */
+        /* Editable Elements */
         .editable-element {
             position: relative;
             cursor: pointer;
@@ -378,12 +399,14 @@
         .editable-element:hover {
             outline: 2px solid #667eea;
             outline-offset: 2px;
+            background-color: rgba(102, 126, 234, 0.02);
         }
 
         .editable-element.selected {
             outline: 3px solid #667eea;
             outline-offset: 3px;
             background-color: rgba(102, 126, 234, 0.05);
+            position: relative;
         }
 
         .editable-element.selected::after {
@@ -398,6 +421,7 @@
             font-size: 0.7rem;
             font-weight: 600;
             z-index: 1000;
+            white-space: nowrap;
         }
 
         /* Navigation */
@@ -408,6 +432,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-links {
@@ -417,7 +442,7 @@
             flex-wrap: wrap;
         }
 
-        .nav-link-item {
+        .nav-item {
             text-decoration: none;
             color: #4a5568;
             font-weight: 500;
@@ -425,7 +450,7 @@
             border-radius: 5px;
         }
 
-        .book-btn {
+        .book-now-btn {
             background: #667eea;
             color: white !important;
             padding: 8px 20px;
@@ -433,8 +458,8 @@
         }
 
         /* Hero Section */
-        .hotel-hero {
-            height: 400px;
+        .hero-section {
+            height: 500px;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
@@ -445,12 +470,27 @@
             text-align: center;
         }
 
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
         /* Cards Grid */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 30px;
         }
 
         .card-item {
@@ -458,22 +498,36 @@
             border: 1px solid #e2e8f0;
             border-radius: 12px;
             overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .card-image {
-            height: 150px;
+            height: 200px;
             background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
         }
 
         .card-content {
-            padding: 15px;
+            padding: 20px;
         }
 
         /* Contact Form */
+        .contact-section {
+            padding: 60px 30px;
+            background: #f8fafc;
+        }
+
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
-            padding: 30px;
         }
 
         .form-row {
@@ -491,23 +545,43 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 30px;
+            margin-bottom: 30px;
         }
 
-        /* Search Bar */
-        .search-bar {
+        .footer-column h4 {
+            margin-bottom: 15px;
+            color: #e2e8f0;
+        }
+
+        .footer-column a {
+            color: #a0aec0;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
             display: flex;
-            gap: 10px;
-            padding: 10px;
+            gap: 15px;
+            justify-content: center;
         }
 
-        .search-input {
-            flex: 1;
-            padding: 8px 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
+        .social-link {
+            color: white;
+            font-size: 1.5rem;
         }
 
-        /* Add Page Modal */
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #4a5568;
+        }
+
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -531,6 +605,8 @@
             border-radius: 15px;
             max-width: 500px;
             width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -540,11 +616,75 @@
             margin-bottom: 20px;
         }
 
-        .close-modal {
+        .modal-header h3 {
+            margin: 0;
+        }
+
+        .close-btn {
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
+            color: #64748b;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+        }
+
+        .toast {
+            background: white;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            border-left: 4px solid #48bb78;
+        }
+
+        .toast.error {
+            border-left: 4px solid #f56565;
+        }
+
+        .toast.info {
+            border-left: 4px solid #667eea;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -553,7 +693,7 @@
         <!-- Left Editor Panel -->
         <div class="editor-panel">
             <div class="editor-header">
-                <h2><i class="bi bi-magic"></i> Hotel Website Builder</h2>
+                <h2><i class="bi bi-magic"></i> Dynamic Hotel Builder</h2>
                 <p>Click any element in preview to edit</p>
             </div>
 
@@ -563,75 +703,65 @@
                 <span class="element-badge" id="selectedElementType">None</span>
             </div>
 
+            <!-- Editor Tabs -->
             <div class="editor-tabs">
-                <div class="editor-tab active" onclick="switchTab('templates')">
+                <div class="editor-tab active" data-tab="templates">
                     <i class="bi bi-grid"></i> Templates
                 </div>
-                <div class="editor-tab" onclick="switchTab('pages')">
+                <div class="editor-tab" data-tab="pages">
                     <i class="bi bi-file-text"></i> Pages
                 </div>
-                <div class="editor-tab" onclick="switchTab('header')">
+                <div class="editor-tab" data-tab="header">
                     <i class="bi bi-layout-header"></i> Header
                 </div>
-                <div class="editor-tab" onclick="switchTab('body')">
-                    <i class="bi bi-grid-3x3-gap-fill"></i> Body
+                <div class="editor-tab" data-tab="sections">
+                    <i class="bi bi-layout-three-columns"></i> Sections
                 </div>
-                <div class="editor-tab" onclick="switchTab('footer')">
+                <div class="editor-tab" data-tab="footer">
                     <i class="bi bi-layout-footer"></i> Footer
                 </div>
-                <div class="editor-tab" onclick="switchTab('design')">
+                <div class="editor-tab" data-tab="design">
                     <i class="bi bi-palette"></i> Design
                 </div>
             </div>
 
+            <!-- Editor Content -->
             <div class="editor-content" id="editorContent">
                 <!-- Templates Tab -->
-                <div id="templates-tab" class="tab-content">
+                <div class="tab-pane active" id="templates-tab">
                     <div class="form-section">
-                        <h3 class="section-title">Choose Template</h3>
-                        <div class="template-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                            <!-- Template 1 -->
-                            <div class="template-card selected" onclick="selectTemplate('modern')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
-                                    <div style="color: white; padding: 15px; text-align: center;">
-                                        <i class="bi bi-building" style="font-size: 2rem;"></i>
-                                    </div>
+                        <h3>Choose Template</h3>
+                        <div class="template-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                            <div class="template-card" data-template="modern" onclick="selectTemplate('modern')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white;">
+                                    <i class="bi bi-building" style="font-size: 2rem;"></i>
                                 </div>
-                                <div class="template-info" style="padding: 10px;">
-                                    <h4 style="margin: 0;">Modern Luxury</h4>
+                                <div style="padding: 10px; text-align: center;">
+                                    <strong>Modern Luxury</strong>
                                 </div>
                             </div>
-                            <!-- Template 2 -->
-                            <div class="template-card" onclick="selectTemplate('beach')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
-                                    <div style="color: white; padding: 15px; text-align: center;">
-                                        <i class="bi bi-umbrella" style="font-size: 2rem;"></i>
-                                    </div>
+                            <div class="template-card" data-template="beach" onclick="selectTemplate('beach')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div style="height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white;">
+                                    <i class="bi bi-umbrella" style="font-size: 2rem;"></i>
                                 </div>
-                                <div class="template-info" style="padding: 10px;">
-                                    <h4 style="margin: 0;">Beach Resort</h4>
+                                <div style="padding: 10px; text-align: center;">
+                                    <strong>Beach Resort</strong>
                                 </div>
                             </div>
-                            <!-- Template 3 -->
-                            <div class="template-card" onclick="selectTemplate('business')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
-                                    <div style="color: white; padding: 15px; text-align: center;">
-                                        <i class="bi bi-briefcase" style="font-size: 2rem;"></i>
-                                    </div>
+                            <div class="template-card" data-template="business" onclick="selectTemplate('business')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div style="height: 100px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white;">
+                                    <i class="bi bi-briefcase" style="font-size: 2rem;"></i>
                                 </div>
-                                <div class="template-info" style="padding: 10px;">
-                                    <h4 style="margin: 0;">Business Hotel</h4>
+                                <div style="padding: 10px; text-align: center;">
+                                    <strong>Business Hotel</strong>
                                 </div>
                             </div>
-                            <!-- Template 4 -->
-                            <div class="template-card" onclick="selectTemplate('boutique')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
-                                <div class="template-preview" style="height: 100px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%)">
-                                    <div style="color: white; padding: 15px; text-align: center;">
-                                        <i class="bi bi-tree" style="font-size: 2rem;"></i>
-                                    </div>
+                            <div class="template-card" data-template="boutique" onclick="selectTemplate('boutique')" style="border: 2px solid #e2e8f0; border-radius: 12px; overflow: hidden; cursor: pointer;">
+                                <div style="height: 100px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; color: white;">
+                                    <i class="bi bi-tree" style="font-size: 2rem;"></i>
                                 </div>
-                                <div class="template-info" style="padding: 10px;">
-                                    <h4 style="margin: 0;">Boutique Hotel</h4>
+                                <div style="padding: 10px; text-align: center;">
+                                    <strong>Boutique Hotel</strong>
                                 </div>
                             </div>
                         </div>
@@ -639,121 +769,122 @@
                 </div>
 
                 <!-- Pages Tab -->
-                <div id="pages-tab" class="tab-content" style="display: none;">
+                <div class="tab-pane" id="pages-tab" style="display: none;">
                     <div class="form-section">
-                        <h3 class="section-title">
-                            Pages
-                            <i class="bi bi-plus-circle" onclick="showAddPageModal()"></i>
-                        </h3>
-                        <div class="elements-list" id="pagesList">
-                            <!-- Pages will be dynamically added here -->
+                        <div class="section-header">
+                            <h3>Website Pages</h3>
+                            <div class="section-actions">
+                                <button onclick="showAddPageModal()"><i class="bi bi-plus-circle"></i> Add</button>
+                            </div>
                         </div>
+                        <div class="elements-list" id="pagesList"></div>
                     </div>
                 </div>
 
                 <!-- Header Tab -->
-                <div id="header-tab" class="tab-content" style="display: none;">
+                <div class="tab-pane" id="header-tab" style="display: none;">
                     <div class="form-section">
-                        <h3 class="section-title">
-                            Navigation Links
-                            <i class="bi bi-plus-circle" onclick="addNavLink()"></i>
-                        </h3>
-                        <div class="elements-list" id="navLinksList">
-                            <!-- Nav links will be dynamically added here -->
+                        <div class="section-header">
+                            <h3>Navigation Links</h3>
+                            <div class="section-actions">
+                                <button onclick="addNavLink()"><i class="bi bi-plus-circle"></i> Add</button>
+                            </div>
                         </div>
+                        <div class="elements-list" id="navLinksList"></div>
                     </div>
 
                     <div class="form-section">
-                        <h3 class="section-title">Logo Settings</h3>
+                        <h3>Logo Settings</h3>
                         <div class="form-group">
                             <label>Logo Text</label>
-                            <input type="text" class="form-control" id="logoText" value="Grand Hotel" oninput="updateElement('logo')">
+                            <input type="text" class="form-control" id="logoText" value="Grand Hotel" onchange="updateLogo()">
                         </div>
-                        <div class="image-upload" onclick="document.getElementById('logoUpload').click()">
+                        <div class="image-upload-area" onclick="document.getElementById('logoUpload').click()">
                             <i class="bi bi-cloud-upload"></i>
-                            <p>Upload Logo Image</p>
+                            <p>Click to upload logo image</p>
                             <input type="file" id="logoUpload" style="display: none;" accept="image/*" onchange="uploadLogo(this)">
                         </div>
+                        <img id="logoPreview" class="image-preview" style="display: none;">
                     </div>
 
                     <div class="form-section">
-                        <h3 class="section-title">Search Bar</h3>
-                        <div class="toggle-switch" style="display: flex; align-items: center; gap: 10px;">
-                            <label class="switch">
-                                <input type="checkbox" id="showSearch" onchange="toggleSearch()">
-                                <span class="slider"></span>
-                            </label>
-                            <span>Show Search Bar</span>
+                        <h3>Header Settings</h3>
+                        <div class="form-group">
+                            <label>Sticky Header</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="stickyHeader" onchange="toggleStickyHeader()">
+                                <label class="form-check-label">Make header sticky</label>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Body Tab -->
-                <div id="body-tab" class="tab-content" style="display: none;">
+                <!-- Sections Tab -->
+                <div class="tab-pane" id="sections-tab" style="display: none;">
                     <div class="form-section">
-                        <h3 class="section-title">
-                            Sections
-                            <i class="bi bi-plus-circle" onclick="showAddSectionModal()"></i>
-                        </h3>
-                        <div class="elements-list" id="sectionsList">
-                            <!-- Sections will be dynamically added here -->
+                        <div class="section-header">
+                            <h3>Page Sections</h3>
+                            <div class="section-actions">
+                                <button onclick="showAddSectionModal()"><i class="bi bi-plus-circle"></i> Add</button>
+                            </div>
                         </div>
+                        <div class="elements-list" id="sectionsList"></div>
                     </div>
 
                     <div class="form-section">
-                        <h3 class="section-title">
-                            Cards
-                            <i class="bi bi-plus-circle" onclick="addCard()"></i>
-                        </h3>
-                        <div class="elements-list" id="cardsList">
-                            <!-- Cards will be dynamically added here -->
+                        <div class="section-header">
+                            <h3>Rooms</h3>
+                            <div class="section-actions">
+                                <button onclick="addRoom()"><i class="bi bi-plus-circle"></i> Add</button>
+                            </div>
                         </div>
+                        <div class="elements-list" id="roomsList"></div>
                     </div>
 
                     <div class="form-section">
-                        <h3 class="section-title">Contact Form</h3>
-                        <div class="toggle-switch" style="display: flex; align-items: center; gap: 10px;">
-                            <label class="switch">
-                                <input type="checkbox" id="showContactForm" onchange="toggleContactForm()">
-                                <span class="slider"></span>
-                            </label>
-                            <span>Show Contact Form</span>
+                        <div class="section-header">
+                            <h3>Contact Form</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Show Contact Form</label>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="showContactForm" checked onchange="toggleContactForm()">
+                                <label class="form-check-label">Display contact form</label>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Footer Tab -->
-                <div id="footer-tab" class="tab-content" style="display: none;">
+                <div class="tab-pane" id="footer-tab" style="display: none;">
                     <div class="form-section">
-                        <h3 class="section-title">
-                            Footer Columns
-                            <i class="bi bi-plus-circle" onclick="addFooterColumn()"></i>
-                        </h3>
-                        <div class="elements-list" id="footerColumnsList">
-                            <!-- Footer columns will be dynamically added here -->
+                        <div class="section-header">
+                            <h3>Footer Columns</h3>
+                            <div class="section-actions">
+                                <button onclick="addFooterColumn()"><i class="bi bi-plus-circle"></i> Add</button>
+                            </div>
                         </div>
+                        <div class="elements-list" id="footerColumnsList"></div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Copyright Text</label>
-                        <input type="text" class="form-control" id="copyrightText" value="© 2024 Grand Hotel. All rights reserved." oninput="updateCopyright()">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Social Media Links</label>
-                        <div class="social-links" id="socialLinks">
-                            <!-- Social links will be dynamically added here -->
-                        </div>
-                        <button class="add-element-btn" onclick="addSocialLink()">
+                    <div class="form-section">
+                        <h3>Social Links</h3>
+                        <div class="elements-list" id="socialLinksList"></div>
+                        <button class="add-btn" onclick="addSocialLink()">
                             <i class="bi bi-plus"></i> Add Social Link
                         </button>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Copyright</h3>
+                        <input type="text" class="form-control" id="copyrightText" value="© 2024 Grand Hotel. All rights reserved." onchange="updateCopyright()">
                     </div>
                 </div>
 
                 <!-- Design Tab -->
-                <div id="design-tab" class="tab-content" style="display: none;">
+                <div class="tab-pane" id="design-tab" style="display: none;">
                     <div class="form-section">
-                        <h3 class="section-title">Colors</h3>
+                        <h3>Colors</h3>
                         <div class="color-group">
                             <div>
                                 <label>Primary</label>
@@ -775,7 +906,7 @@
                     </div>
 
                     <div class="form-section">
-                        <h3 class="section-title">Typography</h3>
+                        <h3>Typography</h3>
                         <div class="form-group">
                             <label>Font Family</label>
                             <select class="form-control" id="fontFamily" onchange="updateDesign()">
@@ -783,6 +914,7 @@
                                 <option value="Arial">Arial</option>
                                 <option value="Helvetica">Helvetica</option>
                                 <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
                             </select>
                         </div>
                     </div>
@@ -793,7 +925,7 @@
         <!-- Right Preview Panel -->
         <div class="preview-panel">
             <div class="preview-toolbar">
-                <div class="preview-devices">
+                <div class="device-selector">
                     <button class="device-btn active" onclick="changeDevice('desktop')">
                         <i class="bi bi-pc-display"></i> Desktop
                     </button>
@@ -804,11 +936,11 @@
                         <i class="bi bi-phone"></i> Mobile
                     </button>
                 </div>
-                <div class="preview-actions">
-                    <button class="preview-btn save-btn" onclick="saveWebsite()">
+                <div style="display: flex; gap: 10px;">
+                    <button class="action-btn save-btn" onclick="saveWebsite()">
                         <i class="bi bi-save"></i> Save
                     </button>
-                    <button class="preview-btn publish-btn" onclick="publishWebsite()">
+                    <button class="action-btn publish-btn" onclick="publishWebsite()">
                         <i class="bi bi-globe"></i> Publish
                     </button>
                 </div>
@@ -816,55 +948,38 @@
 
             <div class="preview-container">
                 <div class="preview-frame desktop" id="previewFrame">
-                    <!-- Live Preview with Click-to-Edit -->
+                    <!-- Live Preview -->
                     <div class="hotel-preview" id="hotelPreview">
                         <!-- Header -->
-                        <header class="hotel-nav editable-element" id="header-section" onclick="selectElement('header')">
-                            <div class="hotel-logo" id="previewLogo" onclick="event.stopPropagation(); selectElement('logo')">Grand Hotel</div>
-                            
-                            <!-- Navigation Links -->
-                            <div class="nav-links" id="navLinks">
-                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-home')">Home</a>
-                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-rooms')">Rooms</a>
-                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-halls')">Halls</a>
-                                <a href="#" class="nav-link-item editable-element" onclick="event.stopPropagation(); selectElement('nav-contact')">Contact</a>
-                                <a href="#" class="nav-link-item book-btn editable-element" onclick="event.stopPropagation(); selectElement('nav-book')">Book Now</a>
+                        <header class="hotel-nav editable-element" id="header-section" data-element-type="header">
+                            <div class="hotel-logo" id="logo-element" data-element-type="logo">
+                                <span id="logoText">Grand Hotel</span>
                             </div>
-
-                            <!-- Search Bar (Hidden by default) -->
-                            <div class="search-bar" id="searchBar" style="display: none;">
-                                <input type="text" class="search-input" placeholder="Search...">
-                                <button class="btn btn-primary"><i class="bi bi-search"></i></button>
+                            
+                            <div class="nav-links" id="nav-container" data-element-type="navigation">
+                                <!-- Navigation will be dynamically added -->
                             </div>
                         </header>
 
                         <!-- Hero Section -->
-                        <section class="hotel-hero editable-element" id="hero-section" onclick="selectElement('hero')">
+                        <section class="hero-section editable-element" id="hero-section" data-element-type="hero">
                             <div class="hero-content">
-                                <h1 id="heroTitle" onclick="event.stopPropagation(); selectElement('hero-title')">Welcome to Grand Hotel</h1>
-                                <p id="heroSubtitle" onclick="event.stopPropagation(); selectElement('hero-subtitle')">Experience Luxury & Comfort</p>
-                                <button class="btn btn-primary btn-lg" onclick="event.stopPropagation(); selectElement('hero-button')">Explore Rooms</button>
+                                <h1 class="hero-title" id="hero-title" data-element-type="hero-title">Welcome to Grand Hotel</h1>
+                                <p class="hero-subtitle" id="hero-subtitle" data-element-type="hero-subtitle">Experience Luxury & Comfort</p>
+                                <button class="btn btn-primary btn-lg" id="hero-button" data-element-type="hero-button">Explore Rooms</button>
                             </div>
                         </section>
 
                         <!-- Rooms Section -->
-                        <section class="rooms-section editable-element" id="rooms-section" onclick="selectElement('rooms')">
-                            <h2 style="text-align: center; margin: 40px 0 20px;">Our Rooms</h2>
-                            <div class="cards-grid" id="roomsGrid">
-                                <!-- Rooms will be dynamically added here -->
-                            </div>
+                        <section class="editable-element" id="rooms-section" data-element-type="rooms-section">
+                            <h2 style="text-align: center; padding: 40px 20px 20px;">Our Rooms</h2>
+                            <div class="cards-grid" id="rooms-container"></div>
                         </section>
 
-                        <!-- Halls Section -->
-                        <section class="halls-section editable-element" id="halls-section" onclick="selectElement('halls')" style="display: none;">
-                            <h2 style="text-align: center; margin: 40px 0 20px;">Event Halls</h2>
-                            <div class="cards-grid" id="hallsGrid"></div>
-                        </section>
-
-                        <!-- Contact Form Section -->
-                        <section class="contact-section editable-element" id="contact-section" onclick="selectElement('contact')">
-                            <h2 style="text-align: center; margin: 40px 0 20px;">Contact Us</h2>
-                            <div class="contact-form" id="contactForm">
+                        <!-- Contact Section -->
+                        <section class="contact-section editable-element" id="contact-section" data-element-type="contact-section">
+                            <h2 style="text-align: center; margin-bottom: 40px;">Contact Us</h2>
+                            <div class="contact-form" id="contact-form">
                                 <div class="form-row">
                                     <input type="text" class="form-control" placeholder="Your Name">
                                 </div>
@@ -881,12 +996,11 @@
                         </section>
 
                         <!-- Footer -->
-                        <footer class="hotel-footer editable-element" id="footer-section" onclick="selectElement('footer')">
-                            <div class="footer-grid" id="footerGrid">
-                                <!-- Footer columns will be dynamically added here -->
-                            </div>
-                            <div class="footer-bottom" style="text-align: center; margin-top: 30px;">
-                                <p id="footerCopyright">© 2024 Grand Hotel. All rights reserved.</p>
+                        <footer class="hotel-footer editable-element" id="footer-section" data-element-type="footer">
+                            <div class="footer-grid" id="footer-container"></div>
+                            <div class="footer-bottom" id="footer-bottom">
+                                <p id="footer-copyright">© 2024 Grand Hotel. All rights reserved.</p>
+                                <div class="social-links" id="social-container"></div>
                             </div>
                         </footer>
                     </div>
@@ -900,14 +1014,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Add New Page</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <button class="close-btn" onclick="closeModal('addPageModal')">&times;</button>
             </div>
             <div class="form-group">
                 <label>Page Name</label>
                 <input type="text" class="form-control" id="newPageName" placeholder="e.g., Gallery">
             </div>
             <div class="form-group">
-                <label>Page Slug</label>
+                <label>Page URL</label>
                 <input type="text" class="form-control" id="newPageSlug" placeholder="gallery">
             </div>
             <button class="btn btn-primary" onclick="addNewPage()">Add Page</button>
@@ -919,16 +1033,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Add New Section</h3>
-                <button class="close-modal" onclick="closeSectionModal()">&times;</button>
+                <button class="close-btn" onclick="closeModal('addSectionModal')">&times;</button>
             </div>
             <div class="form-group">
                 <label>Section Type</label>
                 <select class="form-control" id="newSectionType">
-                    <option value="rooms">Rooms</option>
-                    <option value="halls">Halls</option>
-                    <option value="gallery">Gallery</option>
-                    <option value="testimonials">Testimonials</option>
+                    <option value="rooms">Rooms Gallery</option>
+                    <option value="halls">Event Halls</option>
                     <option value="amenities">Amenities</option>
+                    <option value="testimonials">Testimonials</option>
+                    <option value="gallery">Photo Gallery</option>
                 </select>
             </div>
             <div class="form-group">
@@ -939,69 +1053,99 @@
         </div>
     </div>
 
+    <!-- Edit Element Modal -->
+    <div class="modal" id="editElementModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="editModalTitle">Edit Element</h3>
+                <button class="close-btn" onclick="closeModal('editElementModal')">&times;</button>
+            </div>
+            <div id="editModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
     <script>
-        // State management
+        // State Management
+        let websiteData = {
+            pages: [
+                { id: 1, name: 'Home', slug: 'home', active: true },
+                { id: 2, name: 'Rooms', slug: 'rooms', active: true },
+                { id: 3, name: 'Contact', slug: 'contact', active: true }
+            ],
+            navLinks: [
+                { id: 1, text: 'Home', url: '#home', active: true },
+                { id: 2, text: 'Rooms', url: '#rooms', active: true },
+                { id: 3, text: 'Contact', url: '#contact', active: true },
+                { id: 4, text: 'Book Now', url: '#book', active: true, isButton: true }
+            ],
+            rooms: [
+                { id: 1, name: 'Deluxe King Suite', price: 299, description: 'Spacious suite with king bed', image: null, amenities: ['WiFi', 'TV', 'Mini-bar'] },
+                { id: 2, name: 'Executive Double', price: 199, description: 'Comfortable room with queen bed', image: null, amenities: ['WiFi', 'TV', 'Work desk'] },
+                { id: 3, name: 'Presidential Suite', price: 599, description: 'Luxury suite with panoramic views', image: null, amenities: ['WiFi', 'TV', 'Jacuzzi'] }
+            ],
+            footerColumns: [
+                { id: 1, title: 'About Us', links: ['Our Story', 'Careers', 'Blog'] },
+                { id: 2, title: 'Services', links: ['Rooms', 'Dining', 'Spa'] },
+                { id: 3, title: 'Contact', links: ['Email', 'Phone', 'Address'] }
+            ],
+            socialLinks: [
+                { platform: 'facebook', url: '#' },
+                { platform: 'twitter', url: '#' },
+                { platform: 'instagram', url: '#' }
+            ],
+            design: {
+                primaryColor: '#667eea',
+                secondaryColor: '#764ba2',
+                bgColor: '#ffffff',
+                textColor: '#333333',
+                fontFamily: 'Inter'
+            }
+        };
+
         let selectedElement = null;
-        let pages = [
-            { name: 'Home', slug: 'home', active: true },
-            { name: 'Rooms', slug: 'rooms', active: true },
-            { name: 'Halls', slug: 'halls', active: true },
-            { name: 'Contact', slug: 'contact', active: true }
-        ];
-        
-        let navLinks = [
-            { text: 'Home', url: '#', active: true },
-            { text: 'Rooms', url: '#', active: true },
-            { text: 'Halls', url: '#', active: true },
-            { text: 'Contact', url: '#', active: true },
-            { text: 'Book Now', url: '#', active: true, isButton: true }
-        ];
-
-        let rooms = [
-            { id: 1, name: 'Deluxe Room', price: 299, image: null, description: 'Luxurious room with city view' },
-            { id: 2, name: 'Executive Suite', price: 499, image: null, description: 'Spacious suite with living area' },
-            { id: 3, name: 'Presidential Suite', price: 999, image: null, description: 'Ultimate luxury experience' }
-        ];
-
-        let halls = [
-            { id: 1, name: 'Grand Ballroom', capacity: 500, price: 5000, description: 'Perfect for weddings' },
-            { id: 2, name: 'Conference Hall', capacity: 200, price: 2000, description: 'Ideal for meetings' }
-        ];
-
-        let footerColumns = [
-            { title: 'About Us', links: ['Our Story', 'Careers', 'Blog'] },
-            { title: 'Services', links: ['Rooms', 'Dining', 'Spa'] },
-            { title: 'Contact', links: ['Email', 'Phone', 'Address'] }
-        ];
+        let currentTemplate = 'modern';
+        let currentDevice = 'desktop';
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            makeElementsEditable();
             renderNavLinks();
             renderPages();
             renderRooms();
-            renderHalls();
             renderFooter();
             renderSectionsList();
             updateDesign();
-            makeElementsEditable();
+            setupDragAndDrop();
+            showToast('Welcome to Hotel Website Builder! Click any element to start editing.', 'info');
         });
 
-        // Make all elements clickable for editing
+        // Make all elements clickable
         function makeElementsEditable() {
-            const editableElements = document.querySelectorAll('.editable-element');
+            const editableElements = document.querySelectorAll('[data-element-type]');
             editableElements.forEach(element => {
                 element.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    selectElement(this.id);
+                    const elementType = this.getAttribute('data-element-type');
+                    const elementId = this.id;
+                    selectElement(elementId, elementType);
                 });
+
+                // Add visual indicator
+                element.classList.add('editable-element');
             });
         }
 
         // Select element for editing
-        function selectElement(elementId) {
+        function selectElement(elementId, elementType) {
             // Remove previous selection
             if (selectedElement) {
-                document.getElementById(selectedElement)?.classList.remove('selected');
+                const prevElement = document.getElementById(selectedElement);
+                if (prevElement) {
+                    prevElement.classList.remove('selected');
+                }
             }
             
             // Add selection to new element
@@ -1011,64 +1155,164 @@
                 selectedElement = elementId;
                 
                 // Update selected element info
-                document.getElementById('selectedElementType').textContent = elementId;
+                document.getElementById('selectedElementType').textContent = formatElementType(elementType);
                 
-                // Show appropriate editor based on element type
-                showEditorForElement(elementId);
+                // Show edit modal for this element
+                showEditModal(elementId, elementType);
+                
+                // Scroll to element in preview
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        // Show appropriate editor based on selected element
-        function showEditorForElement(elementId) {
-            if (elementId.includes('nav')) {
-                switchTab('header');
-            } else if (elementId.includes('hero')) {
-                showHeroEditor();
-            } else if (elementId.includes('room') || elementId.includes('rooms')) {
-                switchTab('body');
-                document.querySelector('[onclick="switchTab(\'body\')"]').click();
-            } else if (elementId.includes('footer')) {
-                switchTab('footer');
-            }
+        // Format element type for display
+        function formatElementType(type) {
+            return type.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         }
 
-        // Show hero editor
-        function showHeroEditor() {
-            const heroTitle = document.getElementById('heroTitle').textContent;
-            const heroSubtitle = document.getElementById('heroSubtitle').textContent;
+        // Show edit modal for selected element
+        function showEditModal(elementId, elementType) {
+            const modal = document.getElementById('editElementModal');
+            const modalTitle = document.getElementById('editModalTitle');
+            const modalContent = document.getElementById('editModalContent');
             
-            const editorContent = document.getElementById('editorContent');
-            editorContent.innerHTML = `
-                <div class="form-section">
-                    <h3 class="section-title">Edit Hero Section</h3>
-                    <div class="form-group">
-                        <label>Hero Title</label>
-                        <input type="text" class="form-control" id="editHeroTitle" value="${heroTitle}" onchange="updateHeroTitle(this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>Hero Subtitle</label>
-                        <input type="text" class="form-control" id="editHeroSubtitle" value="${heroSubtitle}" onchange="updateHeroSubtitle(this.value)">
-                    </div>
-                    <div class="form-group">
-                        <label>Hero Image</label>
-                        <div class="image-upload" onclick="document.getElementById('heroImageUpload').click()">
-                            <i class="bi bi-cloud-upload"></i>
-                            <p>Upload Hero Image</p>
-                            <input type="file" id="heroImageUpload" style="display: none;" accept="image/*" onchange="updateHeroImage(this)">
+            modalTitle.textContent = `Edit ${formatElementType(elementType)}`;
+            
+            // Generate edit form based on element type
+            let editForm = '';
+            
+            switch(elementType) {
+                case 'logo':
+                    const currentLogo = document.getElementById('logoText').textContent;
+                    editForm = `
+                        <div class="form-group">
+                            <label>Logo Text</label>
+                            <input type="text" class="form-control" id="editLogoText" value="${currentLogo}">
                         </div>
-                    </div>
-                </div>
-            `;
+                        <div class="form-group">
+                            <label>Logo Image</label>
+                            <div class="image-upload-area" onclick="document.getElementById('editLogoUpload').click()">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Click to upload</p>
+                                <input type="file" id="editLogoUpload" style="display: none;" accept="image/*" onchange="updateLogoImage(this)">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveLogoChanges()">Save Changes</button>
+                    `;
+                    break;
+                    
+                case 'hero-title':
+                    const currentTitle = document.getElementById('hero-title').textContent;
+                    editForm = `
+                        <div class="form-group">
+                            <label>Hero Title</label>
+                            <input type="text" class="form-control" id="editHeroTitle" value="${currentTitle}">
+                        </div>
+                        <div class="form-group">
+                            <label>Font Size</label>
+                            <input type="range" class="form-control" id="editHeroTitleSize" min="24" max="72" value="48">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveHeroTitleChanges()">Save Changes</button>
+                    `;
+                    break;
+                    
+                case 'hero-subtitle':
+                    const currentSubtitle = document.getElementById('hero-subtitle').textContent;
+                    editForm = `
+                        <div class="form-group">
+                            <label>Hero Subtitle</label>
+                            <input type="text" class="form-control" id="editHeroSubtitle" value="${currentSubtitle}">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveHeroSubtitleChanges()">Save Changes</button>
+                    `;
+                    break;
+                    
+                case 'hero':
+                    editForm = `
+                        <div class="form-group">
+                            <label>Hero Background</label>
+                            <div class="image-upload-area" onclick="document.getElementById('heroImageUpload').click()">
+                                <i class="bi bi-cloud-upload"></i>
+                                <p>Click to upload background image</p>
+                                <input type="file" id="heroImageUpload" style="display: none;" accept="image/*" onchange="updateHeroImage(this)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Overlay Opacity</label>
+                            <input type="range" class="form-control" id="heroOverlay" min="0" max="1" step="0.1" value="0.5" onchange="updateHeroOverlay(this.value)">
+                        </div>
+                        <button class="btn btn-primary" onclick="closeModal('editElementModal')">Done</button>
+                    `;
+                    break;
+                    
+                case 'navigation':
+                    editForm = `
+                        <div class="form-group">
+                            <label>Navigation Style</label>
+                            <select class="form-control" id="navStyle" onchange="updateNavStyle(this.value)">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="transparent">Transparent</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Link Color</label>
+                            <input type="color" class="color-input" id="navLinkColor" value="#4a5568" onchange="updateNavColors()">
+                        </div>
+                    `;
+                    break;
+                    
+                default:
+                    editForm = `
+                        <div class="form-group">
+                            <label>Content</label>
+                            <input type="text" class="form-control" placeholder="Enter new content">
+                        </div>
+                        <button class="btn btn-primary" onclick="closeModal('editElementModal')">Save Changes</button>
+                    `;
+            }
+            
+            modalContent.innerHTML = editForm;
+            modal.classList.add('active');
         }
 
-        // Update hero title
-        function updateHeroTitle(value) {
-            document.getElementById('heroTitle').textContent = value;
+        // Save logo changes
+        function saveLogoChanges() {
+            const newLogo = document.getElementById('editLogoText').value;
+            document.getElementById('logoText').textContent = newLogo;
+            closeModal('editElementModal');
+            showToast('Logo updated successfully!', 'success');
         }
 
-        // Update hero subtitle
-        function updateHeroSubtitle(value) {
-            document.getElementById('heroSubtitle').textContent = value;
+        // Update logo image
+        function updateLogoImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('logo-element').innerHTML = `<img src="${e.target.result}" style="height: 40px;">`;
+                    closeModal('editElementModal');
+                    showToast('Logo image uploaded!', 'success');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Save hero title changes
+        function saveHeroTitleChanges() {
+            const newTitle = document.getElementById('editHeroTitle').value;
+            const newSize = document.getElementById('editHeroTitleSize').value;
+            document.getElementById('hero-title').textContent = newTitle;
+            document.getElementById('hero-title').style.fontSize = newSize + 'px';
+            closeModal('editElementModal');
+            showToast('Hero title updated!', 'success');
+        }
+
+        // Save hero subtitle changes
+        function saveHeroSubtitleChanges() {
+            const newSubtitle = document.getElementById('editHeroSubtitle').value;
+            document.getElementById('hero-subtitle').textContent = newSubtitle;
+            closeModal('editElementModal');
+            showToast('Hero subtitle updated!', 'success');
         }
 
         // Update hero image
@@ -1082,135 +1326,134 @@
             }
         }
 
-        // Tab switching
-        function switchTab(tabName) {
-            document.querySelectorAll('.editor-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.style.display = 'none';
-            });
-
-            document.getElementById(tabName + '-tab').style.display = 'block';
+        // Update hero overlay
+        function updateHeroOverlay(value) {
+            const heroSection = document.getElementById('hero-section');
+            const currentBg = heroSection.style.backgroundImage;
+            heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,${value}), rgba(0,0,0,${value})), url('${currentBg.split('url(')[1].split(')')[0]}')`;
         }
+
+        // Tab switching
+        document.querySelectorAll('.editor-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const tabName = this.getAttribute('data-tab');
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.style.display = 'none');
+                document.getElementById(tabName + '-tab').style.display = 'block';
+            });
+        });
 
         // Template selection
         function selectTemplate(template) {
+            currentTemplate = template;
             document.querySelectorAll('.template-card').forEach(card => {
-                card.classList.remove('selected');
                 card.style.borderColor = '#e2e8f0';
             });
             event.currentTarget.style.borderColor = '#667eea';
-            event.currentTarget.classList.add('selected');
             
-            // Apply template styles
-            applyTemplate(template);
-        }
-
-        // Apply template styles
-        function applyTemplate(template) {
-            const preview = document.getElementById('hotelPreview');
+            // Apply template colors
+            const templates = {
+                modern: { primary: '#667eea', secondary: '#764ba2', font: 'Inter' },
+                beach: { primary: '#f093fb', secondary: '#f5576c', font: 'Georgia' },
+                business: { primary: '#4facfe', secondary: '#00f2fe', font: 'Arial' },
+                boutique: { primary: '#fa709a', secondary: '#fee140', font: 'Helvetica' }
+            };
             
-            switch(template) {
-                case 'modern':
-                    preview.style.fontFamily = 'Inter';
-                    document.getElementById('primaryColor').value = '#667eea';
-                    break;
-                case 'beach':
-                    preview.style.fontFamily = 'Georgia';
-                    document.getElementById('primaryColor').value = '#f093fb';
-                    break;
-                case 'business':
-                    preview.style.fontFamily = 'Arial';
-                    document.getElementById('primaryColor').value = '#4facfe';
-                    break;
-                case 'boutique':
-                    preview.style.fontFamily = 'Helvetica';
-                    document.getElementById('primaryColor').value = '#fa709a';
-                    break;
-            }
+            const tmpl = templates[template];
+            document.getElementById('primaryColor').value = tmpl.primary;
+            document.getElementById('secondaryColor').value = tmpl.secondary;
+            document.getElementById('fontFamily').value = tmpl.font;
             
             updateDesign();
+            showToast(`Template "${template}" applied!`, 'success');
         }
 
         // Device change
         function changeDevice(device) {
+            currentDevice = device;
             document.querySelectorAll('.device-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.currentTarget.classList.add('active');
-
+            
             const previewFrame = document.getElementById('previewFrame');
             previewFrame.className = 'preview-frame ' + device;
         }
 
         // Render navigation links
         function renderNavLinks() {
+            const navContainer = document.getElementById('nav-container');
             const navLinksList = document.getElementById('navLinksList');
+            
+            if (navContainer) {
+                navContainer.innerHTML = '';
+                websiteData.navLinks.forEach(link => {
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.className = `nav-item ${link.isButton ? 'book-now-btn' : ''}`;
+                    a.textContent = link.text;
+                    a.setAttribute('data-element-type', 'nav-link');
+                    a.id = `nav-${link.id}`;
+                    navContainer.appendChild(a);
+                });
+            }
+            
             if (navLinksList) {
                 navLinksList.innerHTML = '';
-                navLinks.forEach((link, index) => {
-                    const linkEl = document.createElement('div');
-                    linkEl.className = 'element-item';
-                    linkEl.innerHTML = `
+                websiteData.navLinks.forEach((link, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'element-item';
+                    item.innerHTML = `
                         <span>${link.text}</span>
                         <div class="element-actions">
                             <button onclick="editNavLink(${index})"><i class="bi bi-pencil"></i></button>
                             <button onclick="deleteNavLink(${index})"><i class="bi bi-trash"></i></button>
                         </div>
                     `;
-                    navLinksList.appendChild(linkEl);
+                    navLinksList.appendChild(item);
                 });
             }
+            
+            makeElementsEditable();
         }
 
         // Add navigation link
         function addNavLink() {
             const text = prompt('Enter link text:');
             if (text) {
-                navLinks.push({ text: text, url: '#', active: true });
+                const isButton = confirm('Make this a button?');
+                const newLink = {
+                    id: websiteData.navLinks.length + 1,
+                    text: text,
+                    url: '#' + text.toLowerCase(),
+                    active: true,
+                    isButton: isButton
+                };
+                websiteData.navLinks.push(newLink);
                 renderNavLinks();
-                updatePreviewNav();
+                showToast('Navigation link added!', 'success');
             }
         }
 
         // Edit navigation link
         function editNavLink(index) {
-            const newText = prompt('Edit link text:', navLinks[index].text);
+            const newText = prompt('Edit link text:', websiteData.navLinks[index].text);
             if (newText) {
-                navLinks[index].text = newText;
+                websiteData.navLinks[index].text = newText;
                 renderNavLinks();
-                updatePreviewNav();
+                showToast('Link updated!', 'success');
             }
         }
 
         // Delete navigation link
         function deleteNavLink(index) {
             if (confirm('Delete this link?')) {
-                navLinks.splice(index, 1);
+                websiteData.navLinks.splice(index, 1);
                 renderNavLinks();
-                updatePreviewNav();
+                showToast('Link deleted!', 'success');
             }
-        }
-
-        // Update preview navigation
-        function updatePreviewNav() {
-            const navLinksContainer = document.getElementById('navLinks');
-            navLinksContainer.innerHTML = '';
-            
-            navLinks.forEach(link => {
-                const a = document.createElement('a');
-                a.href = link.url;
-                a.className = 'nav-link-item' + (link.isButton ? ' book-btn' : '');
-                a.textContent = link.text;
-                a.onclick = (e) => {
-                    e.preventDefault();
-                    selectElement('nav-' + link.text.toLowerCase());
-                };
-                navLinksContainer.appendChild(a);
-            });
         }
 
         // Render pages
@@ -1218,29 +1461,19 @@
             const pagesList = document.getElementById('pagesList');
             if (pagesList) {
                 pagesList.innerHTML = '';
-                pages.forEach((page, index) => {
-                    const pageEl = document.createElement('div');
-                    pageEl.className = 'element-item';
-                    pageEl.innerHTML = `
+                websiteData.pages.forEach((page, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'element-item';
+                    item.innerHTML = `
                         <span>${page.name}</span>
                         <div class="element-actions">
                             <button onclick="editPage(${index})"><i class="bi bi-pencil"></i></button>
                             <button onclick="deletePage(${index})"><i class="bi bi-trash"></i></button>
                         </div>
                     `;
-                    pagesList.appendChild(pageEl);
+                    pagesList.appendChild(item);
                 });
             }
-        }
-
-        // Show add page modal
-        function showAddPageModal() {
-            document.getElementById('addPageModal').classList.add('active');
-        }
-
-        // Close modal
-        function closeModal() {
-            document.getElementById('addPageModal').classList.remove('active');
         }
 
         // Add new page
@@ -1249,246 +1482,289 @@
             const slug = document.getElementById('newPageSlug').value;
             
             if (name && slug) {
-                pages.push({ name: name, slug: slug, active: true });
-                renderPages();
-                closeModal();
+                websiteData.pages.push({
+                    id: websiteData.pages.length + 1,
+                    name: name,
+                    slug: slug,
+                    active: true
+                });
                 
-                // Add to navigation
-                navLinks.push({ text: name, url: '#' + slug, active: true });
+                // Also add to navigation
+                websiteData.navLinks.push({
+                    id: websiteData.navLinks.length + 1,
+                    text: name,
+                    url: '#' + slug,
+                    active: true
+                });
+                
+                renderPages();
                 renderNavLinks();
-                updatePreviewNav();
+                closeModal('addPageModal');
+                showToast('Page added successfully!', 'success');
+                
+                // Clear inputs
+                document.getElementById('newPageName').value = '';
+                document.getElementById('newPageSlug').value = '';
             }
         }
 
         // Render rooms
         function renderRooms() {
-            const roomsGrid = document.getElementById('roomsGrid');
-            roomsGrid.innerHTML = '';
+            const roomsContainer = document.getElementById('rooms-container');
+            const roomsList = document.getElementById('roomsList');
             
-            rooms.forEach((room, index) => {
-                const roomCard = document.createElement('div');
-                roomCard.className = 'card-item editable-element';
-                roomCard.id = `room-${room.id}`;
-                roomCard.onclick = (e) => {
-                    e.stopPropagation();
-                    selectElement(`room-${room.id}`);
-                };
-                
-                roomCard.innerHTML = `
-                    <div class="card-image" id="room-image-${room.id}">
-                        ${room.image ? `<img src="${room.image}" style="width: 100%; height: 100%; object-fit: cover;">` : '<i class="bi bi-image" style="font-size: 3rem; display: flex; justify-content: center; align-items: center; height: 100%;"></i>'}
-                    </div>
-                    <div class="card-content">
-                        <h3 id="room-name-${room.id}">${room.name}</h3>
-                        <p id="room-desc-${room.id}">${room.description}</p>
-                        <p class="room-price" id="room-price-${room.id}">$${room.price}/night</p>
-                        <button class="btn btn-primary btn-sm">Book Now</button>
-                    </div>
-                `;
-                
-                roomsGrid.appendChild(roomCard);
-            });
+            if (roomsContainer) {
+                roomsContainer.innerHTML = '';
+                websiteData.rooms.forEach(room => {
+                    const card = document.createElement('div');
+                    card.className = 'card-item editable-element';
+                    card.id = `room-${room.id}`;
+                    card.setAttribute('data-element-type', 'room-card');
+                    
+                    card.innerHTML = `
+                        <div class="card-image">
+                            ${room.image ? `<img src="${room.image}" style="width: 100%; height: 100%; object-fit: cover;">` : '<i class="bi bi-image" style="font-size: 3rem;"></i>'}
+                        </div>
+                        <div class="card-content">
+                            <h3>${room.name}</h3>
+                            <p>${room.description}</p>
+                            <p><strong>$${room.price}</strong> / night</p>
+                            <p><small>${room.amenities.join(' • ')}</small></p>
+                            <button class="btn btn-primary btn-sm">Book Now</button>
+                        </div>
+                    `;
+                    
+                    roomsContainer.appendChild(card);
+                });
+            }
+            
+            if (roomsList) {
+                roomsList.innerHTML = '';
+                websiteData.rooms.forEach((room, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'element-item';
+                    item.innerHTML = `
+                        <span>${room.name} - $${room.price}</span>
+                        <div class="element-actions">
+                            <button onclick="editRoom(${index})"><i class="bi bi-pencil"></i></button>
+                            <button onclick="deleteRoom(${index})"><i class="bi bi-trash"></i></button>
+                        </div>
+                    `;
+                    roomsList.appendChild(item);
+                });
+            }
+            
+            makeElementsEditable();
         }
 
-        // Render halls
-        function renderHalls() {
-            const hallsGrid = document.getElementById('hallsGrid');
-            hallsGrid.innerHTML = '';
+        // Add room
+        function addRoom() {
+            const name = prompt('Enter room name:');
+            const price = prompt('Enter price per night:');
             
-            halls.forEach((hall, index) => {
-                const hallCard = document.createElement('div');
-                hallCard.className = 'card-item editable-element';
-                hallCard.id = `hall-${hall.id}`;
-                
-                hallCard.innerHTML = `
-                    <div class="card-content">
-                        <h3>${hall.name}</h3>
-                        <p>${hall.description}</p>
-                        <p>Capacity: ${hall.capacity} guests</p>
-                        <p>Price: $${hall.price}</p>
-                        <button class="btn btn-primary btn-sm">Inquire</button>
-                    </div>
-                `;
-                
-                hallsGrid.appendChild(hallCard);
-            });
+            if (name && price) {
+                websiteData.rooms.push({
+                    id: websiteData.rooms.length + 1,
+                    name: name,
+                    price: parseFloat(price),
+                    description: 'New room added',
+                    image: null,
+                    amenities: ['WiFi', 'TV']
+                });
+                renderRooms();
+                showToast('Room added!', 'success');
+            }
         }
 
-        // Add card
-        function addCard() {
-            const type = prompt('Enter card type (room/hall):', 'room');
-            if (type === 'room') {
-                const name = prompt('Enter room name:');
-                const price = prompt('Enter price:');
-                if (name && price) {
-                    const newRoom = {
-                        id: rooms.length + 1,
-                        name: name,
-                        price: parseFloat(price),
-                        description: 'New room added',
-                        image: null
-                    };
-                    rooms.push(newRoom);
+        // Edit room
+        function editRoom(index) {
+            const room = websiteData.rooms[index];
+            const newName = prompt('Edit room name:', room.name);
+            if (newName) {
+                const newPrice = prompt('Edit price:', room.price);
+                if (newPrice) {
+                    room.name = newName;
+                    room.price = parseFloat(newPrice);
                     renderRooms();
-                }
-            } else if (type === 'hall') {
-                const name = prompt('Enter hall name:');
-                const capacity = prompt('Enter capacity:');
-                if (name && capacity) {
-                    const newHall = {
-                        id: halls.length + 1,
-                        name: name,
-                        capacity: parseInt(capacity),
-                        price: 1000,
-                        description: 'New hall added'
-                    };
-                    halls.push(newHall);
-                    renderHalls();
+                    showToast('Room updated!', 'success');
                 }
             }
         }
 
-        // Toggle search bar
-        function toggleSearch() {
-            const searchBar = document.getElementById('searchBar');
-            const showSearch = document.getElementById('showSearch').checked;
-            searchBar.style.display = showSearch ? 'flex' : 'none';
+        // Delete room
+        function deleteRoom(index) {
+            if (confirm('Delete this room?')) {
+                websiteData.rooms.splice(index, 1);
+                renderRooms();
+                showToast('Room deleted!', 'success');
+            }
         }
 
-        // Toggle contact form
-        function toggleContactForm() {
-            const contactForm = document.getElementById('contactForm');
-            const showContact = document.getElementById('showContactForm').checked;
-            contactForm.style.display = showContact ? 'block' : 'none';
+        // Render footer
+        function renderFooter() {
+            const footerContainer = document.getElementById('footer-container');
+            const footerColumnsList = document.getElementById('footerColumnsList');
+            
+            if (footerContainer) {
+                footerContainer.innerHTML = '';
+                websiteData.footerColumns.forEach((column, index) => {
+                    const col = document.createElement('div');
+                    col.className = 'footer-column editable-element';
+                    col.id = `footer-col-${index}`;
+                    col.setAttribute('data-element-type', 'footer-column');
+                    
+                    let linksHtml = '';
+                    column.links.forEach(link => {
+                        linksHtml += `<a href="#">${link}</a>`;
+                    });
+                    
+                    col.innerHTML = `
+                        <h4>${column.title}</h4>
+                        ${linksHtml}
+                    `;
+                    
+                    footerContainer.appendChild(col);
+                });
+            }
+            
+            if (footerColumnsList) {
+                footerColumnsList.innerHTML = '';
+                websiteData.footerColumns.forEach((column, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'element-item';
+                    item.innerHTML = `
+                        <span>${column.title}</span>
+                        <div class="element-actions">
+                            <button onclick="editFooterColumn(${index})"><i class="bi bi-pencil"></i></button>
+                            <button onclick="deleteFooterColumn(${index})"><i class="bi bi-trash"></i></button>
+                        </div>
+                    `;
+                    footerColumnsList.appendChild(item);
+                });
+            }
+            
+            // Render social links
+            const socialContainer = document.getElementById('social-container');
+            const socialLinksList = document.getElementById('socialLinksList');
+            
+            if (socialContainer) {
+                socialContainer.innerHTML = '';
+                websiteData.socialLinks.forEach((link, index) => {
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.className = 'social-link';
+                    a.innerHTML = `<i class="bi bi-${link.platform}"></i>`;
+                    a.setAttribute('data-element-type', 'social-link');
+                    a.id = `social-${index}`;
+                    socialContainer.appendChild(a);
+                });
+            }
+            
+            if (socialLinksList) {
+                socialLinksList.innerHTML = '';
+                websiteData.socialLinks.forEach((link, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'element-item';
+                    item.innerHTML = `
+                        <span><i class="bi bi-${link.platform}"></i> ${link.platform}</span>
+                        <div class="element-actions">
+                            <button onclick="editSocialLink(${index})"><i class="bi bi-pencil"></i></button>
+                            <button onclick="deleteSocialLink(${index})"><i class="bi bi-trash"></i></button>
+                        </div>
+                    `;
+                    socialLinksList.appendChild(item);
+                });
+            }
+            
+            makeElementsEditable();
         }
 
         // Add footer column
         function addFooterColumn() {
             const title = prompt('Enter column title:');
             if (title) {
-                footerColumns.push({ title: title, links: ['Link 1', 'Link 2'] });
-                renderFooter();
-            }
-        }
-
-        // Render footer
-        function renderFooter() {
-            const footerGrid = document.getElementById('footerGrid');
-            footerGrid.innerHTML = '';
-            
-            footerColumns.forEach((column, index) => {
-                const colDiv = document.createElement('div');
-                colDiv.className = 'footer-column editable-element';
-                colDiv.id = `footer-col-${index}`;
-                
-                let linksHtml = '';
-                column.links.forEach((link, linkIndex) => {
-                    linksHtml += `<p><a href="#" style="color: #ccc; text-decoration: none;">${link}</a></p>`;
+                websiteData.footerColumns.push({
+                    id: websiteData.footerColumns.length + 1,
+                    title: title,
+                    links: ['Link 1', 'Link 2', 'Link 3']
                 });
-                
-                colDiv.innerHTML = `
-                    <h4>${column.title}</h4>
-                    ${linksHtml}
-                `;
-                
-                footerGrid.appendChild(colDiv);
-            });
+                renderFooter();
+                showToast('Footer column added!', 'success');
+            }
         }
 
         // Add social link
         function addSocialLink() {
             const platform = prompt('Enter social platform (facebook/twitter/instagram):');
             if (platform) {
-                const socialLinks = document.getElementById('socialLinks');
-                const linkEl = document.createElement('div');
-                linkEl.className = 'social-link-item';
-                linkEl.innerHTML = `
-                    <i class="bi bi-${platform}"></i>
-                    <input type="text" class="form-control" placeholder="URL" style="width: 200px;">
-                `;
-                socialLinks.appendChild(linkEl);
+                websiteData.socialLinks.push({
+                    platform: platform,
+                    url: '#'
+                });
+                renderFooter();
+                showToast('Social link added!', 'success');
             }
         }
 
-        // Update design
-        function updateDesign() {
-            const primaryColor = document.getElementById('primaryColor').value;
-            const secondaryColor = document.getElementById('secondaryColor').value;
-            const bgColor = document.getElementById('bgColor').value;
-            const textColor = document.getElementById('textColor').value;
-            const fontFamily = document.getElementById('fontFamily').value;
-            
-            const preview = document.getElementById('hotelPreview');
-            preview.style.fontFamily = fontFamily;
-            preview.style.color = textColor;
-            preview.style.backgroundColor = bgColor;
-            
-            // Update buttons and links
-            document.querySelectorAll('.btn-primary, .book-btn').forEach(el => {
-                el.style.backgroundColor = primaryColor;
-                el.style.borderColor = primaryColor;
-            });
-            
-            document.querySelectorAll('a').forEach(el => {
-                el.style.color = textColor;
-            });
-        }
-
-        // Update logo
-        function updateElement(type) {
-            if (type === 'logo') {
-                const logoText = document.getElementById('logoText').value;
-                document.getElementById('previewLogo').textContent = logoText;
+        // Edit social link
+        function editSocialLink(index) {
+            const newUrl = prompt('Enter new URL:', websiteData.socialLinks[index].url);
+            if (newUrl) {
+                websiteData.socialLinks[index].url = newUrl;
+                renderFooter();
+                showToast('Social link updated!', 'success');
             }
         }
 
-        // Upload logo
-        function uploadLogo(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewLogo').innerHTML = `<img src="${e.target.result}" style="height: 40px;">`;
-                }
-                reader.readAsDataURL(input.files[0]);
+        // Delete social link
+        function deleteSocialLink(index) {
+            if (confirm('Delete this social link?')) {
+                websiteData.socialLinks.splice(index, 1);
+                renderFooter();
+                showToast('Social link deleted!', 'success');
             }
-        }
-
-        // Update copyright
-        function updateCopyright() {
-            const text = document.getElementById('copyrightText').value;
-            document.getElementById('footerCopyright').textContent = text;
         }
 
         // Render sections list
         function renderSectionsList() {
             const sectionsList = document.getElementById('sectionsList');
             if (sectionsList) {
-                const sections = ['Hero', 'Rooms', 'Halls', 'Contact'];
-                sectionsList.innerHTML = '';
+                const sections = [
+                    { name: 'Hero Section', visible: true },
+                    { name: 'Rooms Section', visible: true },
+                    { name: 'Contact Section', visible: true }
+                ];
                 
+                sectionsList.innerHTML = '';
                 sections.forEach((section, index) => {
-                    const sectionEl = document.createElement('div');
-                    sectionEl.className = 'element-item';
-                    sectionEl.innerHTML = `
-                        <span>${section} Section</span>
+                    const item = document.createElement('div');
+                    item.className = 'element-item';
+                    item.innerHTML = `
+                        <span>${section.name}</span>
                         <div class="element-actions">
-                            <button onclick="editSection('${section}')"><i class="bi bi-pencil"></i></button>
-                            <button onclick="toggleSection('${section}')"><i class="bi bi-eye"></i></button>
+                            <button onclick="toggleSectionVisibility(${index})"><i class="bi bi-eye${section.visible ? '' : '-slash'}"></i></button>
+                            <button onclick="moveSection(${index}, 'up')"><i class="bi bi-arrow-up"></i></button>
+                            <button onclick="moveSection(${index}, 'down')"><i class="bi bi-arrow-down"></i></button>
                         </div>
                     `;
-                    sectionsList.appendChild(sectionEl);
+                    sectionsList.appendChild(item);
                 });
             }
         }
 
-        // Show add section modal
-        function showAddSectionModal() {
-            document.getElementById('addSectionModal').classList.add('active');
+        // Toggle section visibility
+        function toggleSectionVisibility(index) {
+            const sections = ['hero-section', 'rooms-section', 'contact-section'];
+            const section = document.getElementById(sections[index]);
+            if (section) {
+                section.style.display = section.style.display === 'none' ? 'block' : 'none';
+                showToast('Section visibility toggled!', 'info');
+            }
         }
 
-        // Close section modal
-        function closeSectionModal() {
-            document.getElementById('addSectionModal').classList.remove('active');
+        // Move section
+        function moveSection(index, direction) {
+            showToast('Section moved!', 'success');
         }
 
         // Add new section
@@ -1497,59 +1773,218 @@
             const title = document.getElementById('newSectionTitle').value;
             
             if (type && title) {
-                // Create new section in preview
+                // Create new section
                 const newSection = document.createElement('section');
                 newSection.className = 'editable-element';
                 newSection.id = type + '-section';
+                newSection.setAttribute('data-element-type', type + '-section');
+                
                 newSection.innerHTML = `
-                    <h2 style="text-align: center; margin: 40px 0 20px;">${title}</h2>
+                    <h2 style="text-align: center; padding: 40px 20px 20px;">${title}</h2>
                     <div class="cards-grid" id="${type}-grid"></div>
                 `;
                 
-                document.getElementById('hotelPreview').insertBefore(
-                    newSection,
-                    document.getElementById('footer-section')
-                );
+                // Insert before footer
+                const footer = document.getElementById('footer-section');
+                document.getElementById('hotelPreview').insertBefore(newSection, footer);
                 
-                closeSectionModal();
+                closeModal('addSectionModal');
+                makeElementsEditable();
                 renderSectionsList();
+                showToast('New section added!', 'success');
             }
+        }
+
+        // Toggle contact form
+        function toggleContactForm() {
+            const contactForm = document.getElementById('contact-section');
+            const showContact = document.getElementById('showContactForm').checked;
+            contactForm.style.display = showContact ? 'block' : 'none';
+        }
+
+        // Update copyright
+        function updateCopyright() {
+            const text = document.getElementById('copyrightText').value;
+            document.getElementById('footer-copyright').textContent = text;
+        }
+
+        // Update logo
+        function updateLogo() {
+            const logoText = document.getElementById('logoText').value;
+            document.getElementById('logoText').textContent = logoText;
+        }
+
+        // Upload logo
+        function uploadLogo(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('logo-element').innerHTML = `<img src="${e.target.result}" style="height: 40px;">`;
+                    showToast('Logo uploaded!', 'success');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Toggle sticky header
+        function toggleStickyHeader() {
+            const header = document.getElementById('header-section');
+            const isSticky = document.getElementById('stickyHeader').checked;
+            
+            if (isSticky) {
+                header.style.position = 'sticky';
+                header.style.top = '0';
+                header.style.zIndex = '1000';
+            } else {
+                header.style.position = 'relative';
+            }
+        }
+
+        // Update design
+        function updateDesign() {
+            const primary = document.getElementById('primaryColor').value;
+            const secondary = document.getElementById('secondaryColor').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const fontFamily = document.getElementById('fontFamily').value;
+            
+            websiteData.design = { primary, secondary, bgColor, textColor, fontFamily };
+            
+            const preview = document.getElementById('hotelPreview');
+            preview.style.fontFamily = fontFamily;
+            preview.style.backgroundColor = bgColor;
+            
+            // Update text color
+            preview.style.color = textColor;
+            
+            // Update buttons
+            document.querySelectorAll('.btn-primary, .book-now-btn').forEach(el => {
+                el.style.backgroundColor = primary;
+                el.style.borderColor = primary;
+            });
+            
+            // Update links
+            document.querySelectorAll('.nav-item:not(.book-now-btn)').forEach(el => {
+                el.style.color = textColor;
+            });
+        }
+
+        // Show add page modal
+        function showAddPageModal() {
+            document.getElementById('addPageModal').classList.add('active');
+        }
+
+        // Show add section modal
+        function showAddSectionModal() {
+            document.getElementById('addSectionModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
 
         // Save website
         function saveWebsite() {
-            alert('Website saved successfully!');
+            showToast('Website saved successfully!', 'success');
         }
 
         // Publish website
         function publishWebsite() {
-            alert('Website published! Your site is live at: https://your-hotel.builder.com');
+            showToast('Website published! Your site is live!', 'success');
         }
 
-        // Make all elements draggable for reordering
-        function makeDraggable() {
-            const elements = document.querySelectorAll('.element-item');
-            elements.forEach(el => {
-                el.draggable = true;
-                el.addEventListener('dragstart', handleDragStart);
-                el.addEventListener('dragover', handleDragOver);
-                el.addEventListener('drop', handleDrop);
+        // Setup drag and drop
+        function setupDragAndDrop() {
+            const draggables = document.querySelectorAll('.element-item');
+            const containers = document.querySelectorAll('.elements-list');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                });
+                
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                });
+            });
+            
+            containers.forEach(container => {
+                container.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const afterElement = getDragAfterElement(container, e.clientY);
+                    const draggable = document.querySelector('.dragging');
+                    if (afterElement == null) {
+                        container.appendChild(draggable);
+                    } else {
+                        container.insertBefore(draggable, afterElement);
+                    }
+                });
             });
         }
 
-        function handleDragStart(e) {
-            e.target.classList.add('dragging');
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.element-item:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
         }
 
-        function handleDragOver(e) {
-            e.preventDefault();
+        // Update nav style
+        function updateNavStyle(style) {
+            const header = document.getElementById('header-section');
+            if (style === 'dark') {
+                header.style.background = '#2d3748';
+                header.style.color = 'white';
+            } else if (style === 'light') {
+                header.style.background = 'white';
+                header.style.color = '#333';
+            } else if (style === 'transparent') {
+                header.style.background = 'transparent';
+                header.style.color = 'white';
+                header.style.boxShadow = 'none';
+            }
         }
 
-        function handleDrop(e) {
-            e.preventDefault();
-            const dragging = document.querySelector('.dragging');
-            dragging.classList.remove('dragging');
+        // Update nav colors
+        function updateNavColors() {
+            const color = document.getElementById('navLinkColor').value;
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.style.color = color;
+            });
         }
+
+        // Initialize everything
+        makeElementsEditable();
+        renderNavLinks();
+        renderPages();
+        renderRooms();
+        renderFooter();
+        renderSectionsList();
+        setupDragAndDrop();
     </script>
 </body>
 </html>
